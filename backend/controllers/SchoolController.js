@@ -1,9 +1,11 @@
 const School = require('../models/School')
 const router = require('express').Router()
 
+const { v1: uuidv1 } = require('uuid');
+
 //create
 router.route('/new').post((req, res) => {
-    const newSchool = new School(req.body)
+    const newSchool = new School({ _id: uuidv1(), ...req.body })
     newSchool.save()
         .then(school => res.json(school))
         .catch(err => res.status(400).json("Error! " + err))
@@ -16,6 +18,13 @@ router.route('/').get((req, res) => {
         .then(allSchools => res.json(allSchools))
         .catch(err => res.status(400).json('Error! ' + err))
 })
+
+//retrieve some
+router.get("/:id", (req, res, next) => {
+    School.findById(req.params.id)
+        .then(school => res.json(school))
+        .catch(err => next(err));
+});
 
 //delete
 router.route('/delete/:id').delete((req, res) => {

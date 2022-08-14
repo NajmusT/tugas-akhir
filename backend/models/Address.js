@@ -3,6 +3,9 @@ const Schema = mongoose.Schema
 
 const addressSchema = new Schema(
     {
+        _id: {
+            type: String
+        },
         postalCode: {
             type: Number,
             required: true
@@ -30,7 +33,8 @@ const addressSchema = new Schema(
     },
     {
         _id: false,
-        timestamps: false
+        timestamps: false,
+        strict: false
     }
 )
 

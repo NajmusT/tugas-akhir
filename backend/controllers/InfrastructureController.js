@@ -1,9 +1,11 @@
 const Infrastructure = require('../models/Infrastructure')
 const router = require('express').Router()
 
+const { v1: uuidv1 } = require('uuid');
+
 //create
 router.route('/new').post((req, res) => {
-    const newInfrastructure = new Infrastructure(req.body)
+    const newInfrastructure = new Infrastructure({ _id: uuidv1(), ...req.body })
     newInfrastructure.save()
         .then(infrastructure => res.json(infrastructure))
         .catch(err => res.status(400).json("Error! " + err))
@@ -16,6 +18,13 @@ router.route('/').get((req, res) => {
         .then(allInfrastructures => res.json(allInfrastructures))
         .catch(err => res.status(400).json('Error! ' + err))
 })
+
+//retrieve some
+router.get("/:id", (req, res, next) => {
+    Infrastructure.findById(req.params.id)
+        .then(infrastructure => res.json(infrastructure))
+        .catch(err => next(err));
+});
 
 //delete
 router.route('/delete/:id').delete((req, res) => {

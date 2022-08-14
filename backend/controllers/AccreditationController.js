@@ -1,9 +1,11 @@
 const Accreditation = require('../models/Accreditation')
 const router = require('express').Router()
 
+const { v1: uuidv1 } = require('uuid');
+
 //create
 router.route('/new').post((req, res) => {
-    const newAccreditation = new Accreditation(req.body)
+    const newAccreditation = new Accreditation({ _id: uuidv1(), ...req.body })
     newAccreditation.save()
         .then(accreditation => res.json(accreditation))
         .catch(err => res.status(400).json("Error! " + err))
@@ -16,6 +18,13 @@ router.route('/').get((req, res) => {
         .then(allAccreditations => res.json(allAccreditations))
         .catch(err => res.status(400).json('Error! ' + err))
 })
+
+//retrieve some
+router.get("/:id", (req, res, next) => {
+    Accreditation.findById(req.params.id)
+        .then(accreditation => res.json(accreditation))
+        .catch(err => next(err));
+});
 
 //delete
 router.route('/delete/:id').delete((req, res) => {

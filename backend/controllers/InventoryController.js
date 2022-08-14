@@ -1,9 +1,11 @@
 const Inventory = require('../models/Inventory')
 const router = require('express').Router()
 
+const { v1: uuidv1 } = require('uuid');
+
 //create
 router.route('/new').post((req, res) => {
-    const newInventory = new Inventory(req.body)
+    const newInventory = new Inventory({ _id: uuidv1(), ...req.body })
     newInventory.save()
         .then(inventory => res.json(inventory))
         .catch(err => res.status(400).json("Error! " + err))
@@ -16,6 +18,13 @@ router.route('/').get((req, res) => {
         .then(allInventories => res.json(allInventories))
         .catch(err => res.status(400).json('Error! ' + err))
 })
+
+//retrieve some
+router.get("/:id", (req, res, next) => {
+    Inventory.findById(req.params.id)
+        .then(inventory => res.json(inventory))
+        .catch(err => next(err));
+});
 
 //delete
 router.route('/delete/:id').delete((req, res) => {

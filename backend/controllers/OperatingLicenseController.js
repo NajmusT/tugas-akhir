@@ -1,9 +1,11 @@
 const OperatingLicense = require('../models/OperatingLicense')
 const router = require('express').Router()
 
+const { v1: uuidv1 } = require('uuid');
+
 //create
 router.route('/new').post((req, res) => {
-    const newOperatingLicense = new OperatingLicense(req.body)
+    const newOperatingLicense = new OperatingLicense({ _id: uuidv1(), ...req.body })
     newOperatingLicense.save()
         .then(operatingLicense => res.json(operatingLicense))
         .catch(err => res.status(400).json("Error! " + err))
@@ -16,6 +18,13 @@ router.route('/').get((req, res) => {
         .then(allOperatingLicenses => res.json(allOperatingLicenses))
         .catch(err => res.status(400).json('Error! ' + err))
 })
+
+//retrieve some
+router.get("/:id", (req, res, next) => {
+    OperatingLicense.findById(req.params.id)
+        .then(operatingLicense => res.json(operatingLicense))
+        .catch(err => next(err));
+});
 
 //delete
 router.route('/delete/:id').delete((req, res) => {

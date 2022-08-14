@@ -45,8 +45,7 @@ const schoolSchema = new Schema(
             type: String
         },
         bossParticipation: {
-            type: Boolean,
-            default: false
+            type: Boolean
         },
         managementBased: {
             type: Boolean

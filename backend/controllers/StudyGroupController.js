@@ -1,9 +1,11 @@
 const StudyGroup = require('../models/StudyGroup')
 const router = require('express').Router()
 
+const { v1: uuidv1 } = require('uuid');
+
 //create
 router.route('/new').post((req, res) => {
-    const newStudyGroup = new StudyGroup(req.body)
+    const newStudyGroup = new StudyGroup({ _id: uuidv1(), ...req.body })
     newStudyGroup.save()
         .then(studyGroup => res.json(studyGroup))
         .catch(err => res.status(400).json("Error! " + err))
@@ -16,6 +18,13 @@ router.route('/').get((req, res) => {
         .then(allStudyGroups => res.json(allStudyGroups))
         .catch(err => res.status(400).json('Error! ' + err))
 })
+
+//retrieve some
+router.get("/:id", (req, res, next) => {
+    StudyGroup.findById(req.params.id)
+        .then(studyGroup => res.json(studyGroup))
+        .catch(err => next(err));
+});
 
 //delete
 router.route('/delete/:id').delete((req, res) => {
