@@ -18,6 +18,9 @@ const schoolSchema = new Schema(
             type: String,
             required: true
         },
+        image: {
+            type: String
+        },
         address: {
             street: {
                 type: String,

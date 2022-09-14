@@ -14,6 +14,9 @@ const infrastructureSchema = new Schema(
             type: String,
             required: true
         },
+        picture: {
+            type: String
+        },
         schoolId: {
             type: String,
             required: true

@@ -14,6 +14,9 @@ const inventorySchema = new Schema(
             type: String,
             required: true
         },
+        picture: {
+            type: String
+        },
         numOfItems: {
             amount: {
                 type: Number,
