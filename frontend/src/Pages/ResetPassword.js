@@ -15,14 +15,12 @@ class ResetPassword extends Component {
 
         return (
             <Grid container component="main" className={classes.root}>
-                <Grid item xs={12} component={Paper} elevation={6} square style={{ borderRadius: 30, marginLeft: '100vh', marginRight: '-30vh' }}>
-                    <div className={classes.paper}>
+                <Grid item xs={12} component={Paper} elevation={8} square style={{ borderRadius: 30, marginLeft: '100vh', marginRight: '-30vh' }}>
+                    <div className={classes.paper} style={{ padding: "32vh 16vh" }}>
                         <Grid container>
-                            <Grid item>
-                                <Typography className={classes.title}>
-                                    {"Reset Password"}
-                                </Typography>
-                            </Grid>
+                            <Typography className={classes.title}>
+                                {"Reset Password"}
+                            </Typography>
                         </Grid>
                         <form className={classes.form} onSubmit={console.log("Submited")}>
                             <TextField

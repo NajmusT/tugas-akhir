@@ -15,8 +15,8 @@ class SignUp extends Component {
 
         return (
             <Grid container component="main" className={classes.root}>
-                <Grid item xs={12} component={Paper} elevation={6} square style={{ borderRadius: 30, marginLeft: '100vh', marginRight: '-30vh' }}>
-                    <div className={classes.paper}>
+                <Grid item xs={12} component={Paper} elevation={8} square style={{ borderRadius: 30, marginLeft: '100vh', marginRight: '-30vh' }}>
+                    <div className={classes.paper} style={{padding: "24vh 16vh"}}>
                         <Grid container>
                             <Grid item>
                                 <Typography className={classes.title}>
@@ -67,15 +67,13 @@ class SignUp extends Component {
                                 variant="contained"
                                 buttonText={"Daftar"}
                             />
-                            <Grid container>
-                                <Grid item xs style={{ display: "flex" }} >
-                                    <Typography className={classes.textBody}>
-                                        {"Sudah mempunyai akun? "}
-                                    </Typography>
-                                    <Link href="#" className={classes.textBody} style={{ paddingLeft: 4, color: Color.primary[200] }}>
+                            <Grid container style={{ display: "flex" }} >
+                                <Typography className={classes.textBody}>
+                                    {"Sudah mempunyai akun? "}
+                                    <Link href="/sign-in" className={classes.textBody} style={{ color: Color.primary[200] }}>
                                         {"Sign In"}
                                     </Link>
-                                </Grid>
+                                </Typography>
                             </Grid>
                             <Grid container style={{ padding: '16px 0px', alignItem: "center", justifyContent: "center" }}>
                                 <Typography className={classes.textBody} align="center">

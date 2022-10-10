@@ -4,10 +4,10 @@ import { FontFamily } from "../Constants/FontFamily";
 export const BeginStyles = theme => ({
     root: {
         height: '100vh',
-        width: '90%'
+        width: '90%',
+        backgroundColor: Color.success[300]
     },
     paper: {
-        margin: "256px 128px",
         flexDirection: 'column',
         zIndex: 9
     },

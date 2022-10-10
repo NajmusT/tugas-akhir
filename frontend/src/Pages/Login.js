@@ -15,14 +15,12 @@ class Login extends Component {
 
         return (
             <Grid container component="main" className={classes.root}>
-                <Grid item xs={12} component={Paper} elevation={6} square style={{ borderRadius: 30, marginLeft: '100vh', marginRight: '-30vh' }}>
-                    <div className={classes.paper}>
+                <Grid item xs={12} component={Paper} elevation={8} square style={{ borderRadius: 30, marginLeft: '100vh', marginRight: '-30vh' }}>
+                    <div className={classes.paper} style={{ padding: "32vh 16vh" }}>
                         <Grid container>
-                            <Grid item>
-                                <Typography className={classes.title}>
-                                    {"Sign in"}
-                                </Typography>
-                            </Grid>
+                            <Typography className={classes.title}>
+                                {"Sign in"}
+                            </Typography>
                         </Grid>
                         <form className={classes.form} onSubmit={console.log("Submited")}>
                             <TextField
@@ -50,17 +48,17 @@ class Login extends Component {
                                 className={classes.submit}
                                 buttonText={"Sign In"}
                             />
-                            <Grid container>
-                                <Grid item xs style={{ display: "flex" }} >
+                            <Grid container style={{ display: "flex" }} >
+                                <Grid item xs >
                                     <Typography className={classes.textBody}>
                                         {"Tidak mempunyai akun? "}
+                                        <Link href="/register" className={classes.textBody} style={{ color: Color.primary[200] }}>
+                                            {"Daftar"}
+                                        </Link>
                                     </Typography>
-                                    <Link href="#" className={classes.textBody} style={{ paddingLeft: 4, color: Color.primary[200] }}>
-                                        {"Daftar"}
-                                    </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" className={classes.textBody}>
+                                    <Link href="/reset-password" className={classes.textBody}>
                                         {"Lupa password?"}
                                     </Link>
                                 </Grid>
