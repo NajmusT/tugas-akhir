@@ -13,33 +13,16 @@ const { v1: uuidv1 } = require('uuid');
 const SECRET_OR_KEY = process.env.SECRET_OR_KEY
 
 //retrieve all
-router.get("/", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.route("/").get((req, res) => {
     User.find()
-        .then(users => res.json(users))
-        .catch(err => next(err));
-});
-
-//retrieve current
-router.get("/current", passport.authenticate("jwt", { session: false }), (req, res) => {
-    return res.json({
-        _id: req.user.id,
-        name: req.user.name,
-        email: req.user.email
-    });
-});
-
-//retrieve multiple
-router.get("/multiple", passport.authenticate("jwt", { session: false }), (req, res, next) => {
-    const ids = JSON.parse(req.query.ids);
-    User.find({ _id: { $in: ids } })
         .then(users => res.json(users))
         .catch(err => next(err));
 });
 
 //retrieve one
-router.get("/:id", passport.authenticate("jwt", { session: false }), (req, res) => {
-    User.find()
-        .then(users => res.json(users.map(user => ({ _id: user._id, updatedAt: user.updatedAt }))))
+router.route("/:id").get((req, res) => {
+    User.findById(req.params.id)
+        .then(user => res.json(user))
         .catch(err => next(err));
 });
 
@@ -54,18 +37,19 @@ router.post("/register", (req, res) => {
     User.findOne({ email: req.body.email })
         .then(user => {
             if (user) {
-                errors.email = "Email already used"
+                errors.email = "Email telah digunakan"
                 return res.status(400).json(errors)
             }
 
             const newUser = new User({
                 _id: uuidv1(),
-                avatar: req.body.avatar,
+                fotoProfil: req.body.fotoProfil,
                 name: req.body.name,
                 email: req.body.email,
                 password: req.body.password,
                 roles: req.body.roles,
                 isActive: req.body.isActive,
+                lastActive: req.body.lastActive,
                 logs: req.body.logs
             })
 
@@ -99,8 +83,8 @@ router.post("/login", (req, res) => {
         .then(user => {
             // Check for user
             if (!user) {
-                errors.email = "User not found";
-                errors.message = "Email/password combination doesn't match!"
+                errors.email = "User tidak ditemukan!";
+                errors.message = "Alamat email tidak ditemukan!"
                 return res.status(404).json(errors);
             }
 
@@ -110,8 +94,8 @@ router.post("/login", (req, res) => {
                     if (isMatch) {
                         // Check if user account is active
                         if (!user.isActive) {
-                            errors.isActive = "User is not active";
-                            errors.message = "Your account has expired."
+                            errors.isActive = "Akun tidak aktif";
+                            errors.message = "Akun tidak dapat digunakan karna sudah tidak aktif."
                             return res.status(401).json(errors);
                         }
 
@@ -119,7 +103,7 @@ router.post("/login", (req, res) => {
                         const payload = {
                             _id: user.id,
                             name: user.name,
-                            avatar: user.avatar,
+                            fotoProfil: user.fotoProfil,
                             roles: user.roles
                         };
 
@@ -136,25 +120,25 @@ router.post("/login", (req, res) => {
                             }
                         );
                     } else {
-                        errors.password = "Password incorrect";
-                        errors.message = "Email/password combination doesn't match!"
+                        errors.password = "Password salah";
+                        errors.message = "Password salah!"
                         return res.status(401).json(errors);
                     }
                 });
         });
 });
 
-//delete
-router.delete("/delete/:id", (req, res) => {
+//delete - TO DO : solve error "Unknown authentication strategy "jwt""
+router.route("/delete/:id").delete(passport.authenticate("jwt", { session: false }), (req, res) => {
     User.deleteOne({ _id: req.params.id })
-        .then(success => res.json('Success! User deleted.'))
+        .then(success => res.json('Sukses! Data user telah dihapus.'))
         .catch(err => res.status(400).json('Error! ' + err))
 })
 
-//update
-router.put("/update/:id", passport.authenticate("jwt", { session: false }), (req, res) => {
+//update - TO DO : solve error "Unknown authentication strategy "jwt""
+router.route("/update/:id").put(passport.authenticate("jwt", { session: false }), (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body)
-        .then(user => res.json(`Success! ${user} updated.`))
+        .then(user => res.json(`Sukses! Data user ${user.name} telah terupdate.`))
         .catch(err => res.status(400).json('Error! ' + err))
 })
 

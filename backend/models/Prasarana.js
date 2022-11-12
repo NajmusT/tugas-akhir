@@ -1,20 +1,30 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const establishmentSchema = new Schema(
+const prasaranaSchema = new Schema(
     {
         _id: {
-            type: String
-        },
-        schoolId: {
             type: String,
             required: true
         },
-        number: {
+        nama: {
+            type: String,
+            required: true
+        },
+        foto: {
             type: String
         },
-        date: {
-            type: String
+        jenis: {
+            type: String,
+            required: true
+        },
+        kondisi: {
+            type: String,
+            required: true
+        },
+        idSekolah: {
+            type: String,
+            required: true
         },
         createdBy: {
             type: String
@@ -30,10 +40,11 @@ const establishmentSchema = new Schema(
         }
     },
     {
+        collection: 'prasarana',
         _id: false,
         timestamps: false
     }
 )
 
-const Establishment = mongoose.model('Establishment', establishmentSchema)
-module.exports = Establishment
+const Prasarana = mongoose.model('Prasarana', prasaranaSchema)
+module.exports = Prasarana

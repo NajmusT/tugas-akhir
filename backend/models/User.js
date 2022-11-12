@@ -4,9 +4,10 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema(
     {
         _id: {
-            type: String
+            type: String,
+            required: true
         },
-        avatar: {
+        fotoProfil: {
             type: String
         },
         name: {
@@ -28,6 +29,9 @@ const UserSchema = new Schema(
         isActive: {
             type: Boolean,
             default: true
+        },
+        lastActive: {
+            type: Date
         },
         logs: {
             type: Array,

@@ -1,40 +1,49 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const inventorySchema = new Schema(
+const saranaSchema = new Schema(
     {
         _id: {
-            type: String
-        },
-        infrastructureId: {
             type: String,
             required: true
         },
-        name: {
+        idPrasarana: {
             type: String,
             required: true
         },
-        picture: {
+        nama: {
+            type: String,
+            required: true
+        },
+        foto: {
             type: String
         },
-        numOfItems: {
-            amount: {
+        jumlah: {
+            kuantitas: {
                 type: Number,
                 required: true
             },
-            unitOfMeasure: {
+            satuan: {
                 type: String,
                 default: 'buah'
             }
         },
-        description: {
-            material: {
+        kondisi: {
+            type: String,
+            required: true
+        },
+        jenis: {
+            type: String,
+            required: true
+        },
+        deskripsi: {
+            bahan: {
                 type: String
             },
-            size: {
+            ukuran: {
                 type: String
             },
-            otherInformation: {
+            keteranganLain: {
                 type: String
             }
         },
@@ -52,11 +61,12 @@ const inventorySchema = new Schema(
         }
     },
     {
+        collection: 'sarana',
         _id: false,
         timestamps: false,
         strict: false
     }
 )
 
-const Inventory = mongoose.model('Inventory', inventorySchema)
-module.exports = Inventory
+const Sarana = mongoose.model('Sarana', saranaSchema)
+module.exports = Sarana
