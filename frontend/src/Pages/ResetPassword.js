@@ -1,66 +1,84 @@
 import React, { Component } from 'react';
+
+//Material UI
 import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { BeginStyles } from '../Styles/BeginStyles';
-import { Color } from "../Constants/Colors";
+
+//Components
 import TextField from '../Components/TextField'
 import Button from '../Components/Button'
 
+//Constant
+import { Color } from "../Constants/Colors";
+
 class ResetPassword extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            password1: '',
+            password2: ''
+        }
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+    }
+
     render() {
         const { classes } = this.props
 
         return (
-            <Grid container component="main" className={classes.root}>
-                <Grid item xs={12} component={Paper} elevation={8} square style={{ borderRadius: 30, marginLeft: '100vh', marginRight: '-30vh' }}>
-                    <div className={classes.paper} style={{ padding: "32vh 16vh" }}>
-                        <Grid container>
-                            <Typography className={classes.title}>
-                                {"Reset Password"}
-                            </Typography>
-                        </Grid>
+            <div className={classes.root}>
+                <div className={classes.modal}>
+                    <div className={classes.paper}>
+                        <Typography className={classes.title}>
+                            Reset Password
+                        </Typography>
                         <form className={classes.form} onSubmit={console.log("Submited")}>
-                            <TextField
-                                id="passwordBaru"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Password Baru"
-                                type="password"
-                                page="begin"
-                            />
-                            <TextField
-                                id="konfirmPasswordBaru"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Konfirmasi Password Baru"
-                                type="password"
-                                page="begin"
-                            />
+                            <Grid container xs={12}>
+                                <Typography className={classes.textBody}>
+                                    Password Baru
+                                </Typography>
+                                <TextField
+                                    id="password1"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Password Baru"
+                                    type="password"
+                                    page="begin"
+                                />
+                            </Grid>
+                            <Grid container xs={12}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 16 }}>
+                                    Konfirmasi Password Baru
+                                </Typography>
+                                <TextField
+                                    id="password2"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Konfirmasi Password Baru"
+                                    type="password"
+                                    page="begin"
+                                />
+                            </Grid>
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 className={classes.submit}
-                                buttonText={"Submit"}
+                                buttonText={"Reset Password"}
                             />
-                            <Grid container style={{ padding: '8px 0px', alignItem: "center", justifyContent: "center" }}>
-                                <Typography className={classes.textBody} align="center">
-                                    {'Copyright © '}
-                                    <Link color="inherit" href="/">
-                                        Dinas Pendidikan Karawang
-                                    </Link>{' '}
-                                    {new Date().getFullYear()}
-                                </Typography>
-                            </Grid>
                         </form>
                     </div>
-                </Grid>
-            </Grid>
+                </div >
+            </div>
         )
     }
 }

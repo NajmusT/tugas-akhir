@@ -14,6 +14,7 @@ import Button from '../Components/Button'
 //Constant
 import { Color } from "../Constants/Colors";
 import UploadButtons from '../Components/ImagesUploader';
+import ImageIcon from '../asset/icons/Image';
 
 class SignUp extends Component {
     constructor(props) {
@@ -44,17 +45,20 @@ class SignUp extends Component {
                 <div className={classes.modal}>
                     <div className={classes.paper}>
                         <Typography className={classes.title}>
-                            Sign up
+                            Sign Up
                         </Typography>
                         <form className={classes.form} onSubmit={console.log("Submited")}>
                             <Grid container>
-                                <Grid item container xs={5} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12, height: '16vw' }}>
-                                    <UploadButtons />
+                                <Grid item container xs={5} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
+                                    <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
+                                    {/* <div style={{ color: '#EFEFEF', textAlign: 'center' }}> */}
+                                    {/* Klik untuk unggah gambar */}
+                                    {/* </div> */}
                                 </Grid>
                                 <Grid item container xs={1} />
-                                <Grid item container xs={6} styl>
+                                <Grid item container xs={6}>
                                     <Grid item container>
-                                        <Typography className={classes.textBody} style={{ paddingTop: 20 }}>
+                                        <Typography className={classes.textBody}>
                                             Nama Lengkap
                                         </Typography>
                                         <TextField
@@ -67,8 +71,22 @@ class SignUp extends Component {
                                             page="begin"
                                         />
                                     </Grid>
+                                    <Grid container xs={12}>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                            Foto Profil
+                                        </Typography>
+                                        <TextField
+                                            id="email"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Email Address"
+                                            type="email"
+                                            page="begin"
+                                        />
+                                    </Grid>
                                     <Grid container>
-                                        <Typography className={classes.textBody} style={{ paddingTop: 20 }}>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                             Email
                                         </Typography>
                                         <TextField
@@ -133,7 +151,7 @@ class SignUp extends Component {
                         </form>
                     </div>
                 </div >
-            </div>
+            </div >
         )
     }
 }

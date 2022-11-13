@@ -37,7 +37,7 @@ class SignIn extends Component {
                 <div className={classes.modal}>
                     <div className={classes.paper}>
                         <Typography className={classes.title}>
-                            Sign in
+                            Sign In
                         </Typography>
                         <form className={classes.form} onSubmit={console.log("Submited")}>
                             <Grid container xs={12}>
