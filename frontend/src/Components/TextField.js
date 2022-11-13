@@ -5,25 +5,23 @@ import { TextFieldStyles } from '../Styles/TextFieldStyles'
 
 class CustomTextField extends Component {
     render() {
-        const { classes, page, margin, fullWidth, type, id, name, label, variant } = this.props
+        const { classes, page, margin, fullWidth, type, id, label } = this.props
 
         return (
             <React.Fragment>
                 {fullWidth ?
                     <TextField
                         id={id}
-                        variant={variant}
                         margin={margin}
                         fullWidth
-                        label={label}
+                        placeholder={label}
                         type={type}
                         className={page === "main" ? "" : classes.begin}
                     /> :
                     <TextField
                         id={id}
-                        variant={variant}
                         margin={margin}
-                        label={label}
+                        placeholder={label}
                         type={type}
                         className={page === "main" ? "" : classes.begin} />
                 }

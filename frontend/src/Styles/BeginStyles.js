@@ -1,22 +1,50 @@
 import { Color } from "../Constants/Colors";
 import { FontFamily } from "../Constants/FontFamily";
+import image from "../asset/images/sawah.png"
 
 export const BeginStyles = theme => ({
     root: {
-        height: '100vh',
-        width: '90%',
-        backgroundColor: Color.success[300]
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '100%',
+        backgroundImage: `url(${image})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+    },
+    modal: {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)',
     },
     paper: {
+        display: 'flex',
+        padding: 56,
         flexDirection: 'column',
-        zIndex: 9
+        backgroundColor: "white",
+        borderRadius: 20
     },
     form: {
-        width: '100%',
+        width: '100%', // Fix IE 11 issue.
+        marginTop: 20,
+    },
+    title: {
+        fontSize: 28,
+        fontFamily: FontFamily.POPPINS_SEMI_BOLD,
+        textAlign: "left",
+        color: Color.neutral[700]
+    },
+    textBody: {
+        fontSize: 14,
+        fontFamily: FontFamily.POPPINS_BOLD,
+        fontWeight: 500,
+        color: Color.neutral[700]
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-        backgroundColor: Color.success[300],
+        backgroundColor: Color.primary[300],
         color: "#FFFFFF",
         fontFamily: FontFamily.POPPINS_REGULAR,
         fontSize: 16,
@@ -24,20 +52,14 @@ export const BeginStyles = theme => ({
         boxShadow: 'none',
         textTransform: 'none',
         '&:hover': {
-            backgroundColor: Color.success[200],
+            backgroundColor: Color.primary[400],
             boxShadow: 'none',
         }
     },
-    title: {
-        fontSize: 28,
-        fontFamily: FontFamily.POPPINS_SEMI_BOLD,
-        textAlign: "left",
-        color: Color.neutral[600]
-    },
-    textBody: {
-        fontSize: 14,
+    link: {
+        fontSize: 12,
         fontFamily: FontFamily.POPPINS_REGULAR,
         fontWeight: 500,
-        color: Color.neutral[700]
+        color: Color.neutral[100]
     }
 });

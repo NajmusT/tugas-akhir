@@ -4,7 +4,7 @@ import { Color } from "../Constants/Colors";
 export const ButtonStyles = theme => ({
     begin: {
         margin: theme.spacing(3, 0, 2),
-        backgroundColor: Color.success[300],
+        backgroundColor: Color.primary[300],
         color: "#FFFFFF",
         fontFamily: FontFamily.POPPINS_REGULAR,
         fontSize: 14,
@@ -12,7 +12,7 @@ export const ButtonStyles = theme => ({
         boxShadow: 'none',
         textTransform: 'none',
         '&:hover': {
-            backgroundColor: Color.success[200],
+            backgroundColor: Color.primary[400],
             boxShadow: 'none',
         }
     },
