@@ -1,0 +1,32 @@
+.dropdown-menu {
+    background: #FFFFFF;
+    width: '100%';
+    position: absolute;
+    top: 80px;
+    text-align: start;
+    border-top: 4px solid #0088cc;
+}
+
+.dropdown-menu div {
+    background: #FFFFFF;
+    cursor: pointer;
+    border-bottom: 0.1px solid #A09EA3;
+}
+
+.dropdown-menu div:hover {
+    background: #F6F2FA;
+}
+
+.dropdown-menu div.clicked {
+    background: #F6F2FA;
+}
+
+.dropdown-link {
+    display: block;
+    height: 100%;
+    width: inherit;
+    text-decoration: none;
+    font-family: 'poppins-regular';
+    color: #444;
+    padding: 16px;
+}

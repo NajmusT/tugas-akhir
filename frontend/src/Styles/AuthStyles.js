@@ -1,8 +1,11 @@
+import { makeStyles, createTheme } from "@material-ui/core";
 import { Color } from "../Constants/Colors";
 import { FontFamily } from "../Constants/FontFamily";
 import image from "../asset/images/sawah.png"
 
-export const BeginStyles = theme => ({
+const theme = createTheme();
+
+export const useAuthStyles = makeStyles((theme) => ({
     root: {
         position: 'absolute',
         top: 0,
@@ -42,6 +45,12 @@ export const BeginStyles = theme => ({
         fontWeight: 500,
         color: Color.neutral[700]
     },
+    textBodyError: {
+        fontSize: 10,
+        fontFamily: FontFamily.POPPINS_REGULAR,
+        color: Color.danger[500],
+        textAlign: 'end'
+    },
     submit: {
         margin: theme.spacing(3, 0, 2),
         backgroundColor: Color.primary[300],
@@ -62,4 +71,4 @@ export const BeginStyles = theme => ({
         fontWeight: 500,
         color: Color.neutral[100]
     }
-});
+}));
