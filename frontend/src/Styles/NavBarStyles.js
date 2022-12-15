@@ -12,7 +12,10 @@ export const useNavbarStyles = makeStyles((theme) => ({
         width: '100vw',
         justifyContent: 'center',
         alignItems: 'center',
-        fontSize: '1rem'
+        fontSize: '1rem',
+        // position: 'fixed',
+        // top: 0
+
     },
     navbarLogo: {
         color: Color.neutral[400],

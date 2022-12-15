@@ -9,6 +9,7 @@ import Login from './Pages/AuthPages/Login';
 import Dashboard from './Pages/MainPages/Dashboard';
 import Navbar from './Components/Navbar';
 import DaftarSekolah from './Pages/AuthPages/DaftarSekolah';
+import BottomBar from './Components/BottomBar';
 
 function App() {
   return (
@@ -19,8 +20,9 @@ function App() {
         <Route path="/sign-up" component={Register} />
         <Route path="/reset-password" component={ResetPassword} />
         <Route path="/dashboard" component={Dashboard} />
-        <Route path='/daftar-sekolah' component={DaftarSekolah}/>
+        <Route path='/daftar-sekolah' component={DaftarSekolah} />
       </Switch>
+      <BottomBar />
     </Router>
   );
 }
