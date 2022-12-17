@@ -24,7 +24,7 @@ export const useAuthStyles = makeStyles((theme) => ({
     },
     paper: {
         display: 'flex',
-        padding: 56,
+        padding: '40px 52px',
         flexDirection: 'column',
         backgroundColor: "white",
         borderRadius: 20
@@ -34,29 +34,29 @@ export const useAuthStyles = makeStyles((theme) => ({
         marginTop: 20,
     },
     title: {
-        fontSize: 28,
+        fontSize: '1.75rem',
         fontFamily: FontFamily.POPPINS_SEMI_BOLD,
         textAlign: "left",
         color: Color.neutral[700]
     },
     textBody: {
-        fontSize: 14,
+        fontSize: '0.8rem',
         fontFamily: FontFamily.POPPINS_BOLD,
         fontWeight: 500,
         color: Color.neutral[700]
     },
     textBodyError: {
-        fontSize: 10,
+        fontSize: '0.6rem',
         fontFamily: FontFamily.POPPINS_REGULAR,
         color: Color.danger[500],
         textAlign: 'end'
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        marginTop: 24,
         backgroundColor: Color.primary[300],
-        color: "#FFFFFF",
+        color: Color.neutral[0],
         fontFamily: FontFamily.POPPINS_REGULAR,
-        fontSize: 16,
+        fontSize: '0.5rem',
         fontWeight: 600,
         boxShadow: 'none',
         textTransform: 'none',
@@ -66,7 +66,7 @@ export const useAuthStyles = makeStyles((theme) => ({
         }
     },
     link: {
-        fontSize: 12,
+        fontSize: '0.75rem',
         fontFamily: FontFamily.POPPINS_REGULAR,
         fontWeight: 500,
         color: Color.neutral[100]

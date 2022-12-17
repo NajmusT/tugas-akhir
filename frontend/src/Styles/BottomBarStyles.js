@@ -36,7 +36,8 @@ export const useBottomBarStyles = makeStyles((theme) => ({
         fontFamily: FontFamily.POPPINS_REGULAR,
         fontSize: '0.75rem',
         color: Color.neutral[300],
-        paddingLeft: '8px',
+        paddingLeft: 8,
+        paddingTop: 4,
 
         "&:hover": {
             color: Color.neutral[0]
@@ -48,11 +49,22 @@ export const useBottomBarStyles = makeStyles((theme) => ({
         color: Color.neutral[0]
     },
     icon: {
-        color: '#797979', 
-        fontSize: '0.75rem',
-                      
+        color: '#797979',
+
         "&:hover": {
-           color: Color.neutral[0]
-        } 
+            color: Color.neutral[0]
+        }
+    },
+    sosMedContainer: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyItems: 'center',
+        color: Color.neutral[300],
+
+        "&:hover": {
+            color: Color.neutral[0],
+            backgroundColor: Color.primary[300]
+        }
     }
 }));

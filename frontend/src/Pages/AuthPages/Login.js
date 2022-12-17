@@ -81,7 +81,7 @@ const Login = () => {
                     email: email,
                     password: password
                 });
-                history.push("/dashboard");
+                history.push("/beranda");
             } catch (error) {
                 if (error.response) {
                     setMsg(error.response);
@@ -94,7 +94,7 @@ const Login = () => {
     return (
         <div className={classes.root}>
             <div className={classes.modal}>
-                <div className={classes.paper}>
+                <div className={classes.paper} >
                     <Typography className={classes.title}>
                         Sign In
                     </Typography>
@@ -150,7 +150,7 @@ const Login = () => {
                             className={classes.submit}
                             buttonText={"Sign In"}
                         />
-                        <Grid container style={{ display: "flex" }} >
+                        <Grid container style={{ display: "flex", paddingTop: 8 }} >
                             <Grid item xs style={{ paddingRight: 16 }}>
                                 <Typography className={classes.link}>
                                     {"Tidak mempunyai akun? "}

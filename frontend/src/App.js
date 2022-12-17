@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import history from './history'
 
@@ -10,6 +10,10 @@ import Dashboard from './Pages/MainPages/Dashboard';
 import Navbar from './Components/Navbar';
 import DaftarSekolah from './Pages/AuthPages/DaftarSekolah';
 import BottomBar from './Components/BottomBar';
+import EditCreatePrasarana from './Components/CustomComponents/EditCreatePrasarana';
+import ViewPrasarana from './Components/CustomComponents/ViewPrasarana';
+import ViewListPrasarana from './Components/CustomComponents/ViewListPrasarana';
+import ViewSarana from './Components/CustomComponents/ViewSarana';
 
 function App() {
   return (
@@ -19,8 +23,13 @@ function App() {
         <Route exact path="/" component={Login} />
         <Route path="/sign-up" component={Register} />
         <Route path="/reset-password" component={ResetPassword} />
-        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/beranda" component={Dashboard} />
         <Route path='/daftar-sekolah' component={DaftarSekolah} />
+        <Route path='/data/prasarana/create' component={EditCreatePrasarana} />
+        <Route path='/data/prasarana/edit/:id' component={EditCreatePrasarana} />
+        <Route path='/data/list-prasarana/:id' component={ViewListPrasarana} />
+        <Route path='/data/prasarana/:id' component={ViewPrasarana} />
+        <Route path='/data/sarana' component={ViewSarana} />
       </Switch>
       <BottomBar />
     </Router>

@@ -69,8 +69,8 @@ function Navbar() {
 
     const handleClickPengaduan = () => {
         setClickData(false)
-        setClickPengaduan(false)
-        setClickDashboard(true)
+        setClickPengaduan(true)
+        setClickDashboard(false)
     }
 
     const onMouseEnter = () => {
@@ -102,14 +102,14 @@ function Navbar() {
                     <div className={classes.navbarContainer}>
                         <Grid item xs={1} />
                         <Grid item xs={4}>
-                            <Link to='/dashboard' className={classes.navbarLogo} >
+                            <Link to='/beranda' className={classes.navbarLogo} >
                                 <img src={image} alt={'logo'} />
                             </Link>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.navbarMenu}>
                                 <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
-                                    <Link className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={handleClickDashboard}>
+                                    <Link to='/beranda' className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={handleClickDashboard}>
                                         {('Beranda').toUpperCase()}
                                     </Link>
                                 </div>
@@ -130,7 +130,7 @@ function Navbar() {
                                 </div>
                                 <div className={classes.navbarItem}>
                                     <Link
-                                        // to='/dashboard'
+                                        to='/pengaduan'
                                         className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
                                         onClick={handleClickPengaduan}
                                     >

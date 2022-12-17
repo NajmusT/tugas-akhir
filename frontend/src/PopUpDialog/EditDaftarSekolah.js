@@ -1,121 +1,61 @@
 import React, { useState } from 'react'
-import axios from "axios";
 import { useHistory } from "react-router-dom";
-import moment from 'moment'
-import { v1 } from 'uuid'
 
 //Material UI
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 //Components
 import TextField from '../Components/TextField'
 import Button from '../Components/Button'
+import Select from '../Components/Select'
 
 //Constant
 import { Color } from "../Constants/Colors";
 import ImageIcon from '../asset/icons/Image';
-import { isValidEmail } from '../Utils';
 import { useAuthStyles } from '../Styles/AuthStyles';
 
 const EditDaftarSekolah = (props) => {
     const { isEditMode } = props
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confPassword, setConfPassword] = useState('');
-    const [errors, setError] = useState({});
-    const [msg, setMsg] = useState('')
     const history = useHistory();
     const classes = useAuthStyles()
 
-    const validationErrorMessage = () => {
-        let error = {};
+    const [akreditasi, setAkreditasi] = useState(null)
+    const [tipe, setTipe] = useState(null)
+    const [kepemilikan, setKepemilikan] = useState(null)
+    const [apbd, setApbd] = useState(false)
+    const [apbn, setApbn] = useState(false)
+    const [bos, setBos] = useState(false)
 
-        if (name === '' || email === '' || password === '' || confPassword === '') {
-            if (name === '') {
-                error.name = 'Nama tidak boleh kosong'
-            };
+    const handleChangeAkreditasi = (e) => {
+        setAkreditasi(e.target.value)
+    }
 
-            if (email === '') {
-                error.email = 'Email tidak boleh kosong'
-            } else if (!isValidEmail(email)) {
-                error.email = 'Email tidak valid'
-            }
+    const handleChangeTipe = (e) => {
+        setTipe(e.target.value)
+    }
 
-            if (password === '') {
-                error.password = 'Password tidak boleh kosong'
-            }
+    const handleChangeKepemilikan = (e) => {
+        setKepemilikan(e.target.value)
+    }
 
-            if (confPassword === '') {
-                error.confPassword = 'Konfirmasi password tidak boleh kosong'
-            }
-
-            setError(error)
+    const handleChangeBantuan = (e) => {
+        if (e.target.name === 'apbn') {
+            setApbn(e.target.checked)
+        } else if (e.target.name === 'apbd') {
+            setApbd(e.target.checked)
+        } else {
+            setBos(e.target.checked)
         }
     }
 
-    const handleNameChange = (e) => {
-        setName(e.target.value)
-    }
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value)
-    }
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value)
-    }
-
-    const handleConfPassChange = (e) => {
-        setConfPassword(e.target.value)
-    }
-
-    const validateForm = (errors) => {
-        let valid = true;
-        Object.entries(errors).forEach(item => {
-            item && item[1].length > 0 && (valid = false)
-        })
-        return valid;
-    }
-
-    const resetErrorMsg = () => {
-        let error = {};
-
-        error.name = ''
-        error.email = ''
-        error.password = ''
-        error.confPassword = ''
-
-        setError(error)
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        resetErrorMsg()
-        validationErrorMessage()
-
-        if (validateForm(errors)) {
-            try {
-                await axios.post('http://localhost:5000/user/register', {
-                    _id: v1(),
-                    name: name,
-                    email: email,
-                    password1: password,
-                    password2: confPassword,
-                    createdAt: moment()
-                });
-                history.push("/");
-            } catch (error) {
-                if (error.response) {
-                    setMsg(error.response);
-                    console.log(msg)
-                }
-            }
-        }
+    const handleSubmit = () => {
+        console.log('Submited')
     }
 
     return (
@@ -151,14 +91,13 @@ const EditDaftarSekolah = (props) => {
                                     <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                         Tipe Sekolah
                                     </Typography>
-                                    <TextField
-                                        id="tipe-sekolah"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Tipe Sekolah"
-                                        type="text"
-                                        page="begin"
+                                    <Select
+                                        value={tipe}
+                                        handleChange={handleChangeTipe}
+                                        name={'tipe'}
+                                        input={'tipe'}
+                                        width={167}
+                                        option={['Negeri', 'Swasta']}
                                     />
                                 </Grid>
                                 <Grid item container xs={6} style={{ paddingLeft: 16 }}>
@@ -181,14 +120,13 @@ const EditDaftarSekolah = (props) => {
                                     <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                         Akreditasi
                                     </Typography>
-                                    <TextField
-                                        id="akreditasi"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Akreditasi"
-                                        type="text"
-                                        page="begin"
+                                    <Select
+                                        value={akreditasi}
+                                        handleChange={handleChangeAkreditasi}
+                                        name={'akreditasi'}
+                                        input={'akreditasi'}
+                                        width={167}
+                                        option={['A', 'B', 'C', 'D', 'E']}
                                     />
                                 </Grid>
                                 <Grid item container xs={6} style={{ paddingLeft: 16 }}>
@@ -241,7 +179,7 @@ const EditDaftarSekolah = (props) => {
                         </Grid>
                     </Grid>
                     <Grid container style={{ paddingTop: 12 }}>
-                        <Grid item container xs={6}>
+                        <Grid item container xs={3}>
                             <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                 Alamat Jalan
                             </Typography>
@@ -281,6 +219,19 @@ const EditDaftarSekolah = (props) => {
                                 label="Kelurahan"
                                 type="text"
                                 page="begin"
+                            />
+                        </Grid>
+                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
+                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                Kepemilikan Lahan
+                            </Typography>
+                            <Select
+                                value={kepemilikan}
+                                handleChange={handleChangeKepemilikan}
+                                name={'kepemilikan'}
+                                input={'kepemilikan'}
+                                width={200}
+                                option={['Milik Sendiri', 'Milik Pemerintah', 'Tidak diketahui']}
                             />
                         </Grid>
                     </Grid>
@@ -375,15 +326,13 @@ const EditDaftarSekolah = (props) => {
                             <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                 Jenis Bantuan Pendanaan
                             </Typography>
-                            <TextField
-                                id="tanggal-ijin-operasional"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Tanggal Ijin Operasional"
-                                type="text"
-                                page="begin"
-                            />
+                            <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+                                <FormGroup aria-label="position" row>
+                                    <FormControlLabel control={<Checkbox checked={apbn} onChange={handleChangeBantuan} name="apbn" style={{ color: apbn ? Color.primary[300] : '#000000' }} />} label="APBN" />
+                                    <FormControlLabel control={<Checkbox checked={apbd} onChange={handleChangeBantuan} name="apbd" style={{ color: apbd ? Color.primary[300] : '#000000' }} />} label="APBD" />
+                                    <FormControlLabel control={<Checkbox checked={bos} onChange={handleChangeBantuan} name="bos" style={{ color: bos ? Color.primary[300] : '#000000' }} />} label="Bos Khusus" />
+                                </FormGroup>
+                            </FormControl>
                         </Grid>
                     </Grid>
                     <Button
@@ -391,7 +340,7 @@ const EditDaftarSekolah = (props) => {
                         fullWidth
                         variant="contained"
                         className={classes.submit}
-                        buttonText={"Sign Up"}
+                        buttonText={"Daftar Sekolah"}
                     />
                 </form>
             </div>

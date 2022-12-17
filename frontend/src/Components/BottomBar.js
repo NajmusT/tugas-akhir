@@ -4,14 +4,14 @@ import React from 'react'
 import { Grid, Typography } from '@material-ui/core'
 import ArrowIcon from '@material-ui/icons/ArrowForwardIos';
 import Tooltip from '@material-ui/core/Tooltip';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import InstagramIcon from '@material-ui/icons/Instagram';
 
 import image1 from '../asset/images/footer1.png'
 import image2 from '../asset/images/social.png'
 import whatsapp from '../asset/images/whatsapp.png'
 import email from '../asset/images/email.png'
-import twitter from '../asset/images/twitter.png'
-import facebook from '../asset/images/facebook.png'
-import instagram from '../asset/images/instagram.png'
 
 import { useBottomBarStyles } from '../Styles/BottomBarStyles'
 
@@ -60,7 +60,7 @@ const BottomBar = () => {
                   </Typography>
                   <Grid item xs={12} style={{ paddingTop: 8 }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <img src={whatsapp} alt={'whatsapp'} style={{ width: '1.5vw', height: '1.5vw' }} />
+                      <img src={whatsapp} alt={'whatsapp'} style={{ width: '24px', height: '24px' }} />
                       <Typography className={classes.bodyKontakKami}>
                         (0267) 405215
                       </Typography>
@@ -68,8 +68,8 @@ const BottomBar = () => {
                   </Grid>
                   <Grid item xs={12} style={{ paddingTop: 8 }}>
                     <div style={{ display: 'flex' }}>
-                      <div style={{ width: '1.5vw', height: '1.5vw' }}>
-                        <img src={email} alt={'email'} style={{ width: '1.2vw', height: '1vw', padding: 2 }} />
+                      <div style={{ width: '24px', height: '24px' }}>
+                        <img src={email} alt={'email'} style={{ width: '20px', height: '16px', padding: 2 }} />
                       </div>
                       <Typography className={classes.bodyKontakKami}>
                         disdikpora@karawangkab.go.id
@@ -87,18 +87,27 @@ const BottomBar = () => {
                   <Grid item xs={12} style={{ paddingTop: 8 }}>
                     <div style={{ display: 'flex' }}>
                       <Tooltip title='disdikporakarawang' placement='bottom'>
-                        <div style={{ width: '1.5vw', height: '1.5vw' }}>
-                          <img src={facebook} alt={'facebook'} style={{ width: '1.5vw', height: '1.5vw', padding: 2 }} />
+                        <div style={{ width: '24px', height: '24px' }}>
+                          <div className={classes.sosMedContainer}>
+                            <FacebookIcon style={{ alignSelf: 'center', display: 'flex', padding: 2, fontSize: 20 }} />
+                          </div>
+                          {/* <img src={facebook} alt={'facebook'} style={{ width: '1.5vw', height: '1.5vw', padding: 2 }} /> */}
                         </div>
                       </Tooltip>
                       <Tooltip title='dikporakrwkab' placement='bottom'>
-                        <div style={{ width: '1.5vw', height: '1.5vw', paddingLeft: 8 }}>
-                          <img src={twitter} alt={'twitter'} style={{ width: '1.5vw', height: '1.5vw', padding: 2 }} />
+                        <div style={{ width: '24px', height: '24px', paddingLeft: 8 }}>
+                          <div className={classes.sosMedContainer}>
+                            <TwitterIcon style={{ alignSelf: 'center', display: 'flex', padding: 2, fontSize: 20 }} />
+                          </div>
+                          {/* <img src={twitter} alt={'twitter'} style={{ width: '1.5vw', height: '1.5vw', padding: 2 }} /> */}
                         </div>
                       </Tooltip>
                       <Tooltip title='disdikporakrwkab' placement='bottom'>
-                        <div style={{ width: '1.5vw', height: '1.5vw', paddingLeft: 8 }}>
-                          <img src={instagram} alt={'instagram'} style={{ width: '1.5vw', height: '1.5vw', padding: 2 }} />
+                        <div style={{ width: '24px', height: '24px', paddingLeft: 8 }}>
+                          <div className={classes.sosMedContainer}>
+                            <InstagramIcon style={{ alignSelf: 'center', display: 'flex', padding: 2, fontSize: 20 }} />
+                          </div>
+                          {/* <img src={instagram} alt={'instagram'} style={{ width: '1.5vw', height: '1.5vw', padding: 2 }} /> */}
                         </div>
                       </Tooltip>
                     </div>
@@ -128,7 +137,7 @@ const BottomBar = () => {
               <Grid item container xs={1} />
               <Grid item container xs={3} style={{ alignItems: 'center' }}>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ width: '1.5vw', height: '1.5vw' }}>
+                  <div style={{ width: '20x', height: '20px' }}>
                     <ArrowIcon className={classes.icon} />
                   </div>
                   <Typography className={classes.contactUs}>

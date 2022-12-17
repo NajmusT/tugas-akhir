@@ -5,7 +5,7 @@ import MaterialUIButton from '@material-ui/core/Button';
 
 class Button extends Component {
     render() {
-        const { classes, size, page, disabled, type, fullWidth, variant, buttonText, onClick } = this.props
+        const { classes, page, disabled, type, fullWidth, variant, buttonText, onClick, buttonType } = this.props
 
         return (
             <React.Fragment>
@@ -14,7 +14,7 @@ class Button extends Component {
                         type={type}
                         fullWidth
                         variant={variant}
-                        className={page === "main" ? "" : classes.begin}
+                        className={page === "main" ? (buttonType === 'primary' ? classes.mainPrimary : buttonType === 'success' ? classes.mainSuccess : buttonType === 'danger' ? classes.mainDanger : classes.mainWarning) : classes.begin}
                         onClick={onClick}
                     >
                         {buttonText}
@@ -22,7 +22,7 @@ class Button extends Component {
                     <MaterialUIButton
                         type={type}
                         variant={variant}
-                        className={page === "main" ? "" : classes.begin}
+                        className={page === "main" ? (buttonType === 'primary' ? classes.mainPrimary : buttonType === 'success' ? classes.mainSuccess : buttonType === 'danger' ? classes.mainDanger : classes.mainWarning) : classes.begin}
                         onClick={onClick}
                     >
                         {buttonText}
