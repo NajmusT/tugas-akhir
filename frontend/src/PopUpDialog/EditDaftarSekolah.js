@@ -12,7 +12,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 //Components
 import TextField from '../Components/TextField'
 import Button from '../Components/Button'
-import Select from '../Components/Select'
+import CustomSelect from '../Components/Select'
 
 //Constant
 import { Color } from "../Constants/Colors";
@@ -82,7 +82,7 @@ const EditDaftarSekolah = (props) => {
                                         fullWidth
                                         label="Nama Sekolah"
                                         type="text"
-                                        page="begin"
+                                        page="auth"
                                     />
                                 </Grid>
                             </Grid>
@@ -91,12 +91,15 @@ const EditDaftarSekolah = (props) => {
                                     <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                         Tipe Sekolah
                                     </Typography>
-                                    <Select
+                                    <CustomSelect
+                                        id={"tipe-sekolah"}
+                                        margin={"normal"}
+                                        fullWidth
+                                        label={"Tipe Sekolah"}
+                                        variant={"standard"}
+                                        page={"auth"}
                                         value={tipe}
-                                        handleChange={handleChangeTipe}
-                                        name={'tipe'}
-                                        input={'tipe'}
-                                        width={167}
+                                        onChange={handleChangeTipe}
                                         option={['Negeri', 'Swasta']}
                                     />
                                 </Grid>
@@ -111,7 +114,7 @@ const EditDaftarSekolah = (props) => {
                                         fullWidth
                                         label="NPSN"
                                         type="text"
-                                        page="begin"
+                                        page="auth"
                                     />
                                 </Grid>
                             </Grid>
@@ -120,12 +123,15 @@ const EditDaftarSekolah = (props) => {
                                     <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                         Akreditasi
                                     </Typography>
-                                    <Select
+                                    <CustomSelect
+                                        id={"akreditasi"}
+                                        margin={"normal"}
+                                        fullWidth
+                                        label={"Akreditasi"}
+                                        variant={"standard"}
+                                        page={"auth"}
                                         value={akreditasi}
-                                        handleChange={handleChangeAkreditasi}
-                                        name={'akreditasi'}
-                                        input={'akreditasi'}
-                                        width={167}
+                                        onChange={handleChangeAkreditasi}
                                         option={['A', 'B', 'C', 'D', 'E']}
                                     />
                                 </Grid>
@@ -140,7 +146,7 @@ const EditDaftarSekolah = (props) => {
                                         fullWidth
                                         label="SK Akreditasi"
                                         type="text"
-                                        page="begin"
+                                        page="auth"
                                     />
                                 </Grid>
                             </Grid>
@@ -156,7 +162,7 @@ const EditDaftarSekolah = (props) => {
                                         fullWidth
                                         label="Nama Kepala Sekolah"
                                         type="text"
-                                        page="begin"
+                                        page="auth"
                                     />
                                 </Grid>
                             </Grid>
@@ -172,7 +178,7 @@ const EditDaftarSekolah = (props) => {
                                         fullWidth
                                         label="Nama Komite Sekolah"
                                         type="text"
-                                        page="begin"
+                                        page="auth"
                                     />
                                 </Grid>
                             </Grid>
@@ -190,7 +196,7 @@ const EditDaftarSekolah = (props) => {
                                 fullWidth
                                 label="Alamat Jalan"
                                 type="text"
-                                page="begin"
+                                page="auth"
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -204,7 +210,7 @@ const EditDaftarSekolah = (props) => {
                                 fullWidth
                                 label="Kecamatan"
                                 type="text"
-                                page="begin"
+                                page="auth"
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -218,19 +224,22 @@ const EditDaftarSekolah = (props) => {
                                 fullWidth
                                 label="Kelurahan"
                                 type="text"
-                                page="begin"
+                                page="auth"
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
                             <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                 Kepemilikan Lahan
                             </Typography>
-                            <Select
+                            <CustomSelect
+                                id={"statusKepemilikan"}
+                                margin={"normal"}
+                                fullWidth
+                                label={"Status Kepemilikan"}
+                                variant={"standard"}
+                                page={"auth"}
                                 value={kepemilikan}
-                                handleChange={handleChangeKepemilikan}
-                                name={'kepemilikan'}
-                                input={'kepemilikan'}
-                                width={200}
+                                onChange={handleChangeKepemilikan}
                                 option={['Milik Sendiri', 'Milik Pemerintah', 'Tidak diketahui']}
                             />
                         </Grid>
@@ -247,7 +256,7 @@ const EditDaftarSekolah = (props) => {
                                 fullWidth
                                 label="Nomor Pendirian"
                                 type="text"
-                                page="begin"
+                                page="auth"
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -261,7 +270,7 @@ const EditDaftarSekolah = (props) => {
                                 fullWidth
                                 label="Tanggal Berdiri"
                                 type="date"
-                                page="begin"
+                                page="auth"
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -275,7 +284,7 @@ const EditDaftarSekolah = (props) => {
                                 fullWidth
                                 label="Nomor Ijin Operasional"
                                 type="text"
-                                page="begin"
+                                page="auth"
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -289,7 +298,7 @@ const EditDaftarSekolah = (props) => {
                                 fullWidth
                                 label="Tanggal Ijin Operasional"
                                 type="date"
-                                page="begin"
+                                page="auth"
                             />
                         </Grid>
                     </Grid>
@@ -305,7 +314,7 @@ const EditDaftarSekolah = (props) => {
                                 fullWidth
                                 label="Jumlah Rombongan Belajar"
                                 type="number"
-                                page="begin"
+                                page="auth"
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -319,7 +328,7 @@ const EditDaftarSekolah = (props) => {
                                 fullWidth
                                 label="Jumlah Guru"
                                 type="number"
-                                page="begin"
+                                page="auth"
                             />
                         </Grid>
                         <Grid item container xs={6} style={{ paddingLeft: 12 }}>

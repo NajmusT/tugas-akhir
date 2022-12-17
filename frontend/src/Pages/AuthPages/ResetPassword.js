@@ -53,7 +53,7 @@ const ResetPassword = () => {
                                 fullWidth
                                 label="Password Baru"
                                 type="password"
-                                page="begin"
+                                page="auth"
                                 onChange={(e) => { setPassword(e.target.value) }}
                             />
                         </Grid>
@@ -68,7 +68,7 @@ const ResetPassword = () => {
                                 fullWidth
                                 label="Konfirmasi Password Baru"
                                 type="password"
-                                page="begin"
+                                page="auth"
                                 onChange={(e) => { setConfPassword(e.target.value) }}
                             />
                         </Grid>

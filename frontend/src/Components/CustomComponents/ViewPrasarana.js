@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 //Material UI
 import { Grid, Typography } from '@material-ui/core'
@@ -19,6 +20,8 @@ const ViewPrasarana = () => {
         kondisi: 'Rusak Ringan',
         idSekolah: 'uvwe-type-jhed'
     }
+
+    const history = useHistory()
 
     return (
         <React.Fragment>
@@ -126,6 +129,7 @@ const ViewPrasarana = () => {
                         buttonText={"CREATE"}
                         page='main'
                         buttonType='primary'
+                        onClick={() => { history.push('/data/sarana/create') }}
                     />
                 </Grid>
             </Grid>

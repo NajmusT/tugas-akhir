@@ -110,7 +110,7 @@ const Login = () => {
                                 fullWidth
                                 label="Email Address"
                                 type="email"
-                                page="begin"
+                                page="auth"
                                 onChange={handleEmailChange}
                             />
                             {errors.email &&
@@ -132,7 +132,7 @@ const Login = () => {
                                 fullWidth
                                 label="Password"
                                 type="password"
-                                page="begin"
+                                page="auth"
                                 onChange={handlePasswordChange}
                             />
                             {errors.password &&

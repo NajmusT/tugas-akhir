@@ -143,7 +143,7 @@ const Register = () => {
                                         fullWidth
                                         label="Nama Lengkap"
                                         type="text"
-                                        page="begin"
+                                        page="auth"
                                         onChange={handleNameChange}
                                     />
                                     {errors.name &&
@@ -165,7 +165,7 @@ const Register = () => {
                                         fullWidth
                                         label="Email Address"
                                         type="email"
-                                        page="begin"
+                                        page="auth"
                                         onChange={handleEmailChange}
                                     />
                                     {errors.email &&
@@ -187,7 +187,7 @@ const Register = () => {
                                         fullWidth
                                         label="Password"
                                         type="password"
-                                        page="begin"
+                                        page="auth"
                                         onChange={handlePasswordChange}
                                     />
                                     {errors.password &&
@@ -209,7 +209,7 @@ const Register = () => {
                                         fullWidth
                                         label="Password"
                                         type="password"
-                                        page="begin"
+                                        page="auth"
                                         onChange={handleConfPassChange}
                                     />
                                     {errors.confPassword &&

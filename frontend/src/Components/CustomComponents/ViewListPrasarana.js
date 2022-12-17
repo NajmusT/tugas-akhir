@@ -1,5 +1,5 @@
 import React from 'react'
-import Breadcrumb from '../Breadcrumb'
+import { useHistory } from 'react-router-dom'
 
 //Material UI
 import { Grid, Typography } from '@material-ui/core'
@@ -7,6 +7,7 @@ import { FontFamily } from '../../Constants/FontFamily'
 import { Color } from '../../Constants/Colors'
 
 import Button from '../Button'
+import Breadcrumb from '../Breadcrumb'
 
 import ImageIcon from '../../asset/icons/Image';
 
@@ -59,6 +60,8 @@ const ViewListPrasarana = () => {
             }
         ]
     }
+
+    const history = useHistory()
 
     return (
         <React.Fragment>
@@ -337,6 +340,7 @@ const ViewListPrasarana = () => {
                         buttonText={"CREATE"}
                         page='main'
                         buttonType='primary'
+                        onClick={() => { history.push('/data/prasarana/create') }}
                     />
                 </Grid>
             </Grid>

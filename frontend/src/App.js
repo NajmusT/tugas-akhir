@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import history from './history'
 
+//Components
 import Register from './Pages/AuthPages/Register';
 import ResetPassword from './Pages/AuthPages/ResetPassword';
 import Login from './Pages/AuthPages/Login';
@@ -14,6 +15,7 @@ import EditCreatePrasarana from './Components/CustomComponents/EditCreatePrasara
 import ViewPrasarana from './Components/CustomComponents/ViewPrasarana';
 import ViewListPrasarana from './Components/CustomComponents/ViewListPrasarana';
 import ViewSarana from './Components/CustomComponents/ViewSarana';
+import EditCreateSarana from './Components/CustomComponents/EditCreateSarana';
 
 function App() {
   return (
@@ -27,8 +29,9 @@ function App() {
         <Route path='/daftar-sekolah' component={DaftarSekolah} />
         <Route path='/data/prasarana/create' component={EditCreatePrasarana} />
         <Route path='/data/prasarana/edit/:id' component={EditCreatePrasarana} />
-        <Route path='/data/list-prasarana/:id' component={ViewListPrasarana} />
-        <Route path='/data/prasarana/:id' component={ViewPrasarana} />
+        <Route path='/data/sarana/create' component={EditCreateSarana} />
+        <Route path='/data/list-prasarana' component={ViewListPrasarana} />
+        <Route path='/data/prasarana' component={ViewPrasarana} />
         <Route path='/data/sarana' component={ViewSarana} />
       </Switch>
       <BottomBar />
