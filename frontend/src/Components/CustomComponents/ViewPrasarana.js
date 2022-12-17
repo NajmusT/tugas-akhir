@@ -31,12 +31,20 @@ const ViewPrasarana = () => {
                 subsubtitle={prasarana.nama}
             />
             <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
-                <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
+                <Grid item container xs={6} style={{ padding: '2vw 2vw 0vw 2vw' }}>
                     <Typography style={{
                         fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
                     }}>
                         {prasarana.nama}
                     </Typography>
+                </Grid>
+                <Grid item container xs={6} style={{ padding: '2vw 2vw 0vw 2vw', justifyContent: 'flex-end' }}>
+                    <Button
+                        variant="contained"
+                        buttonText={"EDIT"}
+                        page='main'
+                        buttonType='primary'
+                    />
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
                     <div style={{

@@ -16,6 +16,7 @@ import ViewPrasarana from './Components/CustomComponents/ViewPrasarana';
 import ViewListPrasarana from './Components/CustomComponents/ViewListPrasarana';
 import ViewSarana from './Components/CustomComponents/ViewSarana';
 import EditCreateSarana from './Components/CustomComponents/EditCreateSarana';
+import BuatPengaduan from './Components/CustomComponents/BuatPengaduan';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path='/data/list-prasarana' component={ViewListPrasarana} />
         <Route path='/data/prasarana' component={ViewPrasarana} />
         <Route path='/data/sarana' component={ViewSarana} />
+        <Route path='/pengaduan' component={BuatPengaduan} />
       </Switch>
       <BottomBar />
     </Router>
