@@ -1,42 +1,42 @@
 export const MenuItems = [
     {
         title: 'Ruang Kelas',
-        path: '/data/ruang-kelas'
+        path: 'ruang-kelas'
     },
     {
         title: 'Laboratorium IPA',
-        path: '/data/laboratorium-IPA'
+        path: 'laboratorium-IPA'
     },
     {
         title: 'Ruang Guru',
-        path: '/data/ruang-guru',
+        path: 'ruang-guru',
     },
     {
         title: 'Ruang Pimpinan',
-        path: '/data/ruang-pimpinan'
+        path: 'ruang-pimpinan'
     },
     {
         title: 'Toilet',
-        path: '/data/toilet'
+        path: 'toilet'
     },
     {
         title: 'UKS',
-        path: '/data/UKS'
+        path: 'UKS'
     },
     {
         title: 'Tempat Beribadah',
-        path: '/data/tempat-beribadah'
+        path: 'tempat-beribadah'
     },
     {
         title: 'Gudang',
-        path: '/data/gudang'
+        path: 'gudang'
     },
     {
         title: 'Ruang Perpustakaan',
-        path: '/data/ruang-perpustakaan'
+        path: 'ruang-perpustakaan'
     },
     {
         title: 'Tempat Bermain dan Berolahraga',
-        path: '/data/tempat-bermain-dan-berolahraga'
+        path: 'tempat-bermain-dan-berolahraga'
     }
 ];

@@ -22,7 +22,7 @@ function Dropdown() {
                         <div key={index}>
                             <Link
                                 className={classes.dropdownLink}
-                                to={'/data/list-prasarana'}
+                                to={`/data/list-prasarana/${item.path}`}
                                 onClick={() => setClick(false)}
                             >
                                 {item.title}

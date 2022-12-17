@@ -16,10 +16,38 @@ import ImageIcon from '../../asset/icons/Image';
 const BuatPengaduan = () => {
     const history = useHistory()
 
-    const [jenisPengaduan, setJenisPengaduan] = useState("")
+    const sekolah = 'SD Adiarsa Barat I'
+
+    const [jenisPengaduan, setJenisPengaduan] = useState(null)
+    const [ruangan, setRuangan] = useState(null)
+    const [sarana, setSarana] = useState(null)
+    const [kategoriRusak, setKategoriRusak] = useState(null)
+    const [deskripsi, setDeskripsi] = useState(null)
 
     const handleChangeJenisPengaduan = (e) => {
         setJenisPengaduan(e.target.value)
+    }
+
+    const handleChangeRuangan = (e) => {
+        setRuangan(e.target.value)
+    }
+
+    const handleChangeSarana = (e) => {
+        setSarana(e.target.value)
+    }
+
+    const handleChangeKategoriRusak = (e) => {
+        setKategoriRusak(e.target.value)
+    }
+
+    const handleChangeDeskripsi = (e) => {
+        setDeskripsi(e.target.value)
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        history.goBack()
     }
 
     return (
@@ -84,6 +112,7 @@ const BuatPengaduan = () => {
                                             label="Nama Sekolah"
                                             type="text"
                                             page="main"
+                                            value={sekolah}
                                         />
                                     </Grid>
                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
@@ -101,8 +130,8 @@ const BuatPengaduan = () => {
                                             margin="dense"
                                             label="Ruangan"
                                             page={"main"}
-                                            // value={tipe}
-                                            // onChange={handleChangeTipe}
+                                            value={ruangan}
+                                            onChange={handleChangeRuangan}
                                             option={['Kerusakan Sarana', 'Kerusakan Prasarana']}
                                         />
                                     </Grid>
@@ -122,8 +151,8 @@ const BuatPengaduan = () => {
                                                 margin="dense"
                                                 label="Sarana"
                                                 page={"main"}
-                                                // value={tipe}
-                                                // onChange={handleChangeTipe}
+                                                value={sarana}
+                                                onChange={handleChangeSarana}
                                                 option={['Kerusakan Sarana', 'Kerusakan Prasarana']}
                                             />
                                         </Grid>
@@ -143,8 +172,8 @@ const BuatPengaduan = () => {
                                             label={"Kondisi"}
                                             variant={"outlined"}
                                             page={"main"}
-                                            // value={tipe}
-                                            // onChange={handleChangeTipe}
+                                            value={kategoriRusak}
+                                            onChange={handleChangeKategoriRusak}
                                             option={['Rusak Ringan', 'Rusak Sedang', 'Rusak Berat']}
                                         />
                                     </Grid>
@@ -167,6 +196,8 @@ const BuatPengaduan = () => {
                                             label="Deskripsi"
                                             type="text"
                                             page="main"
+                                            value={deskripsi}
+                                            onChange={handleChangeDeskripsi}
                                         />
                                     </Grid>
                                     <Grid style={{ display: 'flex', paddingTop: 44, justifyContent: 'flex-end' }}>
@@ -175,7 +206,7 @@ const BuatPengaduan = () => {
                                             buttonText={"Save"}
                                             page='main'
                                             buttonType='primary'
-                                            onClick={() => { history.push('/data/sarana/create') }}
+                                            onClick={handleSubmit}
                                         />
                                     </Grid>
                                 </Grid>

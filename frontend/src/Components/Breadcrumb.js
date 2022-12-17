@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { Grid, Typography } from '@material-ui/core'
 import ArrowIcon from '@material-ui/icons/ArrowForwardIos';
@@ -11,6 +11,7 @@ import { Color } from '../Constants/Colors';
 
 const Breadcrumb = (props) => {
     const { title, title2, subtitle, subsubtitle } = props;
+    const history = useHistory()
 
     return (
         <React.Fragment>
@@ -41,11 +42,9 @@ const Breadcrumb = (props) => {
                                     <div style={{ width: '20x', height: '20px', alignItems: 'center', justifyContent: 'center' }}>
                                         <ArrowIcon style={{ color: '#797979', fontSize: 10, paddingLeft: 8, alignSelf: 'center', justifySelf: 'center' }} />
                                     </div>
-                                    <Link to=''>
-                                        <Typography style={{ fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 12, color: Color.primary[300], paddingLeft: 8 }}>
-                                            {subtitle.toUpperCase()}
-                                        </Typography>
-                                    </Link>
+                                    <Typography style={{ fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 12, color: Color.primary[300], paddingLeft: 8 }} onClick={() => { history.goBack() }}>
+                                        {subtitle.toUpperCase()}
+                                    </Typography>
                                 </>}
                             </Grid>
                             <Grid item container xs={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 4 }}>
