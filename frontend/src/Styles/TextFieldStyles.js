@@ -2,6 +2,7 @@ import { Color } from "../Constants/Colors";
 
 export const TextFieldStyles = theme => ({
     begin: {
+        backgroundColor: Color.neutral[0],
         '& label.Mui-focused': {
             color: Color.primary[300],
         },
@@ -10,6 +11,7 @@ export const TextFieldStyles = theme => ({
         }
     },
     main: {
+        backgroundColor: Color.neutral[0],
         "& .MuiOutlinedInput-root": {
             "&.Mui-focused fieldset": {
                 border: `2px solid ${Color.primary[300]}`            // focus

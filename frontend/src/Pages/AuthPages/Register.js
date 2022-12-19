@@ -93,24 +93,28 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const data = {
+            fotoProfil: '',
+            name: name,
+            email: email,
+            password: password,
+            password2: confPassword,
+            roles: 'users',
+            isActive: true,
+            logs: [],
+            lastActive: moment()
+        }
+
         resetErrorMsg()
         validationErrorMessage()
 
         if (validateForm(errors)) {
             try {
-                await axios.post('http://localhost:5000/user/register', {
-                    _id: v1(),
-                    name: name,
-                    email: email,
-                    password1: password,
-                    password2: confPassword,
-                    createdAt: moment()
-                });
-                history.push("/");
+                await axios.post('http://localhost:5000/user/register', data);
+                history.push("/daftar-sekolah");
             } catch (error) {
                 if (error.response) {
-                    setMsg(error.response);
-                    console.log(msg)
+                    console.log(error)
                 }
             }
         }

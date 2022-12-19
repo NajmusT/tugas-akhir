@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from "react-router-dom";
+import axios from 'axios';
 
 //Material UI
 import Grid from '@material-ui/core/Grid';
@@ -18,6 +19,7 @@ import CustomSelect from '../Components/Select'
 import { Color } from "../Constants/Colors";
 import ImageIcon from '../asset/icons/Image';
 import { useAuthStyles } from '../Styles/AuthStyles';
+import moment from 'moment';
 
 const EditDaftarSekolah = (props) => {
     const { isEditMode } = props
@@ -25,12 +27,82 @@ const EditDaftarSekolah = (props) => {
     const history = useHistory();
     const classes = useAuthStyles()
 
+    const [userId, setUserId] = useState(null)
+    const [alamat, setAlamat] = useState(null)
+    const [kepsek, setKepsek] = useState(null)
+    const [fotoSekolah, setFotoSekolah] = useState(null)
+    const [alamatJalan, setAlamatJalan] = useState(null)
+    const [kecamatan, setKecamatan] = useState(null)
+    const [kelurahan, setKelurahan] = useState(null)
+    const [komite, setKomite] = useState(null)
+    const [sekolah, setSekolah] = useState(null)
+    const [skAkre, setSkakre] = useState(null)
+    const [npsn, setNpsn] = useState(null)
     const [akreditasi, setAkreditasi] = useState(null)
     const [tipe, setTipe] = useState(null)
+    const [noSuratPendirian, setNoSuratPendirian] = useState(null)
+    const [tanggalPendirian, setTanggalPendirian] = useState(null)
+    const [noSuratIzin, setNoSuratIzin] = useState(null)
+    const [tanggalIzinOperasional, setTanggalIzinOperasional] = useState(null)
+    const [rombonganBelajar, setRombonganBelajar] = useState(null)
     const [kepemilikan, setKepemilikan] = useState(null)
+    const [jumlahGuru, setJumlahGuru] = useState(null)
     const [apbd, setApbd] = useState(false)
     const [apbn, setApbn] = useState(false)
     const [bos, setBos] = useState(false)
+    const [bantuanPengadaan, setBantuanPengadaan] = useState(false)
+
+    const handleChangeKepsek = (e) => {
+        setKepsek(e.target.value)
+    }
+
+    const handleChangeNoSuratPendirian = (e) => {
+        setNoSuratPendirian(e.target.value)
+    }
+
+    const handleChangeTanggalPendirian = (e) => {
+        setTanggalPendirian(e.target.value)
+    }
+
+    const handleChangeNoSuratIzin = (e) => {
+        setNoSuratIzin(e.target.value)
+    }
+
+    const handleChangeTanggalIzinOperasional = (e) => {
+        setTanggalIzinOperasional(e.target.value)
+    }
+
+    const handleChangeRombonganBelajar = (e) => {
+        setRombonganBelajar(e.target.value)
+    }
+
+    const handleChangeJumlahGuru = (e) => {
+        setJumlahGuru(e.target.value)
+    }
+
+    const handleChangeKelurahan = (e) => {
+        setKelurahan(e.target.value)
+    }
+
+    const handleChangeKecamatan = (e) => {
+        setKecamatan(e.target.value)
+    }
+
+    const handleChangeAlamatJalan = (e) => {
+        setAlamatJalan(e.target.value)
+    }
+
+    const handleChangeKomite = (e) => {
+        setKomite(e.target.value)
+    }
+
+    const handleChangeSkakre = (e) => {
+        setSkakre(e.target.value)
+    }
+
+    const handleChangeNpsn = (e) => {
+        setNpsn(e.target.value)
+    }
 
     const handleChangeAkreditasi = (e) => {
         setAkreditasi(e.target.value)
@@ -44,6 +116,10 @@ const EditDaftarSekolah = (props) => {
         setKepemilikan(e.target.value)
     }
 
+    const handleChangeSekolah = (e) => {
+        setSekolah(e.target.value)
+    }
+
     const handleChangeBantuan = (e) => {
         if (e.target.name === 'apbn') {
             setApbn(e.target.checked)
@@ -54,9 +130,97 @@ const EditDaftarSekolah = (props) => {
         }
     }
 
-    const handleSubmit = () => {
-        console.log('Submited')
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const data = {
+            npsn: npsn,
+            nama: sekolah,
+            jenis: tipe,
+            fotoSekolah: fotoSekolah,
+            alamat: {
+                jalan: alamatJalan,
+                kodePos: (alamat.filter(item => item.kecamatan == kecamatan && item.desaKelurahan == kelurahan).map(dt => dt.kodePos))[0]
+            },
+            kepalaSekolah: kepsek,
+            ketuaKomite: komite,
+            akreditasi: {
+                noSK: skAkre,
+                nilaiHuruf: akreditasi
+            },
+            pendirian: {
+                noSurat: noSuratPendirian,
+                tanggal: tanggalPendirian
+            },
+            izinOperasional: {
+                noSurat: noSuratIzin,
+                tanggal: tanggalIzinOperasional
+            },
+            lahan: {
+                kepemilikan: kepemilikan
+            },
+            bantuanPengadaan: bantuanPengadaan,
+            rombonganBelajar: rombonganBelajar,
+            jumlahGuru: jumlahGuru,
+            createdBy: userId,
+            createdAt: moment()
+        }
+
+        try {
+            await axios.post('http://localhost:5000/sekolah/new', data);
+            history.push('/beranda')
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/alamat').then(res => {
+            setAlamat(res.data)
+        })
+
+        axios.get('http://localhost:5000/user/current').then(res => {
+            setUserId(res.data._id)
+        })
+    }, [])
+
+    useEffect(() => {
+        let bantuan = 'Tidak ada'
+
+        if (apbn) {
+            if (apbd) {
+                if (bos) {
+                    bantuan = 'APBN, APBD, Bos Khusus'
+                } else {
+                    bantuan = 'APBN, APBD'
+                }
+            } else {
+                if (bos) {
+                    bantuan = 'APBN, Bos Khusus'
+                } else {
+                    bantuan = 'APBN'
+                }
+            }
+        } else {
+            if (apbd) {
+                if (bos) {
+                    bantuan = 'APBD, Bos Khusus'
+                } else {
+                    bantuan = 'APBD'
+                }
+            } else {
+                if (bos) {
+                    bantuan = 'BOS Khusus'
+                }
+            }
+        }
+
+        setBantuanPengadaan(bantuan)
+    }, [apbn, apbd, bos])
+
+    useEffect(() => {
+        console.log(userId)
+    }, [userId])
 
     return (
         <div className={classes.modal}>
@@ -83,6 +247,8 @@ const EditDaftarSekolah = (props) => {
                                         label="Nama Sekolah"
                                         type="text"
                                         page="auth"
+                                        value={sekolah}
+                                        onChange={handleChangeSekolah}
                                     />
                                 </Grid>
                             </Grid>
@@ -115,6 +281,8 @@ const EditDaftarSekolah = (props) => {
                                         label="NPSN"
                                         type="text"
                                         page="auth"
+                                        value={npsn}
+                                        onChange={handleChangeNpsn}
                                     />
                                 </Grid>
                             </Grid>
@@ -147,6 +315,8 @@ const EditDaftarSekolah = (props) => {
                                         label="SK Akreditasi"
                                         type="text"
                                         page="auth"
+                                        value={skAkre}
+                                        onChange={handleChangeSkakre}
                                     />
                                 </Grid>
                             </Grid>
@@ -163,6 +333,8 @@ const EditDaftarSekolah = (props) => {
                                         label="Nama Kepala Sekolah"
                                         type="text"
                                         page="auth"
+                                        value={kepsek}
+                                        onChange={handleChangeKepsek}
                                     />
                                 </Grid>
                             </Grid>
@@ -179,6 +351,8 @@ const EditDaftarSekolah = (props) => {
                                         label="Nama Komite Sekolah"
                                         type="text"
                                         page="auth"
+                                        value={komite}
+                                        onChange={handleChangeKomite}
                                     />
                                 </Grid>
                             </Grid>
@@ -197,34 +371,40 @@ const EditDaftarSekolah = (props) => {
                                 label="Alamat Jalan"
                                 type="text"
                                 page="auth"
+                                value={alamatJalan}
+                                onChange={handleChangeAlamatJalan}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
                             <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                 Kecamatan
                             </Typography>
-                            <TextField
-                                id="kecamatan"
-                                variant="standard"
-                                margin="normal"
+                            <CustomSelect
+                                id={"kecamatan"}
+                                margin={"normal"}
                                 fullWidth
-                                label="Kecamatan"
-                                type="text"
-                                page="auth"
+                                label={"Kecamatan"}
+                                variant={"standard"}
+                                page={"auth"}
+                                value={kecamatan}
+                                onChange={handleChangeKecamatan}
+                                option={alamat !== null ? alamat.map(item => item.kecamatan) : []}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
                             <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                 Kelurahan
                             </Typography>
-                            <TextField
-                                id="kelurahan"
-                                variant="standard"
-                                margin="normal"
+                            <CustomSelect
+                                id={"kelurahan"}
+                                margin={"normal"}
                                 fullWidth
-                                label="Kelurahan"
-                                type="text"
-                                page="auth"
+                                label={"Kelurahan"}
+                                variant={"standard"}
+                                page={"auth"}
+                                value={kelurahan}
+                                onChange={handleChangeKelurahan}
+                                option={alamat !== null ? alamat.filter(item => item.kecamatan == kecamatan).map(kelurahan => kelurahan.desaKelurahan) : []}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -257,6 +437,8 @@ const EditDaftarSekolah = (props) => {
                                 label="Nomor Pendirian"
                                 type="text"
                                 page="auth"
+                                value={noSuratPendirian}
+                                onChange={handleChangeNoSuratPendirian}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -271,6 +453,8 @@ const EditDaftarSekolah = (props) => {
                                 label="Tanggal Berdiri"
                                 type="date"
                                 page="auth"
+                                value={tanggalPendirian}
+                                onChange={handleChangeTanggalPendirian}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -285,6 +469,8 @@ const EditDaftarSekolah = (props) => {
                                 label="Nomor Ijin Operasional"
                                 type="text"
                                 page="auth"
+                                value={noSuratIzin}
+                                onChange={handleChangeNoSuratIzin}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -299,6 +485,8 @@ const EditDaftarSekolah = (props) => {
                                 label="Tanggal Ijin Operasional"
                                 type="date"
                                 page="auth"
+                                value={tanggalIzinOperasional}
+                                onChange={handleChangeTanggalIzinOperasional}
                             />
                         </Grid>
                     </Grid>
@@ -315,6 +503,8 @@ const EditDaftarSekolah = (props) => {
                                 label="Jumlah Rombongan Belajar"
                                 type="number"
                                 page="auth"
+                                value={rombonganBelajar}
+                                onChange={handleChangeRombonganBelajar}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -329,6 +519,8 @@ const EditDaftarSekolah = (props) => {
                                 label="Jumlah Guru"
                                 type="number"
                                 page="auth"
+                                value={jumlahGuru}
+                                onChange={handleChangeJumlahGuru}
                             />
                         </Grid>
                         <Grid item container xs={6} style={{ paddingLeft: 12 }}>

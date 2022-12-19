@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { Grid, Typography } from '@material-ui/core'
@@ -13,21 +13,48 @@ import Button from '../Button'
 
 import ImageIcon from '../../asset/icons/Image';
 
-const EditCreatePrasarana = () => {
+const EditCreatePrasarana = (props) => {
+    const { isEditMode, sekolah, tipe } = props
+
     const history = useHistory()
+
+    const [name, setName] = useState(null)
+    const [foto, setFoto] = useState(null)
+    const [kondisi, setKondisi] = useState(null)
+    const [schools, setSchools] = useState(null)
+
+    const handleChangeName = (e) => {
+        setName(e.target.value)
+    }
+
+    const handleChangeFoto = (e) => {
+        setFoto(e.target.value)
+    }
+
+    const handleChangeKondisi = (e) => {
+        setKondisi(e.target.value)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+    }
+
+    useEffect(() => {
+
+    }, [])
 
     return (
         <React.Fragment>
             <Breadcrumb
                 title={'Create Prasarana Pendidikan'}
-                subsubtitle={'SD Adiarsa Barat I'}
+                subsubtitle={sekolah}
             />
             <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
                 <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
                     <Typography style={{
                         fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
                     }}>
-                        {'SD Adiarsa Barat I'}
+                        {sekolah}
                     </Typography>
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
@@ -36,7 +63,7 @@ const EditCreatePrasarana = () => {
                         backgroundColor: Color.neutral[0],
                         borderRadius: 12
                     }}>
-                        <Grid container style={{ padding: '2vw' }}>
+                        <Grid container style={{ padding: '3vw' }}>
                             <Grid item container xs={5} style={{ alignContent: 'center', height: '280px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                 <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
                             </Grid>
@@ -58,6 +85,8 @@ const EditCreatePrasarana = () => {
                                             label="Nama Ruangan"
                                             type="text"
                                             page="main"
+                                            value={name}
+                                            onChange={handleChangeName}
                                         />
                                     </Grid>
                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
@@ -77,6 +106,7 @@ const EditCreatePrasarana = () => {
                                             label="Nama Sekolah"
                                             type="text"
                                             page="main"
+                                            value={sekolah}
                                         />
                                     </Grid>
                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
@@ -96,6 +126,7 @@ const EditCreatePrasarana = () => {
                                             label="Tipe Prasarana"
                                             type="text"
                                             page="main"
+                                            value={tipe}
                                         />
                                     </Grid>
                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
@@ -113,8 +144,8 @@ const EditCreatePrasarana = () => {
                                             label={"Kondisi"}
                                             variant={"outlined"}
                                             page={"main"}
-                                            // value={tipe}
-                                            // onChange={handleChangeTipe}
+                                            value={kondisi}
+                                            onChange={handleChangeKondisi}
                                             option={['Baik', 'Rusak Ringan', 'Rusak Sedang', 'Rusak Berat']}
                                         />
                                     </Grid>
@@ -124,7 +155,7 @@ const EditCreatePrasarana = () => {
                                             buttonText={"Save"}
                                             page='main'
                                             buttonType='primary'
-                                            onClick={() => { history.push('/data/sarana/create') }}
+                                            onClick={handleSubmit}
                                         />
                                     </Grid>
                                 </Grid>

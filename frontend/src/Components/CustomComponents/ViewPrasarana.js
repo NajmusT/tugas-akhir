@@ -8,18 +8,47 @@ import { Color } from '../../Constants/Colors'
 
 import Button from '../Button'
 import Breadcrumb from '../Breadcrumb'
+import CustomDataTable from '../DataTable'
+import CustomTextField from '../TextField'
+import CustomIconButton from '../IconButton'
 
+import SearchIcon from '@material-ui/icons/Search';
 import ImageIcon from '../../asset/icons/Image';
 
-const ViewPrasarana = () => {
-    const prasarana = {
-        id: 'uvwe-type-jhed',
-        nama: 'Ruang Kelas 1B',
-        foto: '',
-        jenis: 'Ruang Kelas',
-        kondisi: 'Rusak Ringan',
-        idSekolah: 'uvwe-type-jhed'
-    }
+const ViewPrasarana = (props) => {
+    const { prasarana } = props
+
+    const columns = [
+        { id: 'id', label: 'ID', minWidth: 32 },
+        { id: 'nama-barang', label: 'Nama Barang', minWidth: 120 },
+        {
+            id: 'jumlah-barang',
+            label: 'Jumlah Barang',
+            minWidth: 120,
+        },
+        {
+            id: 'kondisi',
+            label: 'Kondisi',
+            minWidth: 120
+        },
+        {
+            id: 'jenis',
+            label: 'Jenis',
+            minWidth: 120
+        },
+        {
+            id: 'deskripsi',
+            label: 'Deskripsi',
+            minWidth: 240
+        },
+        {
+            id: 'aksi',
+            label: 'Aksi',
+            minWidth: 120
+        }
+    ]
+
+    const rows = []
 
     const history = useHistory()
 
@@ -52,7 +81,7 @@ const ViewPrasarana = () => {
                         backgroundColor: Color.neutral[0],
                         borderRadius: 12
                     }}>
-                        <Grid container style={{ padding: '2vw' }}>
+                        <Grid container style={{ padding: '3vw' }}>
                             {prasarana.foto === '' ?
                                 <Grid item container xs={5} style={{ alignContent: 'center', height: '240px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                     <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
@@ -132,13 +161,32 @@ const ViewPrasarana = () => {
                     </div>
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>
+                    <div style={{ paddingRight: 8 }}>
+                        <CustomTextField
+                            id="search"
+                            fullWidth
+                            variant="outlined"
+                            margin="dense"
+                            label="Search"
+                            type="text"
+                            page="main"
+                        />
+                    </div>
+                    <div style={{ paddingRight: 8 }}>
+                        <CustomIconButton
+                            icon={<SearchIcon />}
+                        />
+                    </div>
                     <Button
                         variant="contained"
                         buttonText={"CREATE"}
                         page='main'
                         buttonType='primary'
-                        onClick={() => { history.push('/data/sarana/create') }}
+                        onClick={() => { history.push(``) }}
                     />
+                </Grid>
+                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
+                    <CustomDataTable columns={columns} rows={rows} />
                 </Grid>
             </Grid>
         </React.Fragment>

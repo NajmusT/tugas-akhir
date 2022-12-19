@@ -129,12 +129,26 @@ function Navbar() {
                                     {dropdown && <Dropdown />}
                                 </div>
                                 <div className={classes.navbarItem}>
-                                    <Link
+                                    {/* <Link
                                         to='/pengaduan'
                                         className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
                                         onClick={handleClickPengaduan}
                                     >
                                         {('Pengaduan').toUpperCase()}
+                                    </Link> */}
+                                    <Link
+                                        to='/decision-support'
+                                        className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
+                                        onClick={handleClickPengaduan}
+                                    >
+                                        {('Decision Support').toUpperCase()}
+                                    </Link>
+                                    <Link
+                                        to='/laporan-pengaduan'
+                                        className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
+                                        onClick={handleClickPengaduan}
+                                    >
+                                        {('Laporan Pengaduan').toUpperCase()}
                                     </Link>
                                 </div>
                             </div>

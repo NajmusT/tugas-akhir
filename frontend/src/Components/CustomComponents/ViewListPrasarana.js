@@ -8,58 +8,42 @@ import { Color } from '../../Constants/Colors'
 
 import Button from '../Button'
 import Breadcrumb from '../Breadcrumb'
+import CustomDataTable from '../DataTable'
+import CustomTextField from '../TextField'
+import CustomIconButton from '../IconButton'
 
+import SearchIcon from '@material-ui/icons/Search';
 import ImageIcon from '../../asset/icons/Image';
 
-const ViewListPrasarana = () => {
-    const sekolah = {
-        id: 'uvwd-ashd-thej',
-        nama: 'SD Adiarsa Barat I',
-        npsn: '140192302302',
-        jenis: 'Negeri',
-        fotoSekolah: '',
-        alamat: {
-            jalan: 'Jalan dimana mana hatiku senang No. 12',
-            kodePos: '14561'
+const ViewListPrasarana = (props) => {
+    const { sekolah, jenis } = props
+
+    const columns = [
+        { id: 'id', label: 'ID', minWidth: 32 },
+        { id: 'nama-ruangan', label: 'Nama Ruangan', minWidth: 120 },
+        {
+            id: 'sekolah',
+            label: 'Sekolah',
+            minWidth: 120
         },
-        kepalaSekolah: 'Drs. Lusiana Angkur, S.Pd, M.Pd',
-        ketuaKomite: 'Drs. Antonia Deidre, S.Pd, M.Pd',
-        akreditasi: {
-            nilaiHuruf: 'A',
-            tanggal: '01 Juli 1956',
-            noSK: '421.2/Kep.422-Huk/2015'
+        {
+            id: 'jenis',
+            label: 'Jenis Infrastruktur',
+            minWidth: 120,
         },
-        pendirian: {
-            tanggal: '01 Juli 1956',
-            noSurat: '421.2/Kep.422-Huk/2015'
+        {
+            id: 'kondisi',
+            label: 'Kondisi',
+            minWidth: 120
         },
-        izinOperasional: {
-            tanggal: '01 Juli 1956',
-            noSurat: '421.2/Kep.422-Huk/2015'
-        },
-        lahan: {
-            luas: '100',
-            kepemilikan: 'Milik Pemerintah',
-        },
-        bantuanPendanaan: 'BOS, APBN, APBD',
-        rombonganBelajar: [
-            {
-                nama: 'Kelas 1B',
-                tingkat: 1,
-                jumlahMurid: 16,
-            },
-            {
-                nama: 'Kelas 2A',
-                tingkat: 2,
-                jumlahMurid: 20,
-            },
-            {
-                nama: 'Kelas 3A',
-                tingkat: 3,
-                jumlahMurid: 18,
-            }
-        ]
-    }
+        {
+            id: 'aksi',
+            label: 'Aksi',
+            minWidth: 120
+        }
+    ]
+
+    const rows = []
 
     const history = useHistory()
 
@@ -92,7 +76,7 @@ const ViewListPrasarana = () => {
                         backgroundColor: Color.neutral[0],
                         borderRadius: 12
                     }}>
-                        <Grid container style={{ padding: '2vw' }}>
+                        <Grid container style={{ padding: '3vw' }}>
                             {sekolah.fotoSekolah === '' ?
                                 <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                     <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
@@ -335,6 +319,22 @@ const ViewListPrasarana = () => {
                     </div>
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>
+                    <div style={{ paddingRight: 8 }}>
+                        <CustomTextField
+                            id="search"
+                            fullWidth
+                            variant="outlined"
+                            margin="dense"
+                            label="Search"
+                            type="text"
+                            page="main"
+                        />
+                    </div>
+                    <div style={{ paddingRight: 8 }}>
+                        <CustomIconButton
+                            icon={<SearchIcon />}
+                        />
+                    </div>
                     <Button
                         variant="contained"
                         buttonText={"CREATE"}
@@ -342,6 +342,9 @@ const ViewListPrasarana = () => {
                         buttonType='primary'
                         onClick={() => { history.push('/data/prasarana/create') }}
                     />
+                </Grid>
+                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
+                    <CustomDataTable columns={columns} rows={rows} />
                 </Grid>
             </Grid>
         </React.Fragment>

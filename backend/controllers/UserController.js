@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken")
 const passport = require("passport")
 const router = require('express').Router()
 
+require('../config/passport')(passport)
+
 //validitation
 const validateRegister = require("../validations/register")
 const validateLogin = require("../validations/login")
@@ -19,6 +21,18 @@ router.route("/").get((req, res) => {
         .catch(err => next(err));
 });
 
+//retrieve current
+router.get(
+    "/current",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        return res.json({
+            _id: req.user.id,
+            name: req.user.name,
+            email: req.user.email
+        });
+    }
+);
 //retrieve one
 router.route("/:id").get((req, res) => {
     User.findById(req.params.id)

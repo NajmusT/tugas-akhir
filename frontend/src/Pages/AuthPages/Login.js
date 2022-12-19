@@ -72,20 +72,21 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const data = {
+            email: email,
+            password: password
+        }
+
         resetErrorMsg()
         validationErrorMessage()
 
         if (validateForm(errors)) {
             try {
-                await axios.post('http://localhost:5000/user/login', {
-                    email: email,
-                    password: password
-                });
+                await axios.post('http://localhost:5000/user/login', data);
                 history.push("/beranda");
             } catch (error) {
                 if (error.response) {
-                    setMsg(error.response);
-                    console.log(msg)
+                    console.log(error)
                 }
             }
         }

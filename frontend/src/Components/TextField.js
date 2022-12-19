@@ -15,8 +15,8 @@ class CustomTextField extends Component {
                         margin={margin}
                         fullWidth
                         disabled
-                        multiline
-                        rows={row ? 1 : row}
+                        // multiline
+                        // rows={row ? 1 : row}
                         placeholder={label}
                         type={type}
                         variant={variant}
@@ -27,8 +27,8 @@ class CustomTextField extends Component {
                         id={id}
                         margin={margin}
                         fullWidth
-                        multiline
-                        rows={row === undefined ? 1 : row}
+                        // multiline
+                        // rows={row === undefined ? 1 : row}
                         placeholder={label}
                         type={type}
                         variant={variant}
@@ -40,8 +40,8 @@ class CustomTextField extends Component {
                             id={id}
                             margin={margin}
                             placeholder={label}
-                            multiline
-                            rows={row ? 1 : row}
+                            // multiline
+                            // rows={row ? 1 : row}
                             type={type}
                             variant={variant}
                             value={value}
@@ -52,8 +52,8 @@ class CustomTextField extends Component {
                             disabled
                             margin={margin}
                             placeholder={label}
-                            multiline
-                            rows={row ? 1 : row}
+                            // multiline
+                            // rows={row ? 1 : row}
                             type={type}
                             variant={variant}
                             value={value}

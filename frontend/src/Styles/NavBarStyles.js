@@ -27,8 +27,7 @@ export const useNavbarStyles = makeStyles((theme) => ({
         fontSize: '1.5rem'
     },
     navbarMenu: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(5, auto)',
+        display: 'flex',
         fontFamily: FontFamily.POPPINS_SEMI_BOLD,
         alignItems: 'center',
         gridGap: '24px',
@@ -43,7 +42,7 @@ export const useNavbarStyles = makeStyles((theme) => ({
     navbarLinks: {
         color: Color.neutral[400],
         textDecoration: 'none',
-        padding: '0.5rem 1rem',
+        padding: 8,
         alignItems: 'center',
         display: 'flex',
 
@@ -56,8 +55,14 @@ export const useNavbarStyles = makeStyles((theme) => ({
     navbarLinksActive: {
         color: Color.primary[300],
         textDecoration: 'none',
-        padding: '0.5rem 1rem',
+        padding: 8,
         alignItems: 'center',
-        display: 'flex'
+        display: 'flex',
+
+        "&:hover": {
+            color: Color.primary[300],
+            borderRadius: '4px',
+            transition: 'all 0.2s ease-out'
+        }
     }
 }));

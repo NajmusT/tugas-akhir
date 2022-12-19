@@ -68,10 +68,6 @@ const sekolahSchema = new Schema(
             }
         },
         lahan: {
-            luas: {
-                type: Number,
-                required: true
-            },
             kepemilikan: {
                 type: String,
                 required: true
@@ -81,15 +77,7 @@ const sekolahSchema = new Schema(
             type: String
         },
         rombonganBelajar: {
-            nama: {
-                type: String
-            },
-            tingkat: {
-                type: Number
-            },
-            jumlahMurid: {
-                type: Number
-            }
+            type: Number
         },
         jumlahGuru: {
             type: Number

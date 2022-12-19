@@ -16,13 +16,15 @@ import ImageIcon from '../../asset/icons/Image';
 const BuatPengaduan = () => {
     const history = useHistory()
 
-    const sekolah = 'SD Adiarsa Barat I'
-
     const [jenisPengaduan, setJenisPengaduan] = useState(null)
     const [ruangan, setRuangan] = useState(null)
     const [sarana, setSarana] = useState(null)
+    const [sekolah, setSekolah] = useState('')
     const [kategoriRusak, setKategoriRusak] = useState(null)
     const [deskripsi, setDeskripsi] = useState(null)
+    const [schools, setSchools] = useState(null)
+    const [prasaranas, setPrasaranas] = useState(null)
+    const [saranas, setSaranas] = useState(null)
 
     const handleChangeJenisPengaduan = (e) => {
         setJenisPengaduan(e.target.value)
@@ -60,7 +62,7 @@ const BuatPengaduan = () => {
                     <Typography style={{
                         fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
                     }}>
-                        {'SD Adiarsa Barat I'}
+                        {sekolah}
                     </Typography>
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
@@ -69,7 +71,7 @@ const BuatPengaduan = () => {
                         backgroundColor: Color.neutral[0],
                         borderRadius: 12
                     }}>
-                        <Grid container style={{ padding: '2vw' }}>
+                        <Grid container style={{ padding: '3vw' }}>
                             <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                 <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
                             </Grid>

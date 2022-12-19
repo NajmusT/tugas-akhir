@@ -10,20 +10,8 @@ import Breadcrumb from '../Breadcrumb'
 
 import ImageIcon from '../../asset/icons/Image';
 
-const ViewSarana = () => {
-    const sarana = {
-        id: 'uvwd-ashd-thej',
-        idPrasarana: 'uvwd-ashd-thej',
-        nama: 'Meja Baca',
-        foto: '',
-        jenis: 'Perabot',
-        kondisi: 'Rusak Ringan',
-        jumlah: {
-            kuantitas: 20,
-            satuan: 'buah'
-        },
-        deskripsi: 'Terbuat dari kayu pilihan, kokoh, ukuran 320 x 300 x 300 cm, merk olymplast'
-    }
+const ViewSarana = (props) => {
+    const { sarana } = props
 
     const prasarana = sarana.idPrasarana
 
@@ -57,7 +45,7 @@ const ViewSarana = () => {
                         backgroundColor: Color.neutral[0],
                         borderRadius: 12
                     }}>
-                        <Grid container style={{ padding: '2vw' }}>
+                        <Grid container style={{ padding: '3vw' }}>
                             {
                                 sarana.foto === '' ?
                                     <Grid item container xs={5} style={{ alignContent: 'center', height: '320px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
