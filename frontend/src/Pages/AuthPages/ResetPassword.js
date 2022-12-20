@@ -42,7 +42,7 @@ const ResetPassword = () => {
                         Reset Password
                     </Typography>
                     <form className={classes.form} onSubmit={handleSubmit}>
-                        <Grid container>
+                        <Grid container >
                             <Typography className={classes.textBody}>
                                 Password Baru
                             </Typography>
@@ -57,7 +57,7 @@ const ResetPassword = () => {
                                 onChange={(e) => { setPassword(e.target.value) }}
                             />
                         </Grid>
-                        <Grid container>
+                        <Grid container style={{paddingBottom: 8}}>
                             <Typography className={classes.textBody} style={{ paddingTop: 16 }}>
                                 Konfirmasi Password Baru
                             </Typography>

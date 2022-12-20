@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 //Components
 import TextField from '../../Components/TextField'
 import Button from '../../Components/Button'
+import FormDialog from '../../Components/CustomComponents/FormDialog';
 
 //Constant
 import { Color } from "../../Constants/Colors";
@@ -25,6 +26,11 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [errors, setError] = useState({})
     const [msg, setMsg] = useState('')
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false)
+    }
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value)
@@ -100,7 +106,7 @@ const Login = () => {
                         Sign In
                     </Typography>
                     <form className={classes.form} onSubmit={handleSubmit}>
-                        <Grid container>
+                        <Grid container style={{ paddingBottom: 8 }}>
                             <Typography className={classes.textBody}>
                                 Email
                             </Typography>
@@ -161,11 +167,13 @@ const Login = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Link href="/reset-password" className={classes.link}>
-                                    {"Lupa password?"}
-                                </Link>
+                                <Typography className={classes.link} onClick={() => { setOpenDialog(true) }}>
+                                    {"Forget Password?"}
+                                </Typography>
                             </Grid>
                         </Grid>
+
+                        <FormDialog open={openDialog} handleClose={handleCloseDialog} />
                     </form>
                 </div>
             </div >

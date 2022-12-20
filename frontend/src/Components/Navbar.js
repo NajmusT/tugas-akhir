@@ -16,7 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import { useNavbarStyles } from '../Styles/NavbarStyles';
+import { useNavbarStyles } from '../Styles/NavBarStyles';
 
 function Navbar() {
     const classes = useNavbarStyles()
