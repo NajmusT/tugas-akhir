@@ -1,17 +1,22 @@
+//models
 const User = require('../models/User')
+
+//depedencies
+const express = require("express")
 const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
 const passport = require("passport")
 const router = require('express').Router()
 
-require('../config/passport')(passport)
-
-//validitation
+//validation
 const validateRegister = require("../validations/register")
 const validateLogin = require("../validations/login")
 
 const { v1: uuidv1 } = require('uuid');
 
+require('../config/passport')(passport)
+
+//key
 const SECRET_OR_KEY = process.env.SECRET_OR_KEY
 
 //retrieve all
@@ -48,13 +53,11 @@ router.post("/register", (req, res) => {
         return res.status(400).json(errors)
     }
 
-    User.findOne({ email: req.body.email })
-        .then(user => {
-            if (user) {
-                errors.email = "Email telah digunakan"
-                return res.status(400).json(errors)
-            }
-
+    User.findOne({ email: req.body.email }).then(user => {
+        if (user) {
+            errors.email = "Email telah digunakan"
+            return res.status(400).json(errors)
+        } else {
             const newUser = new User({
                 _id: uuidv1(),
                 fotoProfil: req.body.fotoProfil,
@@ -77,7 +80,8 @@ router.post("/register", (req, res) => {
                         .catch(err => res.status(400).json("Error! " + err))
                 });
             });
-        })
+        }
+    })
 })
 
 //login
@@ -93,53 +97,48 @@ router.post("/login", (req, res) => {
     const password = req.body.password;
 
     // Find user by email
-    User.findOne({ email })
-        .then(user => {
-            // Check for user
-            if (!user) {
-                errors.email = "User tidak ditemukan!";
-                errors.message = "Alamat email tidak ditemukan!"
-                return res.status(404).json(errors);
-            }
+    User.findOne({ email }).then(user => {
+        // Check for user
+        if (!user) {
+            errors.email = "User tidak ditemukan!";
+            return res.status(404).json(errors);
+        }
 
-            // Check Password
-            bcrypt.compare(password, user.password)
-                .then(isMatch => {
-                    if (isMatch) {
-                        // Check if user account is active
-                        if (!user.isActive) {
-                            errors.isActive = "Akun tidak aktif";
-                            errors.message = "Akun tidak dapat digunakan karna sudah tidak aktif."
-                            return res.status(401).json(errors);
-                        }
+        // Check Password
+        bcrypt.compare(password, user.password).then(isMatch => {
+            if (isMatch) {
+                // Check if user account is active
+                if (!user.isActive) {
+                    errors.isActive = "Akun tidak aktif";
+                    errors.message = "Akun tidak dapat digunakan karna sudah tidak aktif."
+                    return res.status(401).json(errors);
+                }
 
-                        // User Matched
-                        const payload = {
-                            _id: user.id,
-                            name: user.name,
-                            fotoProfil: user.fotoProfil,
-                            roles: user.roles
-                        };
+                // User Matched
+                const payload = {
+                    _id: user._id,
+                    name: user.name,
+                    fotoProfil: user.fotoProfil,
+                    roles: user.roles
+                };
 
-                        // Sign Token
-                        jwt.sign(
-                            payload,
-                            SECRET_OR_KEY,
-                            {},
-                            (err, token) => {
-                                res.json({
-                                    success: true,
-                                    token: "Bearer " + token
-                                });
-                            }
-                        );
-                    } else {
-                        errors.password = "Password salah";
-                        errors.message = "Password salah!"
-                        return res.status(401).json(errors);
+                // Sign Token
+                jwt.sign(
+                    payload,
+                    SECRET_OR_KEY,
+                    {},
+                    (err, token) => {
+                        res.json({
+                            success: true,
+                            token: "Bearer " + token
+                        });
                     }
-                });
+                );
+            } else {
+                return res.status(400).json({ password: "Password tidak sesuai" });
+            }
         });
+    });
 });
 
 //delete - TO DO : solve error "Unknown authentication strategy "jwt""

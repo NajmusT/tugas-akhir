@@ -18,14 +18,17 @@ import { Color } from "../../Constants/Colors";
 import ImageIcon from '../../asset/icons/Image';
 import { isValidEmail } from '../../Utils';
 import { useAuthStyles } from '../../Styles/AuthStyles';
+import ImagesUploader from '../../Components/ImagesUploader';
 
 const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
+    const [fotoProfil, setFotoProfil] = useState('');
     const [errors, setError] = useState({});
     const [msg, setMsg] = useState('')
+    const reader = new FileReader()
 
     const history = useHistory();
     const classes = useAuthStyles();
@@ -72,6 +75,10 @@ const Register = () => {
         setConfPassword(e.target.value)
     }
 
+    const handleChangeFotoProfil = (e) => {
+        setFotoProfil(e.target.files[0])
+    }
+
     const validateForm = (errors) => {
         let valid = true;
         Object.entries(errors).forEach(item => {
@@ -95,7 +102,7 @@ const Register = () => {
         e.preventDefault();
 
         const data = {
-            fotoProfil: '',
+            fotoProfil: fotoProfil,
             name: name,
             email: email,
             password: password,
@@ -132,9 +139,7 @@ const Register = () => {
                         <Grid container style={{ paddingBottom: 8 }}>
                             <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                 <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
-                                {/* <div style={{ color: '#EFEFEF', textAlign: 'center' }}> */}
-                                {/* Klik untuk unggah gambar */}
-                                {/* </div> */}
+                                {/* <ImagesUploader handleChange={handleChangeFotoProfil} /> */}
                             </Grid>
                             <Grid item container xs={6} style={{ paddingLeft: 32 }}>
                                 <Grid container>

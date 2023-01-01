@@ -24,7 +24,7 @@ const UserSchema = new Schema(
         },
         roles: {
             type: String,
-            default: 'users'
+            default: 'admin-sekolah'
         },
         isActive: {
             type: Boolean,
