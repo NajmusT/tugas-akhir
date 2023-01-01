@@ -1,0 +1,35 @@
+.App {
+    font-family: sans-serif;
+}
+
+.profile-picture,
+.profile-picture-default {
+    position: relative;
+    width: 332px;
+    height: 332px;
+    border-radius: 3%;
+    background-size: cover;
+    cursor: pointer;
+
+    &:after {
+        content: "";
+        position: absolute;
+        background-size: cover;
+        width: 332px;
+        height: 332px;
+        margin: auto;
+        opacity: .4;
+        transition: opacity .2s ease;
+    }
+
+    &:hover {
+        &:after {
+            opacity: .6;
+        }
+    }
+}
+
+.profile-picture-default {
+    background: #D3D1D1;
+    background-size: cover;
+}

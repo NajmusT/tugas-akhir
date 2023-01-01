@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 //Material UI
@@ -17,6 +17,7 @@ import ImageIcon from '../../asset/icons/Image';
 
 const ViewListPrasarana = (props) => {
     const { sekolah, jenis } = props
+    const [location, setLocation] = useState([])
 
     const columns = [
         { id: 'id', label: 'ID', minWidth: 32 },
@@ -46,6 +47,11 @@ const ViewListPrasarana = (props) => {
     const rows = []
 
     const history = useHistory()
+
+    useEffect(() => {
+        let location = history.location.pathname
+        setLocation(location.split('/'))
+    }, [])
 
     return (
         <React.Fragment>
@@ -340,7 +346,7 @@ const ViewListPrasarana = (props) => {
                         buttonText={"CREATE"}
                         page='main'
                         buttonType='primary'
-                        onClick={() => { history.push('/data/prasarana/create') }}
+                        onClick={() => { history.push(`/data/prasarana/${location[location.length - 1]}/create`) }}
                     />
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>

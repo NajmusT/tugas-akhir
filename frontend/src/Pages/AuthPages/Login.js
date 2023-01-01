@@ -88,7 +88,7 @@ const Login = () => {
 
         if (validateForm(errors)) {
             try {
-                await axios.post('http://localhost:5000/user/login', data);
+                await axios.post('http://localhost:5000/user/login', data)
                 history.push("/beranda");
             } catch (error) {
                 if (error.response) {

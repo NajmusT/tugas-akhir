@@ -25,8 +25,8 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
-    const [fotoProfil, setFotoProfil] = useState('');
     const [errors, setError] = useState({});
+    const [fotoProfil, setFotoProfil] = useState(null);
     const [msg, setMsg] = useState('')
     const reader = new FileReader()
 
@@ -75,8 +75,15 @@ const Register = () => {
         setConfPassword(e.target.value)
     }
 
-    const handleChangeFotoProfil = (e) => {
-        setFotoProfil(e.target.files[0])
+    const useInput = () => {
+        const handleChange = (newValue) => {
+            setFotoProfil(newValue)
+        }
+
+        return {
+            value: fotoProfil,
+            handleChange: handleChange
+        }
     }
 
     const validateForm = (errors) => {
@@ -135,11 +142,10 @@ const Register = () => {
                     <Typography className={classes.title}>
                         Sign Up
                     </Typography>
-                    <form className={classes.form} onSubmit={handleSubmit}>
+                    <form className={classes.form} onSubmit={handleSubmit} encType='multipart/form-data'>
                         <Grid container style={{ paddingBottom: 8 }}>
-                            <Grid item container xs={7} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
-                                <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
-                                {/* <ImagesUploader handleChange={handleChangeFotoProfil} /> */}
+                            <Grid item container xs={6} style={{ alignSelf: 'center' }}>
+                                <ImagesUploader useInput={useInput} />
                             </Grid>
                             <Grid item container xs={5} style={{ paddingLeft: 32 }}>
                                 <Grid container>

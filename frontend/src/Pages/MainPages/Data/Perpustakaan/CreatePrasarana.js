@@ -6,7 +6,7 @@ const CreatePrasaranaRuangGuru = () => {
         <EditCreatePrasarana
             isEditMode={false}
             sekolah={'SD'}
-            tipe={'Ruang Guru'}
+            tipe={'Perpustakaan'}
         />
     )
 }

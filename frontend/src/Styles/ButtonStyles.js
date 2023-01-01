@@ -30,7 +30,6 @@ export const ButtonStyles = theme => ({
 
         '&:hover': {
             backgroundColor: Color.primary[400],
-            width: 'inherit',
             boxShadow: 'none'
         }
     },
@@ -46,7 +45,6 @@ export const ButtonStyles = theme => ({
 
         '&:hover': {
             backgroundColor: Color.warning[700],
-            width: 'inherit',
             boxShadow: 'none',
         }
     },
@@ -62,7 +60,6 @@ export const ButtonStyles = theme => ({
 
         '&:hover': {
             backgroundColor: Color.danger[300],
-            width: 'inherit',
             boxShadow: 'none',
         }
     },
@@ -78,7 +75,6 @@ export const ButtonStyles = theme => ({
 
         '&:hover': {
             backgroundColor: Color.success[200],
-            width: 'inherit',
             boxShadow: 'none',
         }
     },
@@ -90,7 +86,6 @@ export const ButtonStyles = theme => ({
 
         '&:hover': {
             backgroundColor: Color.primary[400],
-            width: 'inherit',
             boxShadow: 'none',
         }
     },

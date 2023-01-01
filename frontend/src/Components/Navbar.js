@@ -22,7 +22,7 @@ function Navbar() {
     const classes = useNavbarStyles()
     const history = useHistory()
 
-    const isAuthPages = history.location === '/' || history.location === '/sign-up' || history.location === 'daftar-sekolah'
+    const isAuthPages = history.location.pathname === '/' || history.location.pathname === '/sign-up' || history.location.pathname === '/daftar-sekolah'
 
     const [clickDashboard, setClickDashboard] = useState(false);
     const [clickPengaduan, setClickPengaduan] = useState(false);
@@ -96,11 +96,6 @@ function Navbar() {
             setDropdown(false);
         }
     };
-
-    useEffect(() => {
-        let location = history.location.pathname
-        console.log(location.split('/'))
-    }, [])
 
     return (
         <React.Fragment>
@@ -189,7 +184,6 @@ function Navbar() {
                             </Popper>
                         </Grid>
                     </div>
-                    {/* {renderMenu} */}
                 </Grid> : <></>}
         </React.Fragment>
     );
