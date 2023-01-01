@@ -45,7 +45,7 @@ const ViewSarana = (props) => {
                         backgroundColor: Color.neutral[0],
                         borderRadius: 12
                     }}>
-                        <Grid container style={{ padding: '3vw' }}>
+                        <Grid container style={{ padding: '36px' }}>
                             {
                                 sarana.foto === '' ?
                                     <Grid item container xs={5} style={{ alignContent: 'center', height: '320px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>

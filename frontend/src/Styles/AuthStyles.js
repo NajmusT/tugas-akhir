@@ -17,7 +17,7 @@ export const useAuthStyles = makeStyles((theme) => ({
         backgroundSize: 'cover',
     },
     modal: {
-        position: 'fixed',
+        position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%,-50%)',

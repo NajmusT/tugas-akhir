@@ -224,7 +224,7 @@ const EditDaftarSekolah = (props) => {
 
     return (
         <div className={classes.modal}>
-            <div className={classes.paper}>
+            <div className={classes.paper} style={{ width: 800 }}>
                 <Typography className={classes.title}>
                     {isEditMode ? 'Edit Sekolah' : 'Daftar Sekolah'}
                 </Typography>

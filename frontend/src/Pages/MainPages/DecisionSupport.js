@@ -65,7 +65,7 @@ const DecisionSupport = () => {
                         backgroundColor: Color.neutral[0],
                         borderRadius: 12
                     }}>
-                        <Grid container style={{ padding: '3vw' }}>
+                        <Grid container style={{ padding: '36px' }}>
                             <Grid item container xs={8}>
                                 <Grid item xs={12}>
                                     <Typography style={{

@@ -131,17 +131,17 @@ const Register = () => {
     return (
         <div className={classes.root}>
             <div className={classes.modal}>
-                <div className={classes.paper} style={{ width: '40vw' }}>
+                <div className={classes.paper} style={{ width: 600 }}>
                     <Typography className={classes.title}>
                         Sign Up
                     </Typography>
                     <form className={classes.form} onSubmit={handleSubmit}>
                         <Grid container style={{ paddingBottom: 8 }}>
-                            <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
+                            <Grid item container xs={7} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                 <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
                                 {/* <ImagesUploader handleChange={handleChangeFotoProfil} /> */}
                             </Grid>
-                            <Grid item container xs={6} style={{ paddingLeft: 32 }}>
+                            <Grid item container xs={5} style={{ paddingLeft: 32 }}>
                                 <Grid container>
                                     <Typography className={classes.textBody} >
                                         Nama Lengkap

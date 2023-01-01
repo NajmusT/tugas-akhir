@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
-import history from './history'
-
 //Components
 import Register from './Pages/AuthPages/Register';
 import ResetPassword from './Pages/AuthPages/ResetPassword';
@@ -33,7 +31,7 @@ import CreatePrasaranaLabIPA from './Pages/MainPages/Data/LabIPA/CreatePrasarana
 
 function App() {
   return (
-    <Router history={history}>
+    <Router>
       <Navbar />
       <Switch>
         <Route exact path="/" component={Login} />

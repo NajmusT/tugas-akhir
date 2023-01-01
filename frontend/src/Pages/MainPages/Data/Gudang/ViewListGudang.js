@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useLocation, withRouter } from 'react-router-dom'
 import ViewListPrasarana from '../../../../Components/CustomComponents/ViewListPrasarana'
 
 const ViewListGudang = () => {

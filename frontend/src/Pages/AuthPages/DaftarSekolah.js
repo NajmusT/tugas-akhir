@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
 
-//Constant
-import { useAuthStyles } from '../../Styles/AuthStyles';
 import EditDaftarSekolah from '../../PopUpDialog/EditDaftarSekolah';
 
+import image from "../../asset/images/sawah.png"
+
 const DaftarSekolah = () => {
-    const classes = useAuthStyles()
 
     return (
-        <div className={classes.root}>
+        <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '136%',
+            backgroundImage: `url(${image})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+        }}>
             <EditDaftarSekolah isEditMode={false} />
         </div >
     )

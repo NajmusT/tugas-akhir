@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 //Other components
 import Dropdown from './Dropdown';
@@ -20,12 +20,14 @@ import { useNavbarStyles } from '../Styles/NavBarStyles';
 
 function Navbar() {
     const classes = useNavbarStyles()
+    const history = useHistory()
+
+    const isAuthPages = history.location === '/' || history.location === '/sign-up' || history.location === 'daftar-sekolah'
 
     const [clickDashboard, setClickDashboard] = useState(false);
     const [clickPengaduan, setClickPengaduan] = useState(false);
     const [clickData, setClickData] = useState(false);
     const [dropdown, setDropdown] = useState(false);
-    const [isAuthPages, setIsAuthPages] = useState(false)
     const [open, setOpen] = useState(false);
 
     const anchorRef = useRef(null);
@@ -94,6 +96,11 @@ function Navbar() {
             setDropdown(false);
         }
     };
+
+    useEffect(() => {
+        let location = history.location.pathname
+        console.log(location.split('/'))
+    }, [])
 
     return (
         <React.Fragment>
@@ -183,7 +190,7 @@ function Navbar() {
                         </Grid>
                     </div>
                     {/* {renderMenu} */}
-                </Grid> : null}
+                </Grid> : <></>}
         </React.Fragment>
     );
 }

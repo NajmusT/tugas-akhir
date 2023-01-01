@@ -81,7 +81,7 @@ const ViewPrasarana = (props) => {
                         backgroundColor: Color.neutral[0],
                         borderRadius: 12
                     }}>
-                        <Grid container style={{ padding: '3vw' }}>
+                        <Grid container style={{ padding: '36px' }}>
                             {prasarana.foto === '' ?
                                 <Grid item container xs={5} style={{ alignContent: 'center', height: '240px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                     <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />

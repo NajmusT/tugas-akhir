@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -101,7 +101,7 @@ const Login = () => {
     return (
         <div className={classes.root}>
             <div className={classes.modal}>
-                <div className={classes.paper} >
+                <div className={classes.paper} style={{ width: 320 }}>
                     <Typography className={classes.title}>
                         Sign In
                     </Typography>
