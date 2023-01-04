@@ -14,7 +14,7 @@ class Button extends Component {
                         type={type}
                         fullWidth
                         variant={variant}
-                        className={page === "main" ? (buttonType === 'primary' ? classes.mainPrimary : buttonType === 'success' ? classes.mainSuccess : buttonType === 'danger' ? classes.mainDanger : classes.mainWarning) : classes.begin}
+                        className={page === "main" ? (buttonType === 'primary' ? classes.mainPrimary : buttonType === 'success' ? classes.mainSuccess : buttonType === 'danger' ? classes.mainDanger : buttonType === 'warning' ? classes.mainWarning : classes.mainDSS) : classes.begin}
                         onClick={onClick}
                     >
                         {buttonText}
@@ -22,7 +22,7 @@ class Button extends Component {
                     <MaterialUIButton
                         type={type}
                         variant={variant}
-                        className={page === "main" ? (buttonType === 'primary' ? classes.mainPrimary : buttonType === 'success' ? classes.mainSuccess : buttonType === 'danger' ? classes.mainDanger : classes.mainWarning) : classes.begin}
+                        className={page === "main" ? (buttonType === 'primary' ? classes.mainPrimary : buttonType === 'success' ? classes.mainSuccess : buttonType === 'danger' ? classes.mainDanger : buttonType === 'warning' ? classes.mainWarning : classes.mainDSS) : classes.begin}
                         onClick={onClick}
                     >
                         {buttonText}

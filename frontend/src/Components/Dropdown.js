@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { MenuItems } from '../Constants/MenuItems';
 import '../Styles/Dropdown.css';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDropdownStyles } from '../Styles/DropdownStyles';
 
 function Dropdown() {
+    const history = useHistory()
     const classes = useDropdownStyles()
 
     const [click, setClick] = useState(false);
@@ -20,13 +21,15 @@ function Dropdown() {
                 {MenuItems.map((item, index) => {
                     return (
                         <div key={index}>
-                            <Link
+                            <div
                                 className={classes.dropdownLink}
-                                to={`/data/list-prasarana/${item.path}`}
-                                onClick={() => setClick(false)}
+                                onClick={() => {
+                                    history.push(`/data/list-prasarana/${item.path}`)
+                                    setClick(false)
+                                }}
                             >
                                 {item.title}
-                            </Link>
+                            </div>
                         </div>
                     );
                 })}

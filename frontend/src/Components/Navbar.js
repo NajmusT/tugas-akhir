@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 //Other components
 import Dropdown from './Dropdown';
@@ -27,6 +27,7 @@ function Navbar() {
     const [clickDashboard, setClickDashboard] = useState(false);
     const [clickPengaduan, setClickPengaduan] = useState(false);
     const [clickData, setClickData] = useState(false);
+    const [clickDSS, setClickDSS] = useState(false);
     const [dropdown, setDropdown] = useState(false);
     const [open, setOpen] = useState(false);
 
@@ -35,6 +36,35 @@ function Navbar() {
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
+
+    useEffect(() => {
+        if (history.location.pathname.includes("beranda")) {
+            setClickData(false)
+            setClickPengaduan(false)
+            setClickDashboard(true)
+            setClickDSS(false)
+        } else if (history.location.pathname.includes("laporan-pengaduan")) {
+            setClickData(false)
+            setClickPengaduan(true)
+            setClickDashboard(false)
+            setClickDSS(false)
+        } else if (history.location.pathname.includes("pengaduan")) {
+            setClickData(false)
+            setClickPengaduan(true)
+            setClickDashboard(false)
+            setClickDSS(false)
+        } else if (history.location.pathname.includes("data")) {
+            setClickData(true)
+            setClickPengaduan(false)
+            setClickDashboard(false)
+            setClickDSS(false)
+        } else if (history.location.pathname.includes("decision-support")) {
+            setClickData(false)
+            setClickPengaduan(false)
+            setClickDashboard(false)
+            setClickDSS(true)
+        }
+    }, [history.location.pathname])
 
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -62,23 +92,7 @@ function Navbar() {
         prevOpen.current = open;
     }, [open]);
 
-
-    const handleClickDashboard = () => {
-        setClickData(false)
-        setClickPengaduan(false)
-        setClickDashboard(true)
-    }
-
-    const handleClickPengaduan = () => {
-        setClickData(false)
-        setClickPengaduan(true)
-        setClickDashboard(false)
-    }
-
     const onMouseEnter = () => {
-        setClickData(true)
-        setClickPengaduan(false)
-        setClickDashboard(false)
         if (window.innerWidth < 960) {
             setDropdown(false);
         } else {
@@ -87,9 +101,6 @@ function Navbar() {
     };
 
     const onMouseLeave = () => {
-        setClickData(false)
-        setClickPengaduan(false)
-        setClickDashboard(false)
         if (window.innerWidth < 960) {
             setDropdown(false);
         } else {
@@ -104,54 +115,51 @@ function Navbar() {
                     <div className={classes.navbarContainer}>
                         <Grid item xs={1} />
                         <Grid item xs={4}>
-                            <Link to='/beranda' className={classes.navbarLogo} >
+                            <div className={classes.navbarLogo} onClick={() => { history.push('/beranda') }} >
                                 <img src={image} alt={'logo'} />
-                            </Link>
+                            </div>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.navbarMenu}>
                                 <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
-                                    <Link to='/beranda' className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={handleClickDashboard}>
+                                    <div className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={() => { history.push('/beranda') }}>
                                         {('Beranda').toUpperCase()}
-                                    </Link>
+                                    </div>
                                 </div>
                                 <div
                                     className={classes.navbarItem}
                                     onMouseEnter={onMouseEnter}
                                     onMouseLeave={onMouseLeave}
                                 >
-                                    <Link
+                                    <div
                                         className={clickData ? classes.navbarLinksActive : classes.navbarLinks}
                                     >
                                         {('Data').toUpperCase()}
                                         <div style={{ paddingLeft: 4, paddingTop: 8, alignItems: 'center' }} >
                                             <ExpandMoreIcon />
                                         </div>
-                                    </Link>
+                                    </div>
                                     {dropdown && <Dropdown />}
                                 </div>
                                 <div className={classes.navbarItem}>
-                                    {/* <Link
-                                        to='/pengaduan'
+                                    <div
+                                        onClick={() => { history.push('/pengaduan') }}
                                         className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
-                                        onClick={handleClickPengaduan}
                                     >
                                         {('Pengaduan').toUpperCase()}
-                                    </Link> */}
-                                    <Link
-                                        to='/decision-support'
-                                        className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
-                                        onClick={handleClickPengaduan}
+                                    </div>
+                                    <div
+                                        onClick={() => { history.push('/decision-support') }}
+                                        className={clickDSS ? classes.navbarLinksActive : classes.navbarLinks}
                                     >
                                         {('Decision Support').toUpperCase()}
-                                    </Link>
-                                    <Link
-                                        to='/laporan-pengaduan'
+                                    </div>
+                                    <div
+                                        onClick={() => { history.push('/laporan-pengaduan') }}
                                         className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
-                                        onClick={handleClickPengaduan}
                                     >
                                         {('Laporan Pengaduan').toUpperCase()}
-                                    </Link>
+                                    </div>
                                 </div>
                             </div>
                         </Grid>

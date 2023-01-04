@@ -8,7 +8,7 @@ const UserSchema = new Schema(
             required: true
         },
         fotoProfil: {
-            type: String
+            type: [Buffer]
         },
         name: {
             type: String,

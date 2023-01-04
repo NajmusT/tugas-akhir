@@ -178,10 +178,6 @@ const EditDaftarSekolah = (props) => {
         axios.get('http://localhost:5000/alamat').then(res => {
             setAlamat(res.data)
         })
-
-        axios.get('http://localhost:5000/user/current').then(res => {
-            setUserId(res.data._id)
-        })
     }, [])
 
     useEffect(() => {

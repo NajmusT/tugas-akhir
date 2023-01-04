@@ -7,11 +7,6 @@ import { Grid } from '@material-ui/core'
 import image from '../../asset/images/dashboard.png'
 
 const Dashboard = () => {
-    useEffect(() => {
-        let data = axios.get('http://localhost:5000/user/current')
-        console.log(data)
-    }, [])
-
     return (
         <React.Fragment>
             <div>

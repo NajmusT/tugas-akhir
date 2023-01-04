@@ -109,8 +109,8 @@ const DecisionSupport = () => {
                                             variant="contained"
                                             buttonText={"Submit"}
                                             fullWidth
-                                            page='auth'
-                                            buttonType='primary'
+                                            page='main'
+                                            buttonType='dss-primary'
                                             onClick={handleSubmit}
                                         />
                                     </Grid>

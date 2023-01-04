@@ -18,6 +18,21 @@ export const ButtonStyles = theme => ({
             boxShadow: 'none'
         }
     },
+    mainDSS: {
+        marginTop: 8,
+        backgroundColor: Color.primary[300],
+        color: "#FFFFFF",
+        fontFamily: FontFamily.POPPINS_REGULAR,
+        fontSize: 14,
+        fontWeight: 600,
+        boxShadow: 'none',
+        textTransform: 'none',
+
+        '&:hover': {
+            backgroundColor: Color.primary[400],
+            boxShadow: 'none'
+        }
+    },
     mainPrimary: {
         backgroundColor: Color.primary[300],
         color: Color.neutral[0],
