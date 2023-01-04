@@ -83,10 +83,14 @@ const sekolahSchema = new Schema(
             type: Number
         },
         createdBy: {
-            type: String
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
         },
         updatedBy: {
-            type: String
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
         },
         createdAt: {
             type: Date

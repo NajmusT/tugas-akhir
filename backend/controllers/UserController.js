@@ -13,31 +13,37 @@ const validateRegister = require("../validations/register")
 const validateLogin = require("../validations/login")
 
 const { v1: uuidv1 } = require('uuid');
+const { protect } = require("../middlewares/authMiddlewares")
 
 require('../config/passport')(passport)
 
 //key
 const SECRET_OR_KEY = process.env.SECRET_OR_KEY
 
+const generateToken = (id) => {
+    return jwt.sign({ id }, SECRET_OR_KEY, {
+        expiresIn: '30d',
+    })
+}
+
 //retrieve all
-router.route("/").get((req, res) => {
+router.route("/").get(protect, (req, res) => {
     User.find()
         .then(users => res.json(users))
         .catch(err => next(err));
 });
 
 //retrieve current
-router.get(
-    "/current",
-    passport.authenticate("jwt", { session: false }),
-    (req, res) => {
-        return res.json({
-            _id: req.user.id,
-            name: req.user.name,
+router.route("/current").get(protect, (req, res) => {
+    User.findById(req.user)
+        .then(user => res.json({
+            id: req.user._id,
+            nama: req.user.nama,
+            fotoProfil: req.user.fotoProfil,
             email: req.user.email
-        });
-    }
-);
+        }))
+});
+
 //retrieve one
 router.route("/:id").get((req, res) => {
     User.findById(req.params.id)
@@ -76,7 +82,7 @@ router.post("/register", (req, res) => {
                     if (err) return next(err)
                     newUser.password = hash
                     newUser.save()
-                        .then(user => res.json(user))
+                        .then(user => res.json({ user, token: generateToken(user._id) }))
                         .catch(err => res.status(400).json("Error! " + err))
                 });
             });
@@ -119,21 +125,13 @@ router.post("/login", (req, res) => {
                     _id: user._id,
                     name: user.name,
                     fotoProfil: user.fotoProfil,
-                    roles: user.roles
+                    roles: user.roles,
+                    token: generateToken(user._id)
                 };
 
-                // Sign Token
-                jwt.sign(
-                    payload,
-                    SECRET_OR_KEY,
-                    {},
-                    (err, token) => {
-                        res.json({
-                            success: true,
-                            token: "Bearer " + token
-                        });
-                    }
-                );
+                return res.json({
+                    payload, token: generateToken(user._id)
+                });
             } else {
                 return res.status(400).json({ password: "Password tidak sesuai" });
             }

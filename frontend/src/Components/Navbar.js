@@ -22,7 +22,7 @@ function Navbar() {
     const classes = useNavbarStyles()
     const history = useHistory()
 
-    const isAuthPages = history.location.pathname === '/' || history.location.pathname === '/sign-up' || history.location.pathname === '/daftar-sekolah'
+    let isAuthPages;
 
     const [clickDashboard, setClickDashboard] = useState(false);
     const [clickPengaduan, setClickPengaduan] = useState(false);
@@ -64,6 +64,8 @@ function Navbar() {
             setClickDashboard(false)
             setClickDSS(true)
         }
+
+        isAuthPages = history.location.pathname === '/' || history.location.pathname === '/sign-up' || history.location.pathname === '/daftar-sekolah'
     }, [history.location.pathname])
 
     const handleClose = (event) => {
@@ -107,6 +109,11 @@ function Navbar() {
             setDropdown(false);
         }
     };
+
+    const handleLogOut = () => {
+        localStorage.clear()
+        history.push('/')
+    }
 
     return (
         <React.Fragment>
@@ -183,7 +190,7 @@ function Navbar() {
                                         <Paper>
                                             <ClickAwayListener onClickAway={handleClose}>
                                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                                                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                                                 </MenuList>
                                             </ClickAwayListener>
                                         </Paper>

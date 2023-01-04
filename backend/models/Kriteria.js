@@ -30,15 +30,25 @@ const kriteriaSchema = new Schema(
             }
         },
         rootId: {
-            type: String
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Kriteria'
         },
         createdAt: {
             type: Date
         },
-
+        updatedAt: {
+            type: Date
+        },
         createdBy: {
-            type: String
-        }
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
+        },
+        updatedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
+        },
     },
     {
         collection: 'kriteria',

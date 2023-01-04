@@ -8,8 +8,9 @@ const saranaSchema = new Schema(
             required: true
         },
         idPrasarana: {
-            type: String,
-            required: true
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'Prasarana'
         },
         nama: {
             type: String,
@@ -48,10 +49,14 @@ const saranaSchema = new Schema(
             }
         },
         createdBy: {
-            type: String
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
         },
         updatedBy: {
-            type: String
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
         },
         createdAt: {
             type: Date

@@ -114,9 +114,7 @@ const Register = () => {
             email: email,
             password: password,
             password2: confPassword,
-            roles: 'users',
             isActive: true,
-            logs: [],
             lastActive: moment()
         }
 
@@ -125,8 +123,10 @@ const Register = () => {
 
         if (validateForm(errors)) {
             try {
-                await axios.post('http://localhost:5000/user/register', data);
-                history.push("/daftar-sekolah");
+                const response = await axios.post('http://localhost:5000/user/register', data);
+                localStorage.setItem('user', JSON.stringify(response.data))
+
+                history.push("/");
             } catch (error) {
                 if (error.response) {
                     console.log(error)

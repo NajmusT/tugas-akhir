@@ -2,17 +2,18 @@ const Kerusakan = require('../models/Kerusakan')
 const router = require('express').Router()
 
 const { v1: uuidv1 } = require('uuid');
+const { protect } = require("../middlewares/authMiddlewares")
 
 //create
-router.route('/new').post((req, res) => {
-    const kerusakanBaru = new Kerusakan({ _id: uuidv1(), ...req.body })
+router.route('/new').post(protect, (req, res) => {
+    const kerusakanBaru = new Kerusakan({ _id: uuidv1(), createdBy: req.user._id, ...req.body })
     kerusakanBaru.save()
         .then(kerusakan => res.json(kerusakan))
         .catch(err => res.status(400).json("Error! " + err))
 })
 
 //retrieve all
-router.route('/').get((req, res) => {
+router.route('/').get(protect, (req, res) => {
     // using .find() without a parameter will match on all Schools instances
     Kerusakan.find()
         .then(semuaKerusakan => res.json(semuaKerusakan))
@@ -20,21 +21,21 @@ router.route('/').get((req, res) => {
 })
 
 //retrieve some
-router.get("/:id", (req, res, next) => {
+router.get("/:id", protect, (req, res, next) => {
     Kerusakan.findById(req.params.id)
         .then(kerusakan => res.json(kerusakan))
         .catch(err => next(err));
 });
 
 //delete
-router.route('/delete/:id').delete((req, res) => {
+router.route('/delete/:id').delete(protect, (req, res) => {
     Kerusakan.deleteOne({ _id: req.params.id })
         .then(success => res.json(`Sukses! Data Kerusakan telah dihapus.`))
         .catch(err => res.status(400).json('Error! ' + err))
 })
 
 //update
-router.route('/update/:id').put((req, res) => {
+router.route('/update/:id').put(protect, (req, res) => {
     Kerusakan.findByIdAndUpdate(req.params.id, req.body)
         .then(kerusakan => res.json(`Sukses! Data Kerusakan ${kerusakan.nama} telah terupdate.`))
         .catch(err => res.status(400).json('Error! ' + err))

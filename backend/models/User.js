@@ -37,12 +37,6 @@ const UserSchema = new Schema(
             type: Array,
             default: []
         },
-        createdBy: {
-            type: String
-        },
-        updatedBy: {
-            type: String
-        },
         createdAt: {
             type: Date
         },
@@ -52,7 +46,7 @@ const UserSchema = new Schema(
     },
     {
         _id: false,
-        timestamps: false
+        timestamps: true
     }
 );
 
