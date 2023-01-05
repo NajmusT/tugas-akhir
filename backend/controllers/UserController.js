@@ -9,6 +9,7 @@ const passport = require("passport")
 const router = require('express').Router()
 const nodemailer = require('nodemailer')
 const crypto = require("crypto")
+const moment = require("moment")
 
 //validation
 const validateRegister = require("../validations/register")
@@ -84,7 +85,7 @@ router.post("/register", (req, res) => {
                     if (err) return next(err)
                     newUser.password = hash
                     newUser.save()
-                        .then(user => res.json({ user, token: generateToken(user._id) }))
+                        .then(user => res.status(200).json("Register success"))
                         .catch(err => res.status(400).json("Error! " + err))
                 });
             });
@@ -128,6 +129,7 @@ router.post("/login", (req, res) => {
                     name: user.name,
                     fotoProfil: user.fotoProfil,
                     roles: user.roles,
+                    lastActive: moment(),
                     token: generateToken(user._id)
                 };
 
@@ -149,7 +151,7 @@ router.route("/delete/:id").delete(passport.authenticate("jwt", { session: false
 })
 
 //update - TO DO : solve error "Unknown authentication strategy "jwt""
-router.route("/update/:id").put(passport.authenticate("jwt", { session: false }), (req, res) => {
+router.route("/update/:id").put((req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body)
         .then(user => res.json(`Sukses! Data user ${user.name} telah terupdate.`))
         .catch(err => res.status(400).json('Error! ' + err))
@@ -157,15 +159,19 @@ router.route("/update/:id").put(passport.authenticate("jwt", { session: false })
 
 router.route('/forget-password').post((req, res) => {
     if (req.body.email === '') {
-        res.status(400).send('Email diperlukan')
+        return res.status(400).send('Email diperlukan')
     }
 
     User.findOne({ email: req.body.email }).then((user) => {
         if (user === null) {
             res.status(403).send("Email tidak terdaftar didalam sistem")
         } else {
+            // if (user.isActive === false) {
+            //     res.status(400).send("Akun belum diaktifkan")
+            // } else {
             const token = crypto.randomBytes(20).toString('hex');
             user.update({
+                ...user,
                 resetPasswordToken: token,
                 resetPasswordExpires: Date.now() + 3600000
             })
@@ -182,16 +188,48 @@ router.route('/forget-password').post((req, res) => {
                 from: process.env.EMAIL_ADDRESS,
                 to: user.email,
                 subject: 'Link untuk Reset Password',
-                text: 'Anda menerima email ini karena anda ataupun orang lain mengajukan reset password untuk akun anda\n\nTolong click link dibawah ini untuk mengubah password anda.\n\nhttp://localhost:3000/reset-password\n\nJika anda tidak mengajukan reset password, abaikan pesan ini agar password tidak berubah\n'
+                text: `Anda menerima email ini karena anda ataupun orang lain mengajukan reset password untuk akun anda\n\nTolong click link dibawah ini untuk mengubah password anda.\n\nhttp://localhost:3000/reset-password/${token}\n\nJika anda tidak mengajukan reset password, abaikan pesan ini agar password tidak berubah\n`
             }
 
             transporter.sendMail(mailOptions, (err, response) => {
                 if (err) {
                     console.error('Error: ', err)
                 } else {
-                    res.status(200).json('Email telah terkirim')
+                    return res.status(200).json('Email telah terkirim')
                 }
             })
+            // }
+        }
+    })
+})
+
+router.get('/reset', (req, res, next) => {
+    User.findOne({
+        resetPasswordToken: req.body.resetPasswordToken,
+        resetPasswordExpires: { [Op.gt]: Date.now() }
+    }).then(user => {
+        if (user === null) {
+            return res.json('Link reset password telah expired. Harap kirim ulang')
+        } else {
+            const payload = {
+                email: req.user.email
+            }
+            return res.json({ payload })
+        }
+    })
+})
+
+router.put('/updatePassword', (req, res, next) => {
+    User.findOne({ email: req.body.email, resetPasswordToken: req.body.resetPasswordToken, resetPasswordExpires: { [Op.gt]: Date.now() } }).then(user => {
+        if (user !== null) {
+            bcrypt.hash(req.body.password, 10).then(hashedPassword => {
+                user.update({ password: hashedPassword, resetPasswordToken: null, resetPasswordExpires: null })
+            })
+                .then(() => {
+                    return res.status(200).send({ message: 'Password telah terupdate' })
+                })
+        } else {
+            return res.status(404).json("User tidak terdaftar didalam sistem")
         }
     })
 })

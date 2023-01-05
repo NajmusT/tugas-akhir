@@ -33,6 +33,8 @@ const UserSchema = new Schema(
         lastActive: {
             type: Date
         },
+        resetPasswordToken: { type: String },
+        resetPasswordExpires: { type: Date },
         logs: {
             type: Array,
             default: []
