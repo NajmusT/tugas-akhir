@@ -20,14 +20,15 @@ import { Color } from "../Constants/Colors";
 import ImageIcon from '../asset/icons/Image';
 import { useAuthStyles } from '../Styles/AuthStyles';
 import moment from 'moment';
+import { getCurrentUser } from '../Utils';
 
 const EditDaftarSekolah = (props) => {
     const { isEditMode } = props
 
     const history = useHistory();
     const classes = useAuthStyles()
+    const userId = getCurrentUser?._id
 
-    const [userId, setUserId] = useState(null)
     const [alamat, setAlamat] = useState(null)
     const [kepsek, setKepsek] = useState(null)
     const [fotoSekolah, setFotoSekolah] = useState(null)
@@ -140,7 +141,7 @@ const EditDaftarSekolah = (props) => {
             fotoSekolah: fotoSekolah,
             alamat: {
                 jalan: alamatJalan,
-                kodePos: (alamat.filter(item => item.kecamatan == kecamatan && item.desaKelurahan == kelurahan).map(dt => dt.kodePos))[0]
+                kodePos: (alamat.filter(item => item.kecamatan === kecamatan && item.desaKelurahan === kelurahan).map(dt => dt.kodePos))[0]
             },
             kepalaSekolah: kepsek,
             ketuaKomite: komite,
@@ -163,6 +164,8 @@ const EditDaftarSekolah = (props) => {
             rombonganBelajar: rombonganBelajar,
             jumlahGuru: jumlahGuru,
             createdBy: userId,
+            updatedBy: userId,
+            updatedAt: moment(),
             createdAt: moment()
         }
 
@@ -400,7 +403,7 @@ const EditDaftarSekolah = (props) => {
                                 page={"auth"}
                                 value={kelurahan}
                                 onChange={handleChangeKelurahan}
-                                option={alamat !== null ? alamat.filter(item => item.kecamatan == kecamatan).map(kelurahan => kelurahan.desaKelurahan) : []}
+                                option={alamat !== null ? alamat.filter(item => item.kecamatan === kecamatan).map(kelurahan => kelurahan.desaKelurahan) : []}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>

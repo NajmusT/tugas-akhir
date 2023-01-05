@@ -97,7 +97,7 @@ const BottomBar = () => {
                     <Grid item xs={12} style={{ paddingTop: 8 }}>
                       <div style={{ display: 'flex' }}>
                         <Tooltip title='disdikporakarawang' placement='bottom'>
-                          <div style={{ width: '24px', height: '24px' }}>
+                          <div style={{ width: '24px', height: '24px' }} onClick={() => { window.open('https://web.facebook.com/disdikporakarawang/?_rdc=1&_rdr') }}>
                             <div className={classes.sosMedContainer}>
                               <FacebookIcon style={{ alignSelf: 'center', display: 'flex', padding: 2, fontSize: 20 }} />
                             </div>
@@ -105,15 +105,15 @@ const BottomBar = () => {
                           </div>
                         </Tooltip>
                         <Tooltip title='dikporakrwkab' placement='bottom'>
-                          <div style={{ width: '24px', height: '24px', paddingLeft: 8 }}>
+                          <div style={{ width: '24px', height: '24px', paddingLeft: 8 }} onClick={() => { window.open('https://twitter.com/dikporakrwkab') }}>
                             <div className={classes.sosMedContainer}>
                               <TwitterIcon style={{ alignSelf: 'center', display: 'flex', padding: 2, fontSize: 20 }} />
                             </div>
                             {/* <img src={twitter} alt={'twitter'} style={{ width: '1.5vw', height: '1.5vw', padding: 2 }} /> */}
                           </div>
                         </Tooltip>
-                        <Tooltip title='disdikporakrwkab' placement='bottom'>
-                          <div style={{ width: '24px', height: '24px', paddingLeft: 8 }}>
+                        <Tooltip title='disdikporakrwkab' placement='bottom' >
+                          <div style={{ width: '24px', height: '24px', paddingLeft: 8 }} onClick={() => { window.open('https://www.instagram.com/disdikporakrwkab/') }}>
                             <div className={classes.sosMedContainer}>
                               <InstagramIcon style={{ alignSelf: 'center', display: 'flex', padding: 2, fontSize: 20 }} />
                             </div>

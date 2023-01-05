@@ -17,8 +17,10 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { useNavbarStyles } from '../Styles/NavBarStyles';
+import { getCurrentUser } from '../Utils';
 
 function Navbar() {
+    const user = getCurrentUser
     const classes = useNavbarStyles()
     const history = useHistory()
 
@@ -128,46 +130,58 @@ function Navbar() {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.navbarMenu}>
-                                <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
-                                    <div className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={() => { history.push('/beranda') }}>
-                                        {('Beranda').toUpperCase()}
-                                    </div>
-                                </div>
-                                <div
-                                    className={classes.navbarItem}
-                                    onMouseEnter={onMouseEnter}
-                                    onMouseLeave={onMouseLeave}
-                                >
-                                    <div
-                                        className={clickData ? classes.navbarLinksActive : classes.navbarLinks}
-                                    >
-                                        {('Data').toUpperCase()}
-                                        <div style={{ paddingLeft: 4, paddingTop: 8, alignItems: 'center' }} >
-                                            <ExpandMoreIcon />
-                                        </div>
-                                    </div>
-                                    {dropdown && <Dropdown />}
-                                </div>
-                                <div className={classes.navbarItem}>
-                                    <div
-                                        onClick={() => { history.push('/pengaduan') }}
-                                        className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
-                                    >
-                                        {('Pengaduan').toUpperCase()}
-                                    </div>
-                                    <div
-                                        onClick={() => { history.push('/decision-support') }}
-                                        className={clickDSS ? classes.navbarLinksActive : classes.navbarLinks}
-                                    >
-                                        {('Decision Support').toUpperCase()}
-                                    </div>
-                                    <div
-                                        onClick={() => { history.push('/laporan-pengaduan') }}
-                                        className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
-                                    >
-                                        {('Laporan Pengaduan').toUpperCase()}
-                                    </div>
-                                </div>
+                                {
+                                    user?.roles !== 'operator' ?
+                                        <>
+                                            <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
+                                                <div className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={() => { history.push('/beranda') }}>
+                                                    {('Beranda').toUpperCase()}
+                                                </div>
+                                            </div>
+                                            <div
+                                                className={classes.navbarItem}
+                                                onMouseEnter={onMouseEnter}
+                                                onMouseLeave={onMouseLeave}
+                                            >
+                                                <div
+                                                    className={clickData ? classes.navbarLinksActive : classes.navbarLinks}
+                                                >
+                                                    {('Data').toUpperCase()}
+                                                    <div style={{ paddingLeft: 4, paddingTop: 8, alignItems: 'center' }} >
+                                                        <ExpandMoreIcon />
+                                                    </div>
+                                                </div>
+                                                {dropdown && <Dropdown />}
+                                            </div>
+                                            <div className={classes.navbarItem}>
+                                                {user?.roles === 'admin-sekolah' &&
+                                                    <div
+                                                        onClick={() => { history.push('/pengaduan') }}
+                                                        className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
+                                                    >
+                                                        {('Pengaduan').toUpperCase()}
+                                                    </div>
+                                                }
+                                                {user?.roles === 'staf-dinas' &&
+                                                    <>
+                                                        <div
+                                                            onClick={() => { history.push('/decision-support') }}
+                                                            className={clickDSS ? classes.navbarLinksActive : classes.navbarLinks}
+                                                        >
+                                                            {('Decision Support').toUpperCase()}
+                                                        </div>
+                                                        <div
+                                                            onClick={() => { history.push('/laporan-pengaduan') }}
+                                                            className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
+                                                        >
+                                                            {('Laporan Pengaduan').toUpperCase()}
+                                                        </div>
+                                                    </>
+                                                }
+                                            </div>
+                                        </> :
+                                        <div></div>
+                                }
                             </div>
                         </Grid>
                         <Grid item xs={1} >

@@ -47,3 +47,5 @@ export const formatPhoneNumber = (value) => {
         return currentValue;
     }
 }
+
+export const getCurrentUser = (JSON.parse(localStorage.getItem('user')))?.payload

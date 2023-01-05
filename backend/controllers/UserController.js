@@ -7,6 +7,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
 const passport = require("passport")
 const router = require('express').Router()
+const nodemailer = require('nodemailer')
+const crypto = require("crypto")
 
 //validation
 const validateRegister = require("../validations/register")
@@ -151,6 +153,47 @@ router.route("/update/:id").put(passport.authenticate("jwt", { session: false })
     User.findByIdAndUpdate(req.params.id, req.body)
         .then(user => res.json(`Sukses! Data user ${user.name} telah terupdate.`))
         .catch(err => res.status(400).json('Error! ' + err))
+})
+
+router.route('/forget-password').post((req, res) => {
+    if (req.body.email === '') {
+        res.status(400).send('Email diperlukan')
+    }
+
+    User.findOne({ email: req.body.email }).then((user) => {
+        if (user === null) {
+            res.status(403).send("Email tidak terdaftar didalam sistem")
+        } else {
+            const token = crypto.randomBytes(20).toString('hex');
+            user.update({
+                resetPasswordToken: token,
+                resetPasswordExpires: Date.now() + 3600000
+            })
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL_ADDRESS,
+                    pass: process.env.EMAIL_PASSWORD
+                }
+            })
+
+            const mailOptions = {
+                from: process.env.EMAIL_ADDRESS,
+                to: user.email,
+                subject: 'Link untuk Reset Password',
+                text: 'Anda menerima email ini karena anda ataupun orang lain mengajukan reset password untuk akun anda\n\nTolong click link dibawah ini untuk mengubah password anda.\n\nhttp://localhost:3000/reset-password\n\nJika anda tidak mengajukan reset password, abaikan pesan ini agar password tidak berubah\n'
+            }
+
+            transporter.sendMail(mailOptions, (err, response) => {
+                if (err) {
+                    console.error('Error: ', err)
+                } else {
+                    res.status(200).json('Email telah terkirim')
+                }
+            })
+        }
+    })
 })
 
 module.exports = router;

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import moment from 'moment'
-import { v1 } from 'uuid'
 
 //Material UI
 import Link from '@material-ui/core/Link';
@@ -15,7 +14,6 @@ import Button from '../../Components/Button'
 
 //Constant
 import { Color } from "../../Constants/Colors";
-import ImageIcon from '../../asset/icons/Image';
 import { isValidEmail } from '../../Utils';
 import { useAuthStyles } from '../../Styles/AuthStyles';
 import ImagesUploader from '../../Components/ImagesUploader';
@@ -27,7 +25,7 @@ const Register = () => {
     const [confPassword, setConfPassword] = useState('');
     const [errors, setError] = useState({});
     const [fotoProfil, setFotoProfil] = useState(null);
-    const [msg, setMsg] = useState('')
+    const [openModal, setOpenModal] = useState(false);
     const reader = new FileReader()
 
     const history = useHistory();
@@ -114,7 +112,7 @@ const Register = () => {
             email: email,
             password: password,
             password2: confPassword,
-            isActive: true,
+            isActive: false,
             lastActive: moment()
         }
 
@@ -133,130 +131,135 @@ const Register = () => {
                 }
             }
         }
+
+        setOpenModal(true)
     }
 
     return (
-        <div className={classes.root}>
-            <div className={classes.modal}>
-                <div className={classes.paper} style={{ width: 600 }}>
-                    <Typography className={classes.title}>
-                        Sign Up
-                    </Typography>
-                    <form className={classes.form} onSubmit={handleSubmit} encType='multipart/form-data'>
-                        <Grid container style={{ paddingBottom: 8 }}>
-                            <Grid item container xs={6} style={{ alignSelf: 'center' }}>
-                                <ImagesUploader useInput={useInput} />
+        <>
+            {openModal && <></>}
+            <div className={classes.root}>
+                <div className={classes.modal}>
+                    <div className={classes.paper} style={{ width: 600 }}>
+                        <Typography className={classes.title}>
+                            Sign Up
+                        </Typography>
+                        <form className={classes.form} onSubmit={handleSubmit} encType='multipart/form-data'>
+                            <Grid container style={{ paddingBottom: 8 }}>
+                                <Grid item container xs={6} style={{ alignSelf: 'center' }}>
+                                    <ImagesUploader useInput={useInput} />
+                                </Grid>
+                                <Grid item container xs={6} style={{ paddingLeft: 48, paddingRight: 8 }}>
+                                    <Grid container>
+                                        <Typography className={classes.textBody} >
+                                            Nama Lengkap
+                                        </Typography>
+                                        <TextField
+                                            id="nama"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Nama Lengkap"
+                                            type="text"
+                                            page="auth"
+                                            onChange={handleNameChange}
+                                        />
+                                        {errors.name &&
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.textBodyError} >
+                                                    {errors.name}
+                                                </Typography>
+                                            </Grid>
+                                        }
+                                    </Grid>
+                                    <Grid container style={{ paddingTop: 16 }}>
+                                        <Typography className={classes.textBody}>
+                                            Email
+                                        </Typography>
+                                        <TextField
+                                            id="email"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Email Address"
+                                            type="email"
+                                            page="auth"
+                                            onChange={handleEmailChange}
+                                        />
+                                        {errors.email &&
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.textBodyError} >
+                                                    {errors.email}
+                                                </Typography>
+                                            </Grid>
+                                        }
+                                    </Grid>
+                                    <Grid container>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                            Password
+                                        </Typography>
+                                        <TextField
+                                            id="password1"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Password"
+                                            type="password"
+                                            page="auth"
+                                            onChange={handlePasswordChange}
+                                        />
+                                        {errors.password &&
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.textBodyError} style={{ alignSelf: 'flex-end' }} >
+                                                    {errors.password}
+                                                </Typography>
+                                            </Grid>
+                                        }
+                                    </Grid>
+                                    <Grid container>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                            Konfirmasi Password
+                                        </Typography>
+                                        <TextField
+                                            id="password2"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Password"
+                                            type="password"
+                                            page="auth"
+                                            onChange={handleConfPassChange}
+                                        />
+                                        {errors.confPassword &&
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.textBodyError} >
+                                                    {errors.confPassword}
+                                                </Typography>
+                                            </Grid>
+                                        }
+                                    </Grid>
+                                </Grid>
                             </Grid>
-                            <Grid item container xs={5} style={{ paddingLeft: 32 }}>
-                                <Grid container>
-                                    <Typography className={classes.textBody} >
-                                        Nama Lengkap
-                                    </Typography>
-                                    <TextField
-                                        id="nama"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Nama Lengkap"
-                                        type="text"
-                                        page="auth"
-                                        onChange={handleNameChange}
-                                    />
-                                    {errors.name &&
-                                        <Grid item xs={12}>
-                                            <Typography className={classes.textBodyError} >
-                                                {errors.name}
-                                            </Typography>
-                                        </Grid>
-                                    }
-                                </Grid>
-                                <Grid container style={{ paddingTop: 16 }}>
-                                    <Typography className={classes.textBody}>
-                                        Email
-                                    </Typography>
-                                    <TextField
-                                        id="email"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Email Address"
-                                        type="email"
-                                        page="auth"
-                                        onChange={handleEmailChange}
-                                    />
-                                    {errors.email &&
-                                        <Grid item xs={12}>
-                                            <Typography className={classes.textBodyError} >
-                                                {errors.email}
-                                            </Typography>
-                                        </Grid>
-                                    }
-                                </Grid>
-                                <Grid container>
-                                    <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                        Password
-                                    </Typography>
-                                    <TextField
-                                        id="password1"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Password"
-                                        type="password"
-                                        page="auth"
-                                        onChange={handlePasswordChange}
-                                    />
-                                    {errors.password &&
-                                        <Grid item xs={12}>
-                                            <Typography className={classes.textBodyError} style={{ alignSelf: 'flex-end' }} >
-                                                {errors.password}
-                                            </Typography>
-                                        </Grid>
-                                    }
-                                </Grid>
-                                <Grid container>
-                                    <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                        Konfirmasi Password
-                                    </Typography>
-                                    <TextField
-                                        id="password2"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Password"
-                                        type="password"
-                                        page="auth"
-                                        onChange={handleConfPassChange}
-                                    />
-                                    {errors.confPassword &&
-                                        <Grid item xs={12}>
-                                            <Typography className={classes.textBodyError} >
-                                                {errors.confPassword}
-                                            </Typography>
-                                        </Grid>
-                                    }
-                                </Grid>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                className={classes.submit}
+                                buttonText={"Sign Up"}
+                            />
+                            <Grid container style={{ display: "flex", paddingTop: 8 }} >
+                                <Typography className={classes.link}>
+                                    {"Sudah mempunyai akun? "}
+                                    <Link href="/" className={classes.link} style={{ color: Color.primary[300] }}>
+                                        {"Sign In"}
+                                    </Link>
+                                </Typography>
                             </Grid>
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            className={classes.submit}
-                            buttonText={"Sign Up"}
-                        />
-                        <Grid container style={{ display: "flex", paddingTop: 8 }} >
-                            <Typography className={classes.link}>
-                                {"Sudah mempunyai akun? "}
-                                <Link href="/" className={classes.link} style={{ color: Color.primary[300] }}>
-                                    {"Sign In"}
-                                </Link>
-                            </Typography>
-                        </Grid>
-                    </form>
-                </div>
+                        </form>
+                    </div>
+                </div >
             </div >
-        </div >
+        </>
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import ImageIcon from "../asset/icons/Image";
 import "../Styles/ImagesUploaderStyles.scss";
 
@@ -15,10 +15,6 @@ const ImagesUploader = (props) => {
 
     const profilePicture = useInput(null);
     const profilePictureInput = useRef(null);
-
-    useEffect(() => {
-        console.log(profilePicture.value)
-    }, [profilePicture])
 
     return (
         <div>
@@ -37,7 +33,7 @@ const ImagesUploader = (props) => {
                         alt="profile picture"
                         onClick={handleClickProfilePicture}
                     >
-                        <ImageIcon fill={'#EFEFEF'} style={{ position: 'relative', width: '7vw', height: '7vw', padding: "0px 32px", top: '32%', left: '22%' }} />
+                        <ImageIcon fill={'#EFEFEF'} style={{ position: 'relative', width: '128px', height: '128px', padding: "0px 32px", top: '32%', left: '22%' }} />
                     </div>
                 ) : (
                     <div

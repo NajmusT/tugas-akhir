@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import axios from 'axios'
+import React from 'react'
 
 //Material UI
 import { Grid } from '@material-ui/core'
@@ -7,12 +6,6 @@ import { Grid } from '@material-ui/core'
 import image from '../../asset/images/dashboard.png'
 
 const Dashboard = () => {
-    const user = JSON.parse(localStorage.getItem('user'))
-
-    useEffect(() => {
-        console.log(user)
-    }, [])
-
     return (
         <React.Fragment>
             <div>

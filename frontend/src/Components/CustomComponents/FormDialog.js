@@ -15,6 +15,7 @@ import TextField from '../TextField'
 
 import { FontFamily } from '../../Constants/FontFamily';
 import { Color } from '../../Constants/Colors';
+import { Grid } from '@material-ui/core';
 
 const styles = (theme) => ({
   root: {
@@ -30,6 +31,13 @@ const styles = (theme) => ({
     right: theme.spacing(2),
     top: theme.spacing(2),
     color: theme.palette.grey[500],
+  },
+  dialogContainer: {
+    margin: '32px',
+    position: 'relative',
+    overflowY: 'auto',
+    borderRadius: 15,
+    padding: 16
   }
 });
 
@@ -59,19 +67,23 @@ const DialogContent = withStyles((theme) => ({
 const DialogActions = withStyles((theme) => ({
   root: {
     margin: 0,
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(0),
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
     paddingBottom: theme.spacing(3)
   }
 }))(MuiDialogActions);
 
-const FormDialog = (props) => {
-  const { open, handleClose, handleClick, inputForm, title, contentText, labelTextfield, buttonText } = props
+const FormDialog = withStyles(styles)((props) => {
+  const { open, classes, handleClose, handleClick, message, inputForm, title, contentText, link, buttonText } = props
 
   return (
-    <div style={{ borderRadius: 20 }}>
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} >
+    <div >
+      <Dialog
+        onClose={handleClose}
+        open={open}
+        PaperProps={{ classes: { root: classes.dialogContainer } }}
+      >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           {title}
         </DialogTitle>
@@ -80,35 +92,31 @@ const FormDialog = (props) => {
             {contentText}
           </Typography>
           {inputForm}
+          {message}
         </DialogContent>
         <DialogActions>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            buttonText={buttonText}
-            onClick={handleClick}
-          />
+          <Grid container>
+            <Grid item container xs={12}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                buttonText={buttonText}
+                onClick={handleClick}
+                page={'main'}
+                buttonType={'dss-primary'}
+              />
+            </Grid>
+            {link &&
+              <Grid item container xs={12} style={{ paddingTop: 12 }}>
+                {link}
+              </Grid>
+            }
+          </Grid>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
-
-FormDialog.defaultProps = {
-  title: "Modal Title",
-  contentText: 'Content Text',
-  labelTextfield: 'Label Text Field',
-  buttonText: 'Button',
-  inputForm: <TextField
-    id={'textfield'}
-    margin={'dense'}
-    fullWidth
-    label={'Input Form'}
-    // value={}
-    variant={'standard'}
-    page={'auth'}
-  />
-}
+})
 
 export default FormDialog

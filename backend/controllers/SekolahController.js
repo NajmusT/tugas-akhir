@@ -5,8 +5,8 @@ const { v1: uuidv1 } = require('uuid');
 const { protect } = require("../middlewares/authMiddlewares")
 
 //create
-router.route('/new').post(protect, (req, res) => {
-    const sekolahBaru = new Sekolah({ _id: uuidv1(), createdBy: req.user._id, ...req.body })
+router.route('/new').post((req, res) => {
+    const sekolahBaru = new Sekolah({ _id: uuidv1(), ...req.body })
     sekolahBaru.save()
         .then(sekolah => res.json(sekolah))
         .catch(err => res.status(400).json("Error! " + err))

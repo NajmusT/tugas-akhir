@@ -5,8 +5,8 @@
 .profile-picture,
 .profile-picture-default {
     position: relative;
-    width: 332px;
-    height: 332px;
+    width: 320px;
+    height: 320px;
     border-radius: 3%;
     background-size: cover;
     cursor: pointer;
@@ -15,8 +15,8 @@
         content: "";
         position: absolute;
         background-size: cover;
-        width: 332px;
-        height: 332px;
+        width: 320px;
+        height: 320px;
         margin: auto;
         opacity: .4;
         transition: opacity .2s ease;

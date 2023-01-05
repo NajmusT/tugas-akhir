@@ -17,6 +17,7 @@ import { Color } from "../../Constants/Colors";
 
 import { isValidEmail } from '../../Utils';
 import { useAuthStyles } from '../../Styles/AuthStyles';
+import ForgetPassword from '../../PopUpDialog/ForgetPassword';
 
 const Login = () => {
     const classes = useAuthStyles()
@@ -175,7 +176,7 @@ const Login = () => {
                             </Grid>
                         </Grid>
 
-                        <FormDialog open={openDialog} handleClose={handleCloseDialog} />
+                        <ForgetPassword open={openDialog} handleClose={handleCloseDialog} />
                     </form>
                 </div>
             </div >
