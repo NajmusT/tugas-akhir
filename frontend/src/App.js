@@ -92,6 +92,7 @@ import EditSaranaUKS from './Pages/MainPages/Data/UKS/EditSarana';
 import ViewListUKS from './Pages/MainPages/Data/UKS/ViewList';
 import ViewUKS from './Pages/MainPages/Data/UKS/View';
 import ViewSaranaUKS from './Pages/MainPages/Data/UKS/ViewSarana';
+import ManajemenUser from './Pages/MainPages/ManajemenUser';
 
 function App() {
   return (
@@ -187,6 +188,7 @@ function App() {
         <Route path='/pengaduan' component={BuatPengaduan} />
         <Route path='/decision-support' component={DecisionSupport} />
         <Route path='/laporan-pengaduan' component={LaporanPengaduan} />
+        <Route path='/manajemen-user' component={ManajemenUser} />
       </Switch>
       <BottomBar />
     </Router>

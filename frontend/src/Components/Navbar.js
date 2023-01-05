@@ -67,7 +67,7 @@ function Navbar() {
             setClickDSS(true)
         }
 
-        isAuthPages = history.location.pathname === '/' || history.location.pathname === '/sign-up' || history.location.pathname === '/daftar-sekolah'
+        isAuthPages = history.location.pathname === '/' || history.location.pathname === '/sign-up' || history.location.pathname === '/daftar-sekolah' || history.location.pathname === '/daftar-sekolah' || history.location.pathname.includes('reset-password')
     }, [history.location.pathname])
 
     const handleClose = (event) => {
@@ -131,7 +131,7 @@ function Navbar() {
                         <Grid item xs={6}>
                             <div className={classes.navbarMenu}>
                                 {
-                                    user?.roles !== 'operator' ?
+                                    user?.roles != 'operator' ?
                                         <>
                                             <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
                                                 <div className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={() => { history.push('/beranda') }}>

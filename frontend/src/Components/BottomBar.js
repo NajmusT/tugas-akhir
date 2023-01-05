@@ -23,7 +23,7 @@ const BottomBar = () => {
   let isAuthPages;
 
   useEffect(() => {
-    isAuthPages = history.location.pathname === '/' || history.location.pathname === '/sign-up' || history.location.pathname === '/daftar-sekolah'
+    isAuthPages = history.location.pathname === '/' || history.location.pathname === '/sign-up' || history.location.pathname === '/daftar-sekolah' || history.location.pathname.includes('reset-password')
   }, [history.location.pathname])
 
   return (

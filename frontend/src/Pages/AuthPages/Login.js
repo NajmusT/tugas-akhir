@@ -15,7 +15,7 @@ import FormDialog from '../../Components/CustomComponents/FormDialog';
 //Constant
 import { Color } from "../../Constants/Colors";
 
-import { isValidEmail } from '../../Utils';
+import { getCurrentUser, isValidEmail } from '../../Utils';
 import { useAuthStyles } from '../../Styles/AuthStyles';
 import ForgetPassword from '../../PopUpDialog/ForgetPassword';
 
@@ -92,7 +92,12 @@ const Login = () => {
                 const response = await axios.post('http://localhost:5000/user/login', data)
                 localStorage.setItem('user', JSON.stringify(response.data))
 
-                history.push("/beranda");
+                if (getCurrentUser?.roles != 'operator') {
+                    history.push("/beranda");
+                } else {
+                    history.push("/manajemen-user")
+                }
+
             } catch (error) {
                 if (error.response) {
                     console.log(error)

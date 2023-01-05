@@ -32,9 +32,6 @@ const ForgetPassword = (props) => {
         }
     }
 
-    useEffect(() => {
-        console.log(email)
-    }, [email])
 
     return (
         <FormDialog
