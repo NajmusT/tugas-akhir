@@ -18,6 +18,7 @@ import { Color } from "../../Constants/Colors";
 import { getCurrentUser, isValidEmail } from '../../Utils';
 import { useAuthStyles } from '../../Styles/AuthStyles';
 import ForgetPassword from '../../PopUpDialog/ForgetPassword';
+import lodash from 'lodash'
 
 const Login = () => {
     const classes = useAuthStyles()
@@ -34,10 +35,12 @@ const Login = () => {
     }
 
     const handleEmailChange = (e) => {
+        resetErrorMsg()
         setEmail(e.target.value)
     }
 
     const handlePasswordChange = (e) => {
+        resetErrorMsg()
         setPassword(e.target.value)
     }
 
@@ -84,7 +87,6 @@ const Login = () => {
             password: password
         }
 
-        resetErrorMsg()
         validationErrorMessage()
 
         if (validateForm(errors)) {
@@ -92,15 +94,25 @@ const Login = () => {
                 const response = await axios.post('http://localhost:5000/user/login', data)
                 localStorage.setItem('user', JSON.stringify(response.data))
 
-                if (getCurrentUser?.roles != 'operator') {
-                    history.push("/beranda");
+                let user = lodash.cloneDeep(getCurrentUser)
+
+                if (user?.roles === 'operator') {
+                    history.push("/manajemen-user");
                 } else {
-                    history.push("/manajemen-user")
+                    history.push("/beranda")
                 }
 
             } catch (error) {
                 if (error.response) {
-                    console.log(error)
+                    let err = {}
+
+                    if (error.response.data.password === 'Password tidak sesuai') {
+                        err.password = 'Password salah'
+                    } if (error.response.data.email === 'User tidak ditemukan!') {
+                        err.email = "Email tidak terdaftar di dalam sistem"
+                    }
+
+                    setError(err)
                 }
             }
         }

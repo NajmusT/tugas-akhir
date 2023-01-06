@@ -100,9 +100,9 @@ function App() {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route path="/sign-up" component={Register} />
+        <Route path="/sign-up" exact component={Register} />
         <Route path="/reset-password" component={ResetPassword} />
-        <Route path="/beranda" component={Dashboard} />
+        <Route path="/beranda" exact component={Dashboard} />
         <Route path='/daftar-sekolah' component={DaftarSekolah} />
 
         <Route path='/data/prasarana/laboratorium-IPA/create' component={CreatePrasaranaLabIPA} />
@@ -188,7 +188,7 @@ function App() {
         <Route path='/pengaduan' component={BuatPengaduan} />
         <Route path='/decision-support' component={DecisionSupport} />
         <Route path='/laporan-pengaduan' component={LaporanPengaduan} />
-        <Route path='/manajemen-user' component={ManajemenUser} />
+        <Route path='/manajemen-user' exact component={ManajemenUser} />
       </Switch>
       <BottomBar />
     </Router>

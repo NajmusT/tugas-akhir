@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import moment from 'moment'
@@ -31,33 +31,8 @@ const Register = () => {
     const history = useHistory();
     const classes = useAuthStyles();
 
-    const validationErrorMessage = () => {
-        let error = {};
-
-        if (name === '' || email === '' || password === '' || confPassword === '') {
-            if (name === '') {
-                error.name = 'Nama tidak boleh kosong'
-            };
-
-            if (email === '') {
-                error.email = 'Email tidak boleh kosong'
-            } else if (!isValidEmail(email)) {
-                error.email = 'Email tidak valid'
-            }
-
-            if (password === '') {
-                error.password = 'Password tidak boleh kosong'
-            }
-
-            if (confPassword === '') {
-                error.confPassword = 'Konfirmasi password tidak boleh kosong'
-            }
-
-            setError(error)
-        }
-    }
-
     const handleNameChange = (e) => {
+        resetErrorMsg()
         setName(e.target.value)
     }
 
@@ -66,10 +41,12 @@ const Register = () => {
     }
 
     const handlePasswordChange = (e) => {
+        resetErrorMsg()
         setPassword(e.target.value)
     }
 
     const handleConfPassChange = (e) => {
+        resetErrorMsg()
         setConfPassword(e.target.value)
     }
 
@@ -103,6 +80,10 @@ const Register = () => {
         setError(error)
     }
 
+    useEffect(() => {
+        console.log(errors)
+    }, [errors])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -116,9 +97,6 @@ const Register = () => {
             lastActive: moment()
         }
 
-        resetErrorMsg()
-        validationErrorMessage()
-
         if (validateForm(errors)) {
             try {
                 const response = await axios.post('http://localhost:5000/user/register', data);
@@ -126,9 +104,7 @@ const Register = () => {
 
                 history.push("/");
             } catch (error) {
-                if (error.response) {
-                    console.log(error)
-                }
+                setError(error.response.data.errors)
             }
         }
 
@@ -155,7 +131,7 @@ const Register = () => {
                                             Nama Lengkap
                                         </Typography>
                                         <TextField
-                                            id="nama"
+                                            id="name"
                                             variant="standard"
                                             margin="normal"
                                             fullWidth
@@ -164,15 +140,15 @@ const Register = () => {
                                             page="auth"
                                             onChange={handleNameChange}
                                         />
-                                        {errors.name &&
+                                        {errors?.name &&
                                             <Grid item xs={12}>
                                                 <Typography className={classes.textBodyError} >
-                                                    {errors.name}
+                                                    {errors?.name}
                                                 </Typography>
                                             </Grid>
                                         }
                                     </Grid>
-                                    <Grid container style={{ paddingTop: 16 }}>
+                                    <Grid container style={{ paddingTop: 4 }}>
                                         <Typography className={classes.textBody}>
                                             Email
                                         </Typography>
@@ -186,15 +162,15 @@ const Register = () => {
                                             page="auth"
                                             onChange={handleEmailChange}
                                         />
-                                        {errors.email &&
+                                        {errors?.email &&
                                             <Grid item xs={12}>
                                                 <Typography className={classes.textBodyError} >
-                                                    {errors.email}
+                                                    {errors?.email}
                                                 </Typography>
                                             </Grid>
                                         }
                                     </Grid>
-                                    <Grid container>
+                                    <Grid container style={{ paddingTop: 4 }}>
                                         <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                             Password
                                         </Typography>
@@ -208,15 +184,15 @@ const Register = () => {
                                             page="auth"
                                             onChange={handlePasswordChange}
                                         />
-                                        {errors.password &&
+                                        {errors?.password &&
                                             <Grid item xs={12}>
                                                 <Typography className={classes.textBodyError} style={{ alignSelf: 'flex-end' }} >
-                                                    {errors.password}
+                                                    {errors?.password}
                                                 </Typography>
                                             </Grid>
                                         }
                                     </Grid>
-                                    <Grid container>
+                                    <Grid container style={{ paddingTop: 4 }}>
                                         <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                             Konfirmasi Password
                                         </Typography>
@@ -230,10 +206,10 @@ const Register = () => {
                                             page="auth"
                                             onChange={handleConfPassChange}
                                         />
-                                        {errors.confPassword &&
+                                        {errors?.password2 &&
                                             <Grid item xs={12}>
                                                 <Typography className={classes.textBodyError} >
-                                                    {errors.confPassword}
+                                                    {errors?.password2}
                                                 </Typography>
                                             </Grid>
                                         }

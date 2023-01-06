@@ -10,34 +10,34 @@ module.exports = function validateRegister(data) {
     data.password2 = !isEmpty(data.password2) ? data.password2 : "";
 
     if (!Validator.isLength(data.name, { min: 2, max: 80 })) {
-        errors.name = "Name must be between 2 and 80 characters";
+        errors.name = "Nama harus diantara 2-80 karakter";
     }
 
     if (Validator.isEmpty(data.name)) {
-        errors.name = "Name field is required";
+        errors.name = "Nama tidak boleh kosong";
     }
 
     if (Validator.isEmpty(data.email)) {
-        errors.email = "Email field is required";
+        errors.email = "Email tidak boleh kosong";
     }
 
     if (!Validator.isEmail(data.email)) {
-        errors.email = "Email is invalid";
+        errors.email = "Email tidak valid atau email tidak boleh kosong";
     }
 
     if (Validator.isEmpty(data.password)) {
-        errors.password = "Password field is required";
+        errors.password = "Password tidak boleh kosong";
     }
 
     if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
-        errors.password = "Password must be at least 6 characters";
+        errors.password = "Password harus tersusun atas 6 - 30 karakter";
     }
 
     if (Validator.isEmpty(data.password2)) {
-        errors.password2 = "Confirm Password field is required";
+        errors.password2 = "Konfirmasi password tidak boleh kosong";
     } else {
         if (!Validator.equals(data.password, data.password2)) {
-            errors.password2 = "Passwords must match";
+            errors.password2 = "Konfirmasi password tidak sama dengan password";
         }
     }
 

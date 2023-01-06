@@ -30,14 +30,14 @@ const generateToken = (id) => {
 }
 
 //retrieve all
-router.route("/").get(protect, (req, res) => {
+router.route("/").get((req, res) => {
     User.find()
         .then(users => res.json(users))
         .catch(err => next(err));
 });
 
 //retrieve current
-router.route("/current").get(protect, (req, res) => {
+router.route("/current").get((req, res) => {
     User.findById(req.user)
         .then(user => res.json({
             id: req.user._id,
@@ -59,13 +59,13 @@ router.post("/register", (req, res) => {
     const { errors, isValid } = validateRegister(req.body)
 
     if (!isValid) {
-        return res.status(400).json(errors)
+        return res.status(400).json({ errors: errors })
     }
 
     User.findOne({ email: req.body.email }).then(user => {
         if (user) {
             errors.email = "Email telah digunakan"
-            return res.status(400).json(errors)
+            return res.status(400).json({ errors: errors })
         } else {
             const newUser = new User({
                 _id: uuidv1(),
@@ -86,7 +86,7 @@ router.post("/register", (req, res) => {
                     newUser.password = hash
                     newUser.save()
                         .then(user => res.status(200).json("Register success"))
-                        .catch(err => res.status(400).json("Error! " + err))
+                        .catch(err => res.status(400).json({ err }))
                 });
             });
         }

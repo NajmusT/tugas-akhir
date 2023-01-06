@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Typography } from '@material-ui/core'
 
 import { FontFamily } from '../../Constants/FontFamily'
@@ -10,34 +10,91 @@ import CustomTextField from '../../Components/TextField'
 
 import CustomIconButton from '../../Components/IconButton'
 import SearchIcon from '@material-ui/icons/Search';
+import axios from 'axios'
+import { getCurrentUser } from '../../Utils'
+import Button from '../../Components/Button'
+import moment from 'moment'
 
 const ManajemenUser = () => {
+    const [allUser, setAllUser] = useState(null)
+    const [rows, setRows] = useState(null)
+
     const columns = [
-        { id: 'id', label: 'ID', minWidth: 32 },
-        { id: 'nama', label: 'Nama', minWidth: 120 },
+        { id: 'id', label: 'ID', minWidth: 32, align: 'center' },
+        { id: 'nama', label: 'Nama', minWidth: 120, align: 'center' },
         {
             id: 'email',
             label: 'Email',
             minWidth: 120,
+            align: 'center'
         },
         {
             id: 'role',
             label: 'Role',
-            minWidth: 120
+            minWidth: 120,
+            align: 'center'
         },
         {
             id: 'tanggal',
             label: 'Tanggal',
-            minWidth: 200
+            minWidth: 200,
+            align: 'center'
         },
         {
             id: 'aksi',
             label: 'Aksi',
-            minWidth: 120
+            minWidth: 120,
+            align: 'center'
         }
     ]
 
-    const rows = []
+    const createData = (id, nama, email, role, tanggal, aksi) => {
+        return { id, nama, email, role, tanggal, aksi }
+    }
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/user').then(res => {
+            setAllUser(res.data)
+        })
+    }, [])
+
+    const handleDelete = () => {
+        console.log("User ditolak")
+    }
+
+    const handleAccept = () => {
+        console.log("User diterima")
+    }
+
+    useEffect(() => {
+        if (allUser != null) {
+            setRows([allUser?.filter(user => user._id != getCurrentUser._id).map(usr =>
+                createData(usr._id, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("ddd, d MMMM YYYY, h:mm a"), (<>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div >
+                            <Button
+                                variant="contained"
+                                buttonText={"Terima"}
+                                page='main'
+                                buttonType='primary'
+                                onClick={handleAccept}
+                            />
+                        </div>
+                        <div style={{ paddingLeft: 16 }}>
+                            <Button
+                                variant="contained"
+                                buttonText={"Tolak"}
+                                page='main'
+                                buttonType='danger'
+                                onClick={handleDelete}
+                            />
+                        </div>
+                    </div>
+                </>))
+            )
+            ])
+        }
+    }, [allUser])
 
     return (
         <React.Fragment>
