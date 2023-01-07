@@ -132,7 +132,7 @@ function Navbar() {
                         <Grid item xs={6}>
                             <div className={classes.navbarMenu}>
                                 {
-                                    user.roles != 'operator' ?
+                                    user?.roles != 'operator' ?
                                         <>
                                             <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
                                                 <div className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={() => { history.push('/beranda') }}>
@@ -163,7 +163,7 @@ function Navbar() {
                                                         {('Pengaduan').toUpperCase()}
                                                     </div>
                                                 }
-                                                {user?.roles === 'staf-dinas' &&
+                                                {user?.roles === 'staff-dinas' &&
                                                     <>
                                                         <div
                                                             onClick={() => { history.push('/decision-support') }}

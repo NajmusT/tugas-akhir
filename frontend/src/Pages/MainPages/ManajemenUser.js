@@ -63,7 +63,13 @@ const ManajemenUser = () => {
     const handleDelete = (e) => {
         e.preventDefault()
 
+        const data = {
+            email: user.email,
+            message: `Dear ${user.name}.\n\n Data pendaftaran akun anda ditolak karena tidak memenuhi ketentuan sistem.\n\nSilahkan daftar ulang kembali. Terima kasih`
+        }
+
         axios.delete(`http://localhost:5000/user/delete/${user._id}`).then(res => console.log(res.data))
+        axios.post(`http://localhost:5000/user/sendKonfirmasi`, data).then(res => console.log(res.data))
 
         setopenTolakModal(false)
         setopenTolakModalNotif(true)
@@ -77,7 +83,13 @@ const ManajemenUser = () => {
             roles: role
         }
 
+        const dataEmail = {
+            email: user.email,
+            message: `Dear ${user.name}.\n\nData pendaftaran akun anda telah diterima.\n\nSilahkan login ke dalam sistem. Terima kasih`
+        }
+
         axios.put(`http://localhost:5000/user/update/${user._id}`, data).then(res => console.log(res.data))
+        axios.post(`http://localhost:5000/user/sendKonfirmasi`, dataEmail).then(res => console.log(res.data))
 
         setopenTerimaModal(false)
         setopenTerimaModalNotif(true)
@@ -184,7 +196,7 @@ const ManajemenUser = () => {
     useEffect(() => {
         if (allUser != null) {
             setRows(allUser?.filter(user => user._id != getCurrentUser()?._id && user.isActive === false).map(usr =>
-                createData(usr._id, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("ddd, d MMMM YYYY, hh:mm a"), (<>
+                createData(usr._id, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("ddd, d MMMM YYYY"), (<>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div >
                             <Button

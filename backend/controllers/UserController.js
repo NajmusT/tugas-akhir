@@ -166,39 +166,39 @@ router.route('/forget-password').post((req, res) => {
         if (user === null) {
             res.status(403).send("Email tidak terdaftar didalam sistem")
         } else {
-            // if (user.isActive === false) {
-            //     res.status(400).send("Akun belum diaktifkan")
-            // } else {
-            const token = crypto.randomBytes(20).toString('hex');
-            user.update({
-                ...user,
-                resetPasswordToken: token,
-                resetPasswordExpires: Date.now() + 3600000
-            })
+            if (user.isActive === false) {
+                res.status(400).send("Akun belum diaktifkan")
+            } else {
+                const token = crypto.randomBytes(20).toString('hex');
+                user.update({
+                    ...user,
+                    resetPasswordToken: token,
+                    resetPasswordExpires: Date.now() + 3600000
+                })
 
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: process.env.EMAIL_ADDRESS,
-                    pass: process.env.EMAIL_PASSWORD
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: process.env.EMAIL_ADDRESS,
+                        pass: process.env.EMAIL_PASSWORD
+                    }
+                })
+
+                const mailOptions = {
+                    from: process.env.EMAIL_ADDRESS,
+                    to: user.email,
+                    subject: 'Link untuk Reset Password',
+                    text: `Anda menerima email ini karena anda ataupun orang lain mengajukan reset password untuk akun anda\n\nTolong click link dibawah ini untuk mengubah password anda.\n\nhttp://localhost:3000/reset-password/${token}\n\nJika anda tidak mengajukan reset password, abaikan pesan ini agar password tidak berubah\n`
                 }
-            })
 
-            const mailOptions = {
-                from: process.env.EMAIL_ADDRESS,
-                to: user.email,
-                subject: 'Link untuk Reset Password',
-                text: `Anda menerima email ini karena anda ataupun orang lain mengajukan reset password untuk akun anda\n\nTolong click link dibawah ini untuk mengubah password anda.\n\nhttp://localhost:3000/reset-password/${token}\n\nJika anda tidak mengajukan reset password, abaikan pesan ini agar password tidak berubah\n`
+                transporter.sendMail(mailOptions, (err, response) => {
+                    if (err) {
+                        console.error('Error: ', err)
+                    } else {
+                        return res.status(200).json('Email telah terkirim')
+                    }
+                })
             }
-
-            transporter.sendMail(mailOptions, (err, response) => {
-                if (err) {
-                    console.error('Error: ', err)
-                } else {
-                    return res.status(200).json('Email telah terkirim')
-                }
-            })
-            // }
         }
     })
 })
@@ -230,6 +230,34 @@ router.put('/updatePassword', (req, res, next) => {
                 })
         } else {
             return res.status(404).json("User tidak terdaftar didalam sistem")
+        }
+    })
+})
+
+router.post('/sendKonfirmasi', (req, res, next) => {
+    const email = req.body.email
+    const message = req.body.message
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_ADDRESS,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    })
+
+    const mailOptions = {
+        from: process.env.EMAIL_ADDRESS,
+        to: email,
+        subject: 'Konfirmasi Data Pendaftaran Akun',
+        text: message
+    }
+
+    transporter.sendMail(mailOptions, (err, response) => {
+        if (err) {
+            console.error('Error: ', err)
+        } else {
+            return res.status(200).json('Email telah terkirim')
         }
     })
 })
