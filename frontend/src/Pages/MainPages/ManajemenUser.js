@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import moment from 'moment'
+
+import { getCurrentUser } from '../../Utils'
+
 import { Grid, Typography } from '@material-ui/core'
 
 import { FontFamily } from '../../Constants/FontFamily'
@@ -7,45 +12,37 @@ import { Color } from '../../Constants/Colors'
 import Breadcrumb from '../../Components/Breadcrumb'
 import CustomDataTable from '../../Components/DataTable'
 import CustomTextField from '../../Components/TextField'
-
-import CustomIconButton from '../../Components/IconButton'
-import SearchIcon from '@material-ui/icons/Search';
-import axios from 'axios'
-import { getCurrentUser } from '../../Utils'
 import Button from '../../Components/Button'
-import moment from 'moment'
+import CustomIconButton from '../../Components/IconButton'
+
+import SearchIcon from '@material-ui/icons/Search';
+import ConfirmationDialog from '../../Components/ConfirmationDialog'
+import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
+import WarningIcon from '@material-ui/icons/ErrorOutline';
+import TerimaAkun from '../../PopUpDialog/TerimaAkun'
+import Select from '../../Components/Select'
 
 const ManajemenUser = () => {
     const [allUser, setAllUser] = useState(null)
     const [rows, setRows] = useState(null)
+    const [openTerimaModalNotif, setopenTerimaModalNotif] = useState(false)
+    const [openTolakModalNotif, setopenTolakModalNotif] = useState(false)
+    const [openTolakModal, setopenTolakModal] = useState(false)
+    const [openTerimaModal, setopenTerimaModal] = useState(false)
+    const [user, setUser] = useState(null)
+    const [role, setRole] = useState(null)
+
+    const handleChangeRole = (e) => {
+        setRole(e.target.value)
+    }
 
     const columns = [
         { id: 'id', label: 'ID', minWidth: 32, align: 'center' },
         { id: 'nama', label: 'Nama', minWidth: 120, align: 'center' },
-        {
-            id: 'email',
-            label: 'Email',
-            minWidth: 120,
-            align: 'center'
-        },
-        {
-            id: 'role',
-            label: 'Role',
-            minWidth: 120,
-            align: 'center'
-        },
-        {
-            id: 'tanggal',
-            label: 'Tanggal',
-            minWidth: 200,
-            align: 'center'
-        },
-        {
-            id: 'aksi',
-            label: 'Aksi',
-            minWidth: 120,
-            align: 'center'
-        }
+        { id: 'email', label: 'Email', minWidth: 120, align: 'center' },
+        { id: 'role', label: 'Role', minWidth: 120, align: 'center' },
+        { id: 'tanggal', label: 'Tanggal', minWidth: 200, align: 'center' },
+        { id: 'aksi', label: 'Aksi', minWidth: 120, align: 'center' }
     ]
 
     const createData = (id, nama, email, role, tanggal, aksi) => {
@@ -53,23 +50,138 @@ const ManajemenUser = () => {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:5000/user').then(res => {
-            setAllUser(res.data)
-        })
+        axios.get('http://localhost:5000/user').then(res => { setAllUser(res.data) })
     }, [])
 
-    const handleDelete = () => {
-        console.log("User ditolak")
+    const handleDelete = async (e) => {
+        e.preventDefault()
+
+        const response = await axios.delete(`http://localhost:5000/user/delete/${user.id}`)
+        console.log(response)
+
+        setopenTolakModal(false)
+        setopenTolakModalNotif(true)
     }
 
-    const handleAccept = () => {
-        console.log("User diterima")
+    const handleAccept = async (e) => {
+        e.preventDefault()
+
+        const data = {
+            isActive: true,
+            roles: role
+        }
+
+        const response = await axios.put(`http://localhost:5000/user/update/${user.id}`, data)
+        console.log(response)
+
+        setopenTerimaModal(false)
+        setopenTerimaModalNotif(true)
+    }
+
+    const TerimaModalNotif = () => {
+        return (
+            <ConfirmationDialog
+                title={'Terima Permintaan Daftar Akun Berhasil'}
+                subtitle={'Sistem telah memperbaharui data user dalam database'}
+                open={openTerimaModalNotif}
+                handleClose={() => {
+                    setopenTerimaModalNotif(false)
+                    window.location.reload(false)
+                }}
+                icon={<SuccessIcon style={{ color: '#45DE0F', fontSize: '8rem' }} />}
+            />
+        )
+    }
+
+    const TolakModalNotif = () => {
+        return (
+            <ConfirmationDialog
+                title={'Tolak Permintaan Daftar Akun Berhasil'}
+                subtitle={'Sistem telah memperbaharui data user dalam database'}
+                open={openTolakModalNotif}
+                handleClose={() => {
+                    setopenTolakModalNotif(false)
+                    window.location.reload(false)
+                }}
+                icon={<SuccessIcon style={{ color: '#45DE0F', fontSize: '8rem' }} />}
+            />
+        )
+    }
+
+    const TerimaModal = () => {
+        return (
+            <TerimaAkun
+                title={'Terima Permintaan Daftar Akun'}
+                subtitle={'Atur role dari akun dibawah ini, kemudian click simpan'}
+                open={openTerimaModal}
+                handleClose={() => { setopenTerimaModal(false) }}
+                dialogAction={
+                    <Button
+                        variant="contained"
+                        buttonText={"Simpan"}
+                        page='main'
+                        buttonType='primary'
+                        onClick={handleAccept}
+                    />
+                }
+                user={user}
+                inputControl={
+                    <Select
+                        id={"jenis"}
+                        margin={"dense"}
+                        fullWidth
+                        label={"Jenis"}
+                        variant={"standard"}
+                        page={"main"}
+                        value={role}
+                        onChange={handleChangeRole}
+                        option={['admin-sekolah', 'staff-dinas']}
+                    />
+                }
+            />
+        )
+    }
+
+    const TolakModal = () => {
+        return (
+            <ConfirmationDialog
+                title={'Dialog Konfirmasi Tolak'}
+                subtitle={'Apakah anda yakin ingin menolak pendaftaran akun ini?'}
+                open={openTolakModal}
+                handleClose={() => { setopenTolakModal(false) }}
+                icon={<WarningIcon style={{ color: '#EE3F3F', fontSize: '8rem' }} />}
+                dialogAction={
+                    <div style={{ display: 'flex' }}>
+                        <div >
+                            <Button
+                                variant="contained"
+                                buttonText={"Ya"}
+                                page='main'
+                                buttonType='primary'
+                                onClick={
+                                    handleDelete
+                                }
+                            />
+                        </div>
+                        <div style={{ paddingLeft: 16 }}>
+                            <Button
+                                variant="contained"
+                                buttonText={"Tidak"}
+                                page='main'
+                                buttonType='danger'
+                                onClick={() => { setopenTolakModal(false) }}
+                            />
+                        </div>
+                    </div>
+                }
+            />
+        )
     }
 
     useEffect(() => {
         if (allUser != null) {
-            setRows([allUser?.filter(user => user._id != getCurrentUser._id).map(usr =>
-                createData(usr._id, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("ddd, d MMMM YYYY, h:mm a"), (<>
+            setRows(allUser?.filter(user => user._id != getCurrentUser()?._id && user.isActive === false).map(usr =>
+                createData(usr._id, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("ddd, d MMMM YYYY, hh:mm a"), (<>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div >
                             <Button
@@ -77,7 +189,10 @@ const ManajemenUser = () => {
                                 buttonText={"Terima"}
                                 page='main'
                                 buttonType='primary'
-                                onClick={handleAccept}
+                                onClick={() => {
+                                    setUser(usr)
+                                    setopenTerimaModal(true)
+                                }}
                             />
                         </div>
                         <div style={{ paddingLeft: 16 }}>
@@ -86,27 +201,32 @@ const ManajemenUser = () => {
                                 buttonText={"Tolak"}
                                 page='main'
                                 buttonType='danger'
-                                onClick={handleDelete}
+                                onClick={() => {
+                                    setUser(usr)
+                                    setopenTolakModal(true)
+                                }}
                             />
                         </div>
                     </div>
                 </>))
-            )
-            ])
+            ))
         }
-    }, [allUser])
+    }, [allUser, setAllUser])
 
     return (
         <React.Fragment>
-            <Breadcrumb
-                subsubtitle={'Manajemen User'}
-            />
+            {openTerimaModalNotif && TerimaModalNotif()}
+            {openTolakModalNotif && TolakModalNotif()}
+            {openTolakModal && TolakModal()}
+            {openTerimaModal && TerimaModal()}
+
+            <Breadcrumb subsubtitle={'Manajemen User'} />
             <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
                 <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
                     <Typography style={{
                         fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
                     }}>
-                        {'Kabupaten Karawang'}
+                        {'Pengajuan Daftar Akun'}
                     </Typography>
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>

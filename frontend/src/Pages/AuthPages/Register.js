@@ -17,6 +17,8 @@ import { Color } from "../../Constants/Colors";
 import { isValidEmail } from '../../Utils';
 import { useAuthStyles } from '../../Styles/AuthStyles';
 import ImagesUploader from '../../Components/ImagesUploader';
+import ConfirmationDialog from '../../Components/ConfirmationDialog';
+import WaitIcon from '@material-ui/icons/AvTimer';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -80,9 +82,22 @@ const Register = () => {
         setError(error)
     }
 
-    useEffect(() => {
-        console.log(errors)
-    }, [errors])
+    const NotifModal = () => {
+        return (
+            <ConfirmationDialog
+                title={'Mohon Tunggu'}
+                subtitle={'Sistem akan mengirim informasi mengenai aktivasi\nakun anda melalui email'}
+                open={openModal}
+                handleClose={() => {
+                    setOpenModal(false)
+                    history.push('/')
+                }}
+                icon={
+                    <WaitIcon style={{ color: '#F5973F', fontSize: '8rem' }} />
+                }
+            />
+        )
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -102,18 +117,16 @@ const Register = () => {
                 const response = await axios.post('http://localhost:5000/user/register', data);
                 localStorage.setItem('user', JSON.stringify(response.data))
 
-                history.push("/");
+                setOpenModal(true)
             } catch (error) {
                 setError(error.response.data.errors)
             }
         }
-
-        setOpenModal(true)
     }
 
     return (
-        <>
-            {openModal && <></>}
+        <React.Fragment>
+            {openModal && NotifModal()}
             <div className={classes.root}>
                 <div className={classes.modal}>
                     <div className={classes.paper} style={{ width: 600 }}>
@@ -235,7 +248,7 @@ const Register = () => {
                     </div>
                 </div >
             </div >
-        </>
+        </React.Fragment>
     )
 }
 

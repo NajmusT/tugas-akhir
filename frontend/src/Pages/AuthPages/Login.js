@@ -94,9 +94,9 @@ const Login = () => {
                 const response = await axios.post('http://localhost:5000/user/login', data)
                 localStorage.setItem('user', JSON.stringify(response.data))
 
-                let user = lodash.cloneDeep(getCurrentUser)
+                let user = lodash.cloneDeep(getCurrentUser())
 
-                if (user?.roles === 'operator') {
+                if (user.roles === 'operator') {
                     history.push("/manajemen-user");
                 } else {
                     history.push("/beranda")

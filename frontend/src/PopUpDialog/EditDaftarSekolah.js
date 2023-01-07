@@ -27,7 +27,7 @@ const EditDaftarSekolah = (props) => {
 
     const history = useHistory();
     const classes = useAuthStyles()
-    const userId = getCurrentUser?._id
+    const userId = getCurrentUser()?._id
 
     const [alamat, setAlamat] = useState(null)
     const [kepsek, setKepsek] = useState(null)

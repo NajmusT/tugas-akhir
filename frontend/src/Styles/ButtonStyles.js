@@ -40,7 +40,7 @@ export const ButtonStyles = theme => ({
         fontSize: 12,
         fontWeight: 600,
         boxShadow: 'none',
-        borderRadius: 20,
+        //borderRadius: 20,
         textTransform: 'none',
 
         '&:hover': {
@@ -55,7 +55,7 @@ export const ButtonStyles = theme => ({
         fontSize: 12,
         fontWeight: 600,
         boxShadow: 'none',
-        borderRadius: 20,
+        //borderRadius: 20,
         textTransform: 'none',
 
         '&:hover': {
@@ -70,7 +70,7 @@ export const ButtonStyles = theme => ({
         fontSize: 12,
         fontWeight: 600,
         boxShadow: 'none',
-        borderRadius: 20,
+        //borderRadius: 20,
         textTransform: 'none',
 
         '&:hover': {
@@ -85,7 +85,7 @@ export const ButtonStyles = theme => ({
         fontSize: 12,
         fontWeight: 600,
         boxShadow: 'none',
-        borderRadius: 20,
+        //borderRadius: 20,
         textTransform: 'none',
 
         '&:hover': {

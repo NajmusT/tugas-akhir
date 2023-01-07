@@ -18,9 +18,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { useNavbarStyles } from '../Styles/NavBarStyles';
 import { getCurrentUser } from '../Utils';
+import lodash from 'lodash'
 
 function Navbar() {
-    const user = getCurrentUser
+    const user = lodash.cloneDeep(getCurrentUser())
     const classes = useNavbarStyles()
     const history = useHistory()
 
@@ -131,7 +132,7 @@ function Navbar() {
                         <Grid item xs={6}>
                             <div className={classes.navbarMenu}>
                                 {
-                                    user?.roles != 'operator' ?
+                                    user.roles != 'operator' ?
                                         <>
                                             <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
                                                 <div className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={() => { history.push('/beranda') }}>
@@ -179,8 +180,7 @@ function Navbar() {
                                                     </>
                                                 }
                                             </div>
-                                        </> :
-                                        <div></div>
+                                        </> : <></>
                                 }
                             </div>
                         </Grid>

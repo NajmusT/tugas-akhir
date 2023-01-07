@@ -48,4 +48,12 @@ export const formatPhoneNumber = (value) => {
     }
 }
 
-export const getCurrentUser = (JSON.parse(localStorage.getItem('user')))?.payload
+export const getCurrentUser = () => {
+    const user = JSON.parse(localStorage.getItem('user'))
+
+    if (user === undefined || user === null) {
+        return "You must login";
+    } else {
+        return user.payload
+    }
+}

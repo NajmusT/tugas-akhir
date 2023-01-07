@@ -9,6 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import { FontFamily } from '../Constants/FontFamily';
 
 const useStyles = makeStyles({
     root: {
@@ -48,12 +49,12 @@ const CustomDataTable = (props) => {
             <TableContainer className={classes.container}>
                 <Table >
                     <TableHead>
-                        <TableRow>
+                        <TableRow >
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
                                     align={'center'}
-                                    style={{ minWidth: column.minWidth }}
+                                    style={{ minWidth: column.minWidth, fontFamily: FontFamily.ROBOTO_MEDIUM, color: '#343A40' }}
                                 >
                                     {column.label}
                                 </TableCell>
@@ -63,13 +64,13 @@ const CustomDataTable = (props) => {
                     <TableBody>
                         {data !== null && data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                             return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row[index].id} >
+                                <TableRow hover role="checkbox" tabIndex={-1} key={row.id} >
                                     {columns.map((column) => {
                                         const object = column.id
-                                        const value = object === 'id' ? index + 1 : row[index][object];
+                                        const value = object === 'id' ? (index + 1) : row[object];
 
                                         return (
-                                            <TableCell key={column.id} align={column.align}>
+                                            <TableCell key={column.id} align={column.align} style={{ fontFamily: FontFamily.POPPINS_REGULAR, color: '#6C757D' }}>
                                                 {value}
                                             </TableCell>
                                         );
