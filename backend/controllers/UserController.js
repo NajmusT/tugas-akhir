@@ -144,7 +144,7 @@ router.post("/login", (req, res) => {
 });
 
 //delete - TO DO : solve error "Unknown authentication strategy "jwt""
-router.route("/delete/:id").delete(passport.authenticate("jwt", { session: false }), (req, res) => {
+router.route("/delete/:id").delete((req, res) => {
     User.deleteOne({ _id: req.params.id })
         .then(success => res.json('Sukses! Data user telah dihapus.'))
         .catch(err => res.status(400).json('Error! ' + err))

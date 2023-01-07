@@ -21,6 +21,7 @@ import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
 import WarningIcon from '@material-ui/icons/ErrorOutline';
 import TerimaAkun from '../../PopUpDialog/TerimaAkun'
 import Select from '../../Components/Select'
+import { useHistory } from 'react-router-dom'
 
 const ManajemenUser = () => {
     const [allUser, setAllUser] = useState(null)
@@ -31,6 +32,8 @@ const ManajemenUser = () => {
     const [openTerimaModal, setopenTerimaModal] = useState(false)
     const [user, setUser] = useState(null)
     const [role, setRole] = useState(null)
+
+    const history = useHistory()
 
     const handleChangeRole = (e) => {
         setRole(e.target.value)
@@ -53,17 +56,20 @@ const ManajemenUser = () => {
         axios.get('http://localhost:5000/user').then(res => { setAllUser(res.data) })
     }, [])
 
-    const handleDelete = async (e) => {
+    useEffect(() => {
+        console.log(user)
+    }, [user])
+
+    const handleDelete = (e) => {
         e.preventDefault()
 
-        const response = await axios.delete(`http://localhost:5000/user/delete/${user.id}`)
-        console.log(response)
+        axios.delete(`http://localhost:5000/user/delete/${user._id}`).then(res => console.log(res.data))
 
         setopenTolakModal(false)
         setopenTolakModalNotif(true)
     }
 
-    const handleAccept = async (e) => {
+    const handleAccept = (e) => {
         e.preventDefault()
 
         const data = {
@@ -71,8 +77,7 @@ const ManajemenUser = () => {
             roles: role
         }
 
-        const response = await axios.put(`http://localhost:5000/user/update/${user.id}`, data)
-        console.log(response)
+        axios.put(`http://localhost:5000/user/update/${user._id}`, data).then(res => console.log(res.data))
 
         setopenTerimaModal(false)
         setopenTerimaModalNotif(true)
@@ -158,9 +163,7 @@ const ManajemenUser = () => {
                                 buttonText={"Ya"}
                                 page='main'
                                 buttonType='primary'
-                                onClick={
-                                    handleDelete
-                                }
+                                onClick={handleDelete}
                             />
                         </div>
                         <div style={{ paddingLeft: 16 }}>
