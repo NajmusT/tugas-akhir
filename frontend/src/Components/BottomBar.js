@@ -49,7 +49,7 @@ const BottomBar = () => {
               }}>
                 <img style={{ width: '100vw', height: '12vw' }} src={image1} alt={'info-tambahan'} />
                 <div style={{ height: '100%', marginTop: -28 }}>
-                  <img style={{ width: '256px', height: '56px', position: 'absolute', left: '5%' }} src={infoTambahan} alt={'info-tambahan'} />
+                  <img style={{ width: '280px', height: '56px', position: 'absolute', left: '5%' }} src={infoTambahan} alt={'info-tambahan'} />
                 </div>
               </div>
               <div>

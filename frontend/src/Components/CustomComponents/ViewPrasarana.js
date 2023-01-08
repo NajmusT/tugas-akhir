@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 //Material UI
@@ -12,9 +12,11 @@ import CustomDataTable from '../DataTable'
 
 import ImageIcon from '../../asset/icons/Image';
 import Search from '../Search'
+import { getCurrentUser } from '../../Utils'
 
 const ViewPrasarana = (props) => {
     const { prasarana } = props
+    const [user, setUser] = useState(getCurrentUser())
 
     const columns = [
         { id: 'id', label: 'ID', minWidth: 32 },
@@ -158,15 +160,19 @@ const ViewPrasarana = (props) => {
                         </Grid>
                     </div>
                 </Grid>
-                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>
+                <Grid item container xs={12} style={{ display: 'flex', paddingTop: 32, paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
                     <Search />
-                    <Button
-                        variant="contained"
-                        buttonText={"CREATE"}
-                        page='main'
-                        buttonType='primary'
-                        onClick={() => { history.push(``) }}
-                    />
+                    {user?.roles === 'admin-sekolah' &&
+                        <div style={{ paddingLeft: 8 }}>
+                            <Button
+                                variant="contained"
+                                buttonText={"CREATE"}
+                                page='main'
+                                buttonType='primary'
+                                onClick={() => { history.push(`${history.location.pathname}/sarana/create`) }}
+                            />
+                        </div>
+                    }
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
                     <CustomDataTable columns={columns} rows={rows} />
