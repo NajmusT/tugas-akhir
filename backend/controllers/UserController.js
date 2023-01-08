@@ -58,9 +58,7 @@ router.route("/:id").get((req, res) => {
 router.post("/register", (req, res) => {
     const { errors, isValid } = validateRegister(req.body)
 
-    if (!isValid) {
-        return res.status(400).json({ errors: errors })
-    }
+    if (!isValid) { return res.status(400).json({ errors: errors }) }
 
     User.findOne({ email: req.body.email }).then(user => {
         if (user) {
@@ -85,7 +83,7 @@ router.post("/register", (req, res) => {
                     if (err) return next(err)
                     newUser.password = hash
                     newUser.save()
-                        .then(user => res.status(200).json("Register success"))
+                        .then(user => res.status(200).json("Register berhasil. Tunggu konfirmasi aktivasi melalui email"))
                         .catch(err => res.status(400).json({ err }))
                 });
             });
@@ -98,9 +96,7 @@ router.post("/login", (req, res) => {
     const { errors, isValid } = validateLogin(req.body);
 
     // Check Validation
-    if (!isValid) {
-        return res.status(400).json(errors);
-    }
+    if (!isValid) { return res.status(400).json(errors); }
 
     const email = req.body.email;
     const password = req.body.password;
@@ -133,12 +129,8 @@ router.post("/login", (req, res) => {
                     token: generateToken(user._id)
                 };
 
-                return res.json({
-                    payload, token: generateToken(user._id)
-                });
-            } else {
-                return res.status(400).json({ password: "Password tidak sesuai" });
-            }
+                return res.json({ payload, token: generateToken(user._id) });
+            } else { return res.status(400).json({ password: "Password tidak sesuai" }); }
         });
     });
 });

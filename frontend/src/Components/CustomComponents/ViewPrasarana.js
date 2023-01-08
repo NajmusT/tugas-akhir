@@ -172,10 +172,16 @@ const ViewPrasarana = (props) => {
                             page="main"
                         />
                     </div>
-                    <div style={{ paddingRight: 8 }}>
-                        <CustomIconButton
-                            icon={<SearchIcon />}
-                        />
+                    <div style={{ width: '36px', height: '40px', paddingTop: 4 }} onClick={() => { }}>
+                        <div style={{
+                            backgroundColor: '#0088cc',
+                            borderRadius: 20,
+                            alignItems: 'center',
+                            justifyItems: 'center',
+                            color: '#ffffff'
+                        }}>
+                            <SearchIcon style={{ alignSelf: 'center', display: 'flex', padding: 4, fontSize: '1.75rem' }} />
+                        </div>
                     </div>
                     <Button
                         variant="contained"

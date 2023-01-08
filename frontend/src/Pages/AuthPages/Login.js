@@ -96,11 +96,8 @@ const Login = () => {
 
                 let user = lodash.cloneDeep(getCurrentUser())
 
-                if (user.roles === 'operator') {
-                    history.push("/manajemen-user");
-                } else {
-                    history.push("/beranda")
-                }
+                if (user.roles === 'operator') { history.push("/manajemen-user"); }
+                else { history.push("/beranda") }
 
             } catch (error) {
                 if (error.response) {

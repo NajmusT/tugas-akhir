@@ -238,13 +238,11 @@ const ManajemenUser = () => {
             <Breadcrumb subsubtitle={'Manajemen User'} />
             <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
                 <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
-                    <Typography style={{
-                        fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
-                    }}>
+                    <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
                         {'Pengajuan Daftar Akun'}
                     </Typography>
                 </Grid>
-                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>
+                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
                     <div style={{ paddingRight: 8 }}>
                         <CustomTextField
                             id="search"
@@ -256,10 +254,16 @@ const ManajemenUser = () => {
                             page="main"
                         />
                     </div>
-                    <div style={{ paddingRight: 8 }}>
-                        <CustomIconButton
-                            icon={<SearchIcon />}
-                        />
+                    <div style={{ width: '36px', height: '40px', paddingTop: 4 }} onClick={() => { }}>
+                        <div style={{
+                            backgroundColor: '#0088cc',
+                            borderRadius: 20,
+                            alignItems: 'center',
+                            justifyItems: 'center',
+                            color: '#ffffff'
+                        }}>
+                            <SearchIcon style={{ alignSelf: 'center', display: 'flex', padding: 4, fontSize: '1.75rem' }} />
+                        </div>
                     </div>
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>

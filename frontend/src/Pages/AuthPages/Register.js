@@ -114,8 +114,7 @@ const Register = () => {
 
         if (validateForm(errors)) {
             try {
-                const response = await axios.post('http://localhost:5000/user/register', data);
-                localStorage.setItem('user', JSON.stringify(response.data))
+                await axios.post('http://localhost:5000/user/register', data);
 
                 setOpenModal(true)
             } catch (error) {
