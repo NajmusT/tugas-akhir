@@ -20,7 +20,12 @@ const sekolahSchema = new Schema(
             required: true
         },
         fotoSekolah: {
-            type: String
+            url: {
+                type: String,
+            },
+            fileName: {
+                type: String,
+            }
         },
         alamat: {
             jalan: {

@@ -1,4 +1,5 @@
 const express = require('express')
+const FileUpload = require("express-fileupload");
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -8,7 +9,7 @@ require('dotenv').config()
 
 //Passport middleware
 app.use(passport.initialize())
-
+app.use(FileUpload());
 app.use(cors())
 app.use(express.json())
 
