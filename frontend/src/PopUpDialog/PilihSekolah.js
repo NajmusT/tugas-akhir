@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
+
 import FormDialog from '../Components/CustomComponents/FormDialog'
 import Select from '../Components/Select'
 
 const PilihSekolah = (props) => {
     const { open, handleClose } = props
     const [sekolah, setSekolah] = useState('')
+
+    const params = useParams()
 
     const handleChangeSekolah = (e) => {
         e.preventDefault()

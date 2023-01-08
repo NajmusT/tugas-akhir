@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import { useHistory } from 'react-router-dom'
 
 import { getCurrentUser } from '../../Utils'
 
@@ -12,14 +13,14 @@ import { Color } from '../../Constants/Colors'
 import Breadcrumb from '../../Components/Breadcrumb'
 import CustomDataTable from '../../Components/DataTable'
 import Button from '../../Components/Button'
-
-import ConfirmationDialog from '../../Components/ConfirmationDialog'
-import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
-import WarningIcon from '@material-ui/icons/ErrorOutline';
+import Search from '../../Components/Search'
 import TerimaAkun from '../../PopUpDialog/TerimaAkun'
 import Select from '../../Components/Select'
-import { useHistory } from 'react-router-dom'
-import Search from '../../Components/Search'
+import ConfirmationDialog from '../../Components/ConfirmationDialog'
+
+import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
+import WarningIcon from '@material-ui/icons/ErrorOutline';
+
 
 const ManajemenUser = () => {
     const [allUser, setAllUser] = useState(null)
@@ -74,7 +75,8 @@ const ManajemenUser = () => {
 
         const data = {
             isActive: true,
-            roles: role
+            roles: role,
+            updatedAt: moment()
         }
 
         const dataEmail = {
@@ -190,7 +192,7 @@ const ManajemenUser = () => {
     useEffect(() => {
         if (allUser != null) {
             setRows(allUser?.filter(user => user._id != getCurrentUser()?._id && user.isActive === false).map(usr =>
-                createData(usr._id, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("ddd, d MMMM YYYY"), (<>
+                createData(usr._id, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("D MMMM YYYY, hh:mm a"), (<>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div >
                             <Button

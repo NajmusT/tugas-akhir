@@ -109,6 +109,7 @@ const Register = () => {
             password: password,
             password2: confPassword,
             isActive: false,
+            createdAt: moment(),
             lastActive: moment()
         }
 

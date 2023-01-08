@@ -100,7 +100,7 @@ const TerimaAkun = (props) => {
                                     </Typography>
                                 </div>
                                 <Typography style={{ fontFamily: FontFamily.OPEN_SANS_SEMI_BOLD, fontSize: 12, color: '#A1A1A1' }}>
-                                    {moment(user.createdAt).format("ddd, d MMMM YYYY")}
+                                    {moment(user.createdAt).format("D MMMM YYYY, hh:mm a")}
                                 </Typography>
                             </Grid>
                             <Grid style={{ display: 'flex', alignItems: 'center', paddingTop: 4 }}>

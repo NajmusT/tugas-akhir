@@ -73,6 +73,7 @@ router.post("/register", (req, res) => {
                 password: req.body.password,
                 roles: req.body.roles,
                 isActive: req.body.isActive,
+                createdAt: req.body.createdAt,
                 lastActive: req.body.lastActive,
                 logs: req.body.logs
             })
