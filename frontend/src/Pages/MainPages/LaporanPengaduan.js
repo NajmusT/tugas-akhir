@@ -7,35 +7,17 @@ import { Color } from '../../Constants/Colors'
 
 import Breadcrumb from '../../Components/Breadcrumb'
 import CustomDataTable from '../../Components/DataTable'
-import CustomTextField from '../../Components/TextField'
 
-import CustomIconButton from '../../Components/IconButton'
-import SearchIcon from '@material-ui/icons/Search';
+import Search from '../../Components/Search'
 
 const LaporanPengaduan = () => {
     const columns = [
         { id: 'id', label: 'ID', minWidth: 32 },
         { id: 'nama-sd', label: 'Nama Sekolah Dasar', minWidth: 120 },
-        {
-            id: 'nama-ruangan',
-            label: 'Nama Ruangan',
-            minWidth: 120,
-        },
-        {
-            id: 'nama-barang',
-            label: 'Nama Barang',
-            minWidth: 120
-        },
-        {
-            id: 'deskripsi',
-            label: 'Deskripsi',
-            minWidth: 200
-        },
-        {
-            id: 'aksi',
-            label: 'Aksi',
-            minWidth: 120
-        }
+        { id: 'nama-ruangan', label: 'Nama Ruangan', minWidth: 120, },
+        { id: 'nama-barang', label: 'Nama Barang', minWidth: 120 },
+        { id: 'deskripsi', label: 'Deskripsi', minWidth: 200 },
+        { id: 'aksi', label: 'Aksi', minWidth: 120 }
     ]
 
     const rows = []
@@ -54,28 +36,7 @@ const LaporanPengaduan = () => {
                     </Typography>
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>
-                    <div style={{ paddingRight: 8 }}>
-                        <CustomTextField
-                            id="search"
-                            fullWidth
-                            variant="outlined"
-                            margin="dense"
-                            label="Search"
-                            type="text"
-                            page="main"
-                        />
-                    </div>
-                    <div style={{ width: '36px', height: '40px', paddingTop: 4 }} onClick={() => { }}>
-                        <div style={{
-                            backgroundColor: '#0088cc',
-                            borderRadius: 20,
-                            alignItems: 'center',
-                            justifyItems: 'center',
-                            color: '#ffffff'
-                        }}>
-                            <SearchIcon style={{ alignSelf: 'center', display: 'flex', padding: 4, fontSize: '1.75rem' }} />
-                        </div>
-                    </div>
+                    <Search />
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
                     <CustomDataTable columns={columns} rows={rows} />

@@ -11,17 +11,15 @@ import { Color } from '../../Constants/Colors'
 
 import Breadcrumb from '../../Components/Breadcrumb'
 import CustomDataTable from '../../Components/DataTable'
-import CustomTextField from '../../Components/TextField'
 import Button from '../../Components/Button'
-import CustomIconButton from '../../Components/IconButton'
 
-import SearchIcon from '@material-ui/icons/Search';
 import ConfirmationDialog from '../../Components/ConfirmationDialog'
 import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
 import WarningIcon from '@material-ui/icons/ErrorOutline';
 import TerimaAkun from '../../PopUpDialog/TerimaAkun'
 import Select from '../../Components/Select'
 import { useHistory } from 'react-router-dom'
+import Search from '../../Components/Search'
 
 const ManajemenUser = () => {
     const [allUser, setAllUser] = useState(null)
@@ -56,16 +54,12 @@ const ManajemenUser = () => {
         axios.get('http://localhost:5000/user').then(res => { setAllUser(res.data) })
     }, [])
 
-    useEffect(() => {
-        console.log(user)
-    }, [user])
-
     const handleDelete = (e) => {
         e.preventDefault()
 
         const data = {
             email: user.email,
-            message: `Dear ${user.name}.\n\n Data pendaftaran akun anda ditolak karena tidak memenuhi ketentuan sistem.\n\nSilahkan daftar ulang kembali. Terima kasih`
+            message: `Dear ${user.name}.\n\n Data pendaftaran akun anda ditolak karena tidak memenuhi ketentuan sistem.\n\nApabila anda merasa anda layak untuk terdaftar di dalam sistem, silahkan daftar ulang kembali. Terima kasih`
         }
 
         axios.delete(`http://localhost:5000/user/delete/${user._id}`).then(res => console.log(res.data))
@@ -243,28 +237,7 @@ const ManajemenUser = () => {
                     </Typography>
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
-                    <div style={{ paddingRight: 8 }}>
-                        <CustomTextField
-                            id="search"
-                            fullWidth
-                            variant="outlined"
-                            margin="dense"
-                            label="Search"
-                            type="text"
-                            page="main"
-                        />
-                    </div>
-                    <div style={{ width: '36px', height: '40px', paddingTop: 4 }} onClick={() => { }}>
-                        <div style={{
-                            backgroundColor: '#0088cc',
-                            borderRadius: 20,
-                            alignItems: 'center',
-                            justifyItems: 'center',
-                            color: '#ffffff'
-                        }}>
-                            <SearchIcon style={{ alignSelf: 'center', display: 'flex', padding: 4, fontSize: '1.75rem' }} />
-                        </div>
-                    </div>
+                    <Search />
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
                     <CustomDataTable columns={columns} rows={rows} />

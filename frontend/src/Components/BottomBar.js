@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 
 //Material UI
@@ -20,11 +20,20 @@ const BottomBar = () => {
   const classes = useBottomBarStyles()
   const history = useHistory()
 
-  let isAuthPages;
+  const [location, setLocation] = useState(history.location.pathname)
+  const [isAuthPages, setIsAuthPage] = useState(false)
 
   useEffect(() => {
-    isAuthPages = history.location.pathname === '/' || history.location.pathname === '/sign-up' || history.location.pathname === '/daftar-sekolah' || history.location.pathname.includes('reset-password')
-  }, [history.location.pathname])
+    setLocation(history.location.pathname)
+  }, [history])
+
+  useEffect(() => {
+    if (location === '/' || location === '/sign-up' || location === '/daftar-sekolah' || location === '/daftar-sekolah' || location.includes('reset-password')) {
+      setIsAuthPage(true)
+    } else {
+      setIsAuthPage(false)
+    }
+  }, [location])
 
   return (
     <React.Fragment>

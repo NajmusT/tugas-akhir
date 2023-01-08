@@ -21,11 +21,8 @@ import { getCurrentUser } from '../Utils';
 import lodash from 'lodash'
 
 function Navbar() {
-    const user = lodash.cloneDeep(getCurrentUser())
     const classes = useNavbarStyles()
     const history = useHistory()
-
-    let isAuthPages;
 
     const [clickDashboard, setClickDashboard] = useState(false);
     const [clickPengaduan, setClickPengaduan] = useState(false);
@@ -33,43 +30,52 @@ function Navbar() {
     const [clickDSS, setClickDSS] = useState(false);
     const [dropdown, setDropdown] = useState(false);
     const [open, setOpen] = useState(false);
+    const [location, setLocation] = useState(history.location.pathname)
+    const [isAuthPages, setIsAuthPage] = useState(false)
+    const [user, setUser] = useState(lodash.cloneDeep(getCurrentUser()))
 
     const anchorRef = useRef(null);
 
-    const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
-    };
+    const handleToggle = () => { setOpen((prevOpen) => !prevOpen); };
 
     useEffect(() => {
-        if (history.location.pathname.includes("beranda")) {
+        setLocation(history.location.pathname)
+    }, [history])
+
+    useEffect(() => {
+        if (location === '/' || location === '/sign-up' || location === '/daftar-sekolah' || location === '/daftar-sekolah' || location.includes('reset-password')) {
+            setIsAuthPage(true)
+        } else {
+            setIsAuthPage(false)
+        }
+
+        if (location.includes("beranda")) {
             setClickData(false)
             setClickPengaduan(false)
             setClickDashboard(true)
             setClickDSS(false)
-        } else if (history.location.pathname.includes("laporan-pengaduan")) {
+        } else if (location.includes("laporan-pengaduan")) {
             setClickData(false)
             setClickPengaduan(true)
             setClickDashboard(false)
             setClickDSS(false)
-        } else if (history.location.pathname.includes("pengaduan")) {
+        } else if (location.includes("pengaduan")) {
             setClickData(false)
             setClickPengaduan(true)
             setClickDashboard(false)
             setClickDSS(false)
-        } else if (history.location.pathname.includes("data")) {
+        } else if (location.includes("data")) {
             setClickData(true)
             setClickPengaduan(false)
             setClickDashboard(false)
             setClickDSS(false)
-        } else if (history.location.pathname.includes("decision-support")) {
+        } else if (location.includes("decision-support")) {
             setClickData(false)
             setClickPengaduan(false)
             setClickDashboard(false)
             setClickDSS(true)
         }
-
-        isAuthPages = history.location.pathname === '/' || history.location.pathname === '/sign-up' || history.location.pathname === '/daftar-sekolah' || history.location.pathname === '/daftar-sekolah' || history.location.pathname.includes('reset-password')
-    }, [history.location.pathname])
+    }, [location])
 
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
