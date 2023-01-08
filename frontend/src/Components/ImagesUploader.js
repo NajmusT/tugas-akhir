@@ -4,9 +4,13 @@ import "../Styles/ImagesUploaderStyles.scss";
 
 const ImagesUploader = (props) => {
     const { useInput } = props
+
     const onSelectFile = (event) => {
-        const fileUrl = URL.createObjectURL(event.target.files[0]);
-        profilePicture.handleChange(fileUrl);
+        const image = event.target.files[0]
+
+        const fileUrl = URL.createObjectURL(image);
+
+        profilePicture.handleChange(fileUrl, image);
     }
 
     const handleClickProfilePicture = () => {
@@ -26,10 +30,10 @@ const ImagesUploader = (props) => {
                 accept="image/png,image/gif,image/jpeg"
             />
             <div>
-                {profilePicture.value === null ? (
+                {profilePicture.urlValue === null ? (
                     <div
                         className="profile-picture-default"
-                        src={profilePicture.value}
+                        src={profilePicture.urlValue}
                         alt="profile picture"
                         onClick={handleClickProfilePicture}
                     >
@@ -38,9 +42,11 @@ const ImagesUploader = (props) => {
                 ) : (
                     <div
                         className="profile-picture"
-                        style={{ backgroundImage: `url(${profilePicture.value})` }}
                         onClick={handleClickProfilePicture}
-                    />
+                        style={{ justifyContent: 'center', alignContent: 'center' }}
+                    >
+                        <img src={profilePicture.urlValue} alt={'fotoProfil'} width="100%" height={"100%"} />
+                    </div>
                 )}
             </div>
         </div>

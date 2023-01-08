@@ -26,7 +26,8 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
     const [errors, setError] = useState({});
-    const [fotoProfil, setFotoProfil] = useState(null);
+    const [urlFotoProfil, setUrlFotoProfil] = useState(null);
+    const [fileFotoProfil, setFileFotoProfil] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const reader = new FileReader()
 
@@ -39,6 +40,7 @@ const Register = () => {
     }
 
     const handleEmailChange = (e) => {
+        resetErrorMsg()
         setEmail(e.target.value)
     }
 
@@ -53,23 +55,25 @@ const Register = () => {
     }
 
     const useInput = () => {
-        const handleChange = (newValue) => {
-            setFotoProfil(newValue)
+        const handleChange = (newUrlValue, newFileValue) => {
+            setUrlFotoProfil(newUrlValue)
+            setFileFotoProfil(newFileValue)
         }
 
         return {
-            value: fotoProfil,
+            urlValue: urlFotoProfil,
+            fileValue: fileFotoProfil,
             handleChange: handleChange
         }
     }
 
-    const validateForm = (errors) => {
-        let valid = true;
-        Object.entries(errors).forEach(item => {
-            item && item[1].length > 0 && (valid = false)
-        })
-        return valid;
-    }
+    // const validateForm = (errors) => {
+    //     let valid = true;
+    //     Object.entries(errors).forEach(item => {
+    //         item && item[1].length > 0 && (valid = false)
+    //     })
+    //     return valid;
+    // }
 
     const resetErrorMsg = () => {
         let error = {};
@@ -101,9 +105,13 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData()
 
         const data = {
-            fotoProfil: fotoProfil,
+            fotoProfil: {
+                url: urlFotoProfil,
+                file: fileFotoProfil
+            },
             name: name,
             email: email,
             password: password,
@@ -113,15 +121,25 @@ const Register = () => {
             lastActive: moment()
         }
 
-        if (validateForm(errors)) {
-            try {
-                await axios.post('http://localhost:5000/user/register', data);
+        formData.append("file", fileFotoProfil)
+        formData.append("name", name)
+        formData.append("fotoProfil", { urlFotoProfil, fileFotoProfil })
+        formData.append("email", email)
+        formData.append("password", password)
+        formData.append("password2", confPassword)
+        formData.append("isActive", false)
+        formData.append("createdAt", moment())
+        formData.append("lastActive", moment())
 
-                setOpenModal(true)
-            } catch (error) {
-                setError(error.response.data.errors)
-            }
+        // if (validateForm(errors)) {
+        try {
+            await axios.post('http://localhost:5000/user/register', formData, { headers: { "Content-Type": "multipart/form-data" } });
+
+            setOpenModal(true)
+        } catch (error) {
+            setError(error.response.data.errors)
         }
+        // }
     }
 
     return (

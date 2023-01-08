@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 //Other components
 import Dropdown from './Dropdown';
@@ -33,10 +34,53 @@ function Navbar() {
     const [location, setLocation] = useState(history.location.pathname)
     const [isAuthPages, setIsAuthPage] = useState(false)
     const [user, setUser] = useState(lodash.cloneDeep(getCurrentUser()))
+    const [sekolah, setSekolah] = useState(null)
+    const [allSekolah, setAllSekolah] = useState(null)
+
+    const image3 = user?.fotoProfil != null ? require(`../../../backend/public/images/${user.fotoProfil.fileName}`) : '';
 
     const anchorRef = useRef(null);
 
     const handleToggle = () => { setOpen((prevOpen) => !prevOpen); };
+
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    function handleListKeyDown(event) {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setOpen(false);
+        }
+    }
+
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = useRef(open);
+
+    const onMouseEnter = () => {
+        if (user?.roles === 'staff-dinas') {
+            axios.get('http://localhost:5000/sekolah').then(res => { setAllSekolah(res.data) })
+        } else if (user?.roles === 'admin-sekolah') {
+            axios.get('http://localhost:5000/sekolah').then(res => { setSekolah(res.data.filter(item => item.createdBy === user._id)) })
+        }
+
+        if (window.innerWidth < 960) { setDropdown(false); }
+        else { setDropdown(true); }
+    };
+
+    const onMouseLeave = () => {
+        if (window.innerWidth < 960) { setDropdown(false); }
+        else { setDropdown(false); }
+    };
+
+    const handleLogOut = () => {
+        localStorage.clear()
+        history.push('/')
+    }
 
     useEffect(() => {
         setLocation(history.location.pathname)
@@ -77,24 +121,6 @@ function Navbar() {
         }
     }, [location])
 
-    const handleClose = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
-            return;
-        }
-
-        setOpen(false);
-    };
-
-    function handleListKeyDown(event) {
-        if (event.key === 'Tab') {
-            event.preventDefault();
-            setOpen(false);
-        }
-    }
-
-    // return focus to the button when we transitioned from !open -> open
-    const prevOpen = useRef(open);
-
     useEffect(() => {
         if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
@@ -102,27 +128,6 @@ function Navbar() {
 
         prevOpen.current = open;
     }, [open]);
-
-    const onMouseEnter = () => {
-        if (window.innerWidth < 960) {
-            setDropdown(false);
-        } else {
-            setDropdown(true);
-        }
-    };
-
-    const onMouseLeave = () => {
-        if (window.innerWidth < 960) {
-            setDropdown(false);
-        } else {
-            setDropdown(false);
-        }
-    };
-
-    const handleLogOut = () => {
-        localStorage.clear()
-        history.push('/')
-    }
 
     return (
         <React.Fragment>
@@ -158,7 +163,7 @@ function Navbar() {
                                                         <ExpandMoreIcon />
                                                     </div>
                                                 </div>
-                                                {dropdown && <Dropdown />}
+                                                {dropdown && <Dropdown sekolah={sekolah} allSekolah={allSekolah} />}
                                             </div>
                                             <div className={classes.navbarItem}>
                                                 {user?.roles === 'admin-sekolah' &&
@@ -191,16 +196,19 @@ function Navbar() {
                             </div>
                         </Grid>
                         <Grid item xs={1} >
-                            <IconButton
-                                ref={anchorRef}
-                                aria-controls={open ? 'menu-list-grow' : undefined}
-                                aria-haspopup="true"
-                                onClick={handleToggle}
-                            >
-                                <AccountCircle style={{
-                                    fontSize: 24
-                                }} />
-                            </IconButton>
+                            {user?.fotoProfil === null ?
+                                <IconButton
+                                    ref={anchorRef}
+                                    aria-controls={open ? 'menu-list-grow' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={handleToggle}
+                                >
+                                    <AccountCircle style={{ fontSize: 24 }} />
+                                </IconButton> :
+                                <div ref={anchorRef} onClick={handleToggle} style={{ justifyContent: 'center', alignContent: 'center', paddingLeft: 56 }}>
+                                    <img src={image3} alt={'foto-profil'} style={{ width: '40%', height: '40%', borderRadius: '50%' }} />
+                                </div>
+                            }
                             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                                 {({ TransitionProps, placement }) => (
                                     <Grow

@@ -48,6 +48,8 @@ const TerimaAkun = (props) => {
     const { title, subtitle, open, handleClose, user, dialogAction, inputControl } = props;
     const classes = useStyles()
 
+    const image = require(`../../../backend/public/images/${user.fotoProfil.fileName}`)
+
     return (
         <Dialog open={open} classes={{ paper: classes.dialog }}>
             <DialogTitle className={classes.dialogTitle}>
@@ -67,7 +69,7 @@ const TerimaAkun = (props) => {
                 <Grid container style={{}}>
                     <Grid item container xs={4} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                         {user.fotoProfil != null ?
-                            <img src={user.fotoProfil} alt={'email'} style={{ width: '20px', height: '16px', padding: 2 }} /> :
+                            <img src={image} alt={'email'} style={{ width: '100%', height: '100%' }} /> :
                             <ImageIcon fill={'#EFEFEF'} style={{ width: '4vw', height: '4vw', padding: "0px 32px" }} />
                         }
                     </Grid>
