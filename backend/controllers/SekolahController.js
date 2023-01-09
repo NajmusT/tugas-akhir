@@ -2,10 +2,11 @@ const Sekolah = require('../models/Sekolah')
 const router = require('express').Router()
 const path = require("path")
 const fs = require("fs")
+
 const { v1: uuidv1 } = require('uuid');
 
 //create
-router.route('/new').post((req, res) => {
+router.post('/new', (req, res) => {
     const file = req.files.file
     const ext = path.extname(file.name)
     const fileName = file.md5 + ext
@@ -18,7 +19,23 @@ router.route('/new').post((req, res) => {
             url: url,
             fileName: fileName
         },
-        ...req.body
+        nama: req.body.nama,
+        npsn: req.body.npsn,
+        jenis: req.body.jenis,
+        alamat: JSON.parse(req.body.alamat),
+        kepalaSekolah: req.body.kepalaSekolah,
+        ketuaKomite: req.body.ketuaKomite,
+        akreditasi: JSON.parse(req.body.akreditasi),
+        pendirian: JSON.parse(req.body.pendirian),
+        izinOperasional: JSON.parse(req.body.izinOperasional),
+        lahan: JSON.parse(req.body.lahan),
+        bantuanPengadaan: req.body.bantuanPengadaan,
+        rombonganBelajar: req.body.rombonganBelajar,
+        jumlahGuru: req.body.jumlahGuru,
+        createdAt: req.body.createdAt,
+        createdBy: req.body.createdBy,
+        updatedAt: req.body.updatedAt,
+        updatedBy: req.body.updatedBy
     })
 
     if (allowedType.includes(ext.toLowerCase())) {

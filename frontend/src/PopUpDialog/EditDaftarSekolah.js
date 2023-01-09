@@ -21,27 +21,28 @@ import ImageIcon from '../asset/icons/Image';
 import { useAuthStyles } from '../Styles/AuthStyles';
 import moment from 'moment';
 import { getCurrentUser } from '../Utils';
+import ImagesUploader from '../Components/ImagesUploader';
 
 const EditDaftarSekolah = (props) => {
-    const { isEditMode } = props
+    const { isEditMode, dataSekolah } = props
 
     const history = useHistory();
     const classes = useAuthStyles()
     const userId = getCurrentUser()?._id
 
-    const [alamat, setAlamat] = useState(null)
-    const [kepsek, setKepsek] = useState(null)
-    const [fotoSekolah, setFotoSekolah] = useState(null)
-    const [alamatJalan, setAlamatJalan] = useState(null)
-    const [kecamatan, setKecamatan] = useState(null)
-    const [kelurahan, setKelurahan] = useState(null)
-    const [komite, setKomite] = useState(null)
-    const [sekolah, setSekolah] = useState(null)
-    const [skAkre, setSkakre] = useState(null)
-    const [npsn, setNpsn] = useState(null)
-    const [akreditasi, setAkreditasi] = useState(null)
-    const [tipe, setTipe] = useState(null)
-    const [noSuratPendirian, setNoSuratPendirian] = useState(null)
+    const [alamat, setAlamat] = useState(isEditMode ? dataSekolah.alamat : null)
+    const [kepsek, setKepsek] = useState(isEditMode ? dataSekolah.kepsek : null)
+    const [fotoSekolah, setFotoSekolah] = useState(isEditMode ? dataSekolah.fotoSekolah : null)
+    const [alamatJalan, setAlamatJalan] = useState(isEditMode ? alamat.jalan : null)
+    const [kecamatan, setKecamatan] = useState(isEditMode ? alamat.kecamatan : null)
+    const [kelurahan, setKelurahan] = useState(isEditMode ? alamat.kelurahan : null)
+    const [komite, setKomite] = useState(isEditMode ? dataSekolah.ketuaKomite : null)
+    const [sekolah, setSekolah] = useState(isEditMode ? dataSekolah : null)
+    const [skAkre, setSkakre] = useState(isEditMode ? dataSekolah.akreditasi.noSK : null)
+    const [npsn, setNpsn] = useState(isEditMode ? dataSekolah.npsn : null)
+    const [akreditasi, setAkreditasi] = useState(isEditMode ? dataSekolah.akreditasi.nilaiHuruf : null)
+    const [tipe, setTipe] = useState(isEditMode ? dataSekolah.jenis : null)
+    const [noSuratPendirian, setNoSuratPendirian] = useState(isEditMode ? dataSekolah.pendirian.noSurat : null)
     const [tanggalPendirian, setTanggalPendirian] = useState(null)
     const [noSuratIzin, setNoSuratIzin] = useState(null)
     const [tanggalIzinOperasional, setTanggalIzinOperasional] = useState(null)
@@ -52,6 +53,21 @@ const EditDaftarSekolah = (props) => {
     const [apbn, setApbn] = useState(false)
     const [bos, setBos] = useState(false)
     const [bantuanPengadaan, setBantuanPengadaan] = useState(false)
+    const [file, setFile] = useState(null)
+    const [url, setUrl] = useState(null)
+
+    const useInput = () => {
+        const handleChange = (newUrlValue, newFileValue) => {
+            setUrl(newUrlValue)
+            setFile(newFileValue)
+        }
+
+        return {
+            urlValue: url,
+            fileValue: file,
+            handleChange: handleChange
+        }
+    }
 
     const handleChangeKepsek = (e) => {
         setKepsek(e.target.value)
@@ -133,12 +149,13 @@ const EditDaftarSekolah = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData()
 
         const data = {
             npsn: npsn,
             nama: sekolah,
             jenis: tipe,
-            fotoSekolah: fotoSekolah,
+            fotoSekolah: { url: url, fileName: file },
             alamat: {
                 jalan: alamatJalan,
                 kodePos: (alamat.filter(item => item.kecamatan === kecamatan && item.desaKelurahan === kelurahan).map(dt => dt.kodePos))[0]
@@ -169,8 +186,28 @@ const EditDaftarSekolah = (props) => {
             createdAt: moment()
         }
 
+        formData.append("file", file)
+        formData.append("nama", sekolah)
+        formData.append("npsn", npsn)
+        formData.append("jenis", tipe)
+        formData.append("fotoSekolah", JSON.stringify(data.fotoSekolah))
+        formData.append("alamat", JSON.stringify(data.alamat))
+        formData.append("kepalaSekolah", kepsek)
+        formData.append("ketuaKomite", komite)
+        formData.append("akreditasi", JSON.stringify(data.akreditasi))
+        formData.append("pendirian", JSON.stringify(data.pendirian))
+        formData.append("izinOperasional", JSON.stringify(data.izinOperasional))
+        formData.append("lahan", JSON.stringify(data.lahan))
+        formData.append("bantuanPengadaan", bantuanPengadaan)
+        formData.append("rombonganBelajar", rombonganBelajar)
+        formData.append("jumlahGuru", jumlahGuru)
+        formData.append("createdBy", userId)
+        formData.append("createdAt", moment())
+        formData.append("updatedBy", userId)
+        formData.append("updatedAt", moment())
+
         try {
-            await axios.post('http://localhost:5000/sekolah/new', data);
+            await axios.post('http://localhost:5000/sekolah/new', formData);
             history.push('/beranda')
         } catch (error) {
             console.log(error);
@@ -229,10 +266,10 @@ const EditDaftarSekolah = (props) => {
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container>
-                        <Grid item container xs={7} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
-                            <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
+                        <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
+                            <ImagesUploader useInput={useInput} />
                         </Grid>
-                        <Grid item container xs={5} style={{ paddingLeft: 24 }}>
+                        <Grid item container xs={6} style={{ paddingLeft: 24 }}>
                             <Grid container>
                                 <Grid item container xs={12}>
                                     <Typography className={classes.textBody}>

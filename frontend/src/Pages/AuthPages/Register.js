@@ -107,23 +107,9 @@ const Register = () => {
         e.preventDefault();
         const formData = new FormData()
 
-        const data = {
-            fotoProfil: {
-                url: urlFotoProfil,
-                file: fileFotoProfil
-            },
-            name: name,
-            email: email,
-            password: password,
-            password2: confPassword,
-            isActive: false,
-            createdAt: moment(),
-            lastActive: moment()
-        }
-
         formData.append("file", fileFotoProfil)
         formData.append("name", name)
-        formData.append("fotoProfil", { urlFotoProfil, fileFotoProfil })
+        formData.append("fotoProfil", { urlFotoProfil: urlFotoProfil, fileFotoProfil: fileFotoProfil })
         formData.append("email", email)
         formData.append("password", password)
         formData.append("password2", confPassword)

@@ -62,9 +62,9 @@ function Navbar() {
     const prevOpen = useRef(open);
 
     const onMouseEnter = () => {
-        if (user?.roles === 'staff-dinas') {
+        if (user?.roles === 'admin-sekolah') {
             axios.get('http://localhost:5000/sekolah').then(res => { setAllSekolah(res.data) })
-        } else if (user?.roles === 'admin-sekolah') {
+        } else if (user?.roles === 'staff-dinas') {
             axios.get('http://localhost:5000/sekolah').then(res => { setSekolah(res.data.filter(item => item.createdBy === user._id)) })
         }
 
@@ -163,7 +163,7 @@ function Navbar() {
                                                         <ExpandMoreIcon />
                                                     </div>
                                                 </div>
-                                                {dropdown && <Dropdown sekolah={sekolah} allSekolah={allSekolah} />}
+                                                {dropdown && <Dropdown />}
                                             </div>
                                             <div className={classes.navbarItem}>
                                                 {user?.roles === 'admin-sekolah' &&
