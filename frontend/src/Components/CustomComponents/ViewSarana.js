@@ -2,11 +2,12 @@ import React from 'react'
 
 //Material UI
 import { Grid, Typography } from '@material-ui/core'
+
 import { FontFamily } from '../../Constants/FontFamily'
 import { Color } from '../../Constants/Colors'
 
-import Button from '../Button'
-import Breadcrumb from '../Breadcrumb'
+import Button from '../ReusableComponent/Button'
+import Breadcrumb from '../ReusableComponent/Breadcrumb'
 
 import ImageIcon from '../../asset/icons/Image';
 

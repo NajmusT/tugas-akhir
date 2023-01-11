@@ -8,8 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 //Components
-import TextField from '../../Components/TextField'
-import Button from '../../Components/Button'
+import TextField from '../../Components/ReusableComponent/TextField'
+import Button from '../../Components/ReusableComponent/Button'
 import FormDialog from '../../Components/CustomComponents/FormDialog';
 
 //Constant

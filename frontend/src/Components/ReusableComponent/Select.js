@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/styles'
 import { TextField } from '@material-ui/core'
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { TextFieldStyles } from '../Styles/TextFieldStyles'
+import { TextFieldStyles } from '../../Styles/TextFieldStyles'
 
 class CustomSelect extends Component {
     render() {

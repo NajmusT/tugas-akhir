@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import lodash from 'lodash'
 
 //Other components
 import Dropdown from './Dropdown';
-import image from '../asset/images/dinas.png'
+import image from '../../asset/images/dinas.png'
 
 //Material UI
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -17,9 +18,9 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import { useNavbarStyles } from '../Styles/NavBarStyles';
-import { getCurrentUser } from '../Utils';
-import lodash from 'lodash'
+
+import { useNavbarStyles } from '../../Styles/NavBarStyles';
+import { getCurrentUser } from '../../Utils';
 
 function Navbar() {
     const classes = useNavbarStyles()
@@ -37,7 +38,7 @@ function Navbar() {
     const [sekolah, setSekolah] = useState(null)
     const [allSekolah, setAllSekolah] = useState(null)
 
-    const image3 = user?.fotoProfil != null ? require(`../../../backend/public/images/${user.fotoProfil.fileName}`) : '';
+    const image3 = user?.fotoProfil != null ? require(`../../../../backend/public/images/${user.fotoProfil.fileName}`) : '';
 
     const anchorRef = useRef(null);
 

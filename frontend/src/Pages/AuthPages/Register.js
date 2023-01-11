@@ -7,18 +7,19 @@ import moment from 'moment'
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import WaitIcon from '@material-ui/icons/AvTimer';
 
 //Components
-import TextField from '../../Components/TextField'
-import Button from '../../Components/Button'
+import TextField from '../../Components/ReusableComponent/TextField'
+import Button from '../../Components/ReusableComponent/Button'
+import ImagesUploader from '../../Components/ReusableComponent/ImagesUploader';
+import ConfirmationDialog from '../../Components/ReusableComponent/ConfirmationDialog';
 
 //Constant
 import { Color } from "../../Constants/Colors";
 import { isValidEmail } from '../../Utils';
+
 import { useAuthStyles } from '../../Styles/AuthStyles';
-import ImagesUploader from '../../Components/ImagesUploader';
-import ConfirmationDialog from '../../Components/ConfirmationDialog';
-import WaitIcon from '@material-ui/icons/AvTimer';
 
 const Register = () => {
     const [name, setName] = useState('');

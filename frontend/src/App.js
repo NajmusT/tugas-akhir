@@ -2,14 +2,15 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 //Components
+import BottomBar from './Components/ReusableComponent/BottomBar';
+import Navbar from './Components/ReusableComponent//Navbar';
+import BuatPengaduan from './Components/CustomComponents/BuatPengaduan';
+
 import Register from './Pages/AuthPages/Register';
 import ResetPassword from './Pages/AuthPages/ResetPassword';
 import Login from './Pages/AuthPages/Login';
 import Dashboard from './Pages/MainPages/Dashboard';
-import Navbar from './Components/Navbar';
 import DaftarSekolah from './Pages/AuthPages/DaftarSekolah';
-import BottomBar from './Components/BottomBar';
-import BuatPengaduan from './Components/CustomComponents/BuatPengaduan';
 import DecisionSupport from './Pages/MainPages/DecisionSupport';
 import LaporanPengaduan from './Pages/MainPages/LaporanPengaduan';
 
@@ -94,7 +95,7 @@ import ViewUKS from './Pages/MainPages/Data/UKS/View';
 import ViewSaranaUKS from './Pages/MainPages/Data/UKS/ViewSarana';
 import ManajemenUser from './Pages/MainPages/ManajemenUser';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Navbar />

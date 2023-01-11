@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
+import moment from 'moment';
 
 //Material UI
 import Grid from '@material-ui/core/Grid';
@@ -11,17 +12,19 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 //Components
-import TextField from '../Components/TextField'
-import Button from '../Components/Button'
-import CustomSelect from '../Components/Select'
+import TextField from '../Components/ReusableComponent/TextField'
+import Button from '../Components/ReusableComponent/Button'
+import CustomSelect from '../Components/ReusableComponent/Select'
+import ImagesUploader from '../Components/ReusableComponent/ImagesUploader';
 
 //Constant
 import { Color } from "../Constants/Colors";
+
 import ImageIcon from '../asset/icons/Image';
+
 import { useAuthStyles } from '../Styles/AuthStyles';
-import moment from 'moment';
+
 import { getCurrentUser } from '../Utils';
-import ImagesUploader from '../Components/ImagesUploader';
 
 const EditDaftarSekolah = (props) => {
     const { isEditMode, dataSekolah } = props
@@ -424,7 +427,7 @@ const EditDaftarSekolah = (props) => {
                                 page={"auth"}
                                 value={kecamatan}
                                 onChange={handleChangeKecamatan}
-                                option={alamat !== null ? alamat.map(item => item.kecamatan) : []}
+                                option={alamat !== null ? alamat.filter((item, index) => item.kecamatan != item[index - 1].kecamatan).map(i => i.kecamatan) : []}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>

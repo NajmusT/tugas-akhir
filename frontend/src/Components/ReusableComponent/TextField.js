@@ -1,7 +1,9 @@
+import React, { Component } from 'react'
+
 import { TextField } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
-import React, { Component } from 'react'
-import { TextFieldStyles } from '../Styles/TextFieldStyles'
+
+import { TextFieldStyles } from '../../Styles/TextFieldStyles'
 
 class CustomTextField extends Component {
     render() {

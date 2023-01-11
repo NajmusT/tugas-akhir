@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import FormDialog from '../Components/CustomComponents/FormDialog'
-import Select from '../Components/Select'
+import Select from '../Components/ReusableComponent/Select'
 
 const PilihSekolah = (props) => {
     const { open, handleClose } = props

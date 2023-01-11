@@ -9,13 +9,13 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import InstagramIcon from '@material-ui/icons/Instagram';
 
-import image1 from '../asset/images/footer1.png'
-import infoTambahan from '../asset/images/infoTambahan.png'
-import image2 from '../asset/images/social.png'
-import whatsapp from '../asset/images/whatsapp.png'
-import email from '../asset/images/email.png'
+import image1 from '../../asset/images/footer1.png'
+import infoTambahan from '../../asset/images/infoTambahan.png'
+import image2 from '../../asset/images/social.png'
+import whatsapp from '../../asset/images/whatsapp.png'
+import email from '../../asset/images/email.png'
 
-import { useBottomBarStyles } from '../Styles/BottomBarStyles'
+import { useBottomBarStyles } from '../../Styles/BottomBarStyles'
 
 const BottomBar = () => {
   const classes = useBottomBarStyles()

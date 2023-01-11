@@ -10,13 +10,14 @@ import { Grid, Typography } from '@material-ui/core'
 import { FontFamily } from '../../Constants/FontFamily'
 import { Color } from '../../Constants/Colors'
 
-import Breadcrumb from '../../Components/Breadcrumb'
-import CustomDataTable from '../../Components/DataTable'
-import Button from '../../Components/Button'
-import Search from '../../Components/Search'
+import Breadcrumb from '../../Components/ReusableComponent/Breadcrumb'
+import CustomDataTable from '../../Components/ReusableComponent/DataTable'
+import Button from '../../Components/ReusableComponent/Button'
+import Search from '../../Components/ReusableComponent/Search'
+import Select from '../../Components/ReusableComponent/Select'
+import ConfirmationDialog from '../../Components/ReusableComponent/ConfirmationDialog'
+
 import TerimaAkun from '../../PopUpDialog/TerimaAkun'
-import Select from '../../Components/Select'
-import ConfirmationDialog from '../../Components/ConfirmationDialog'
 
 import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
 import WarningIcon from '@material-ui/icons/ErrorOutline';

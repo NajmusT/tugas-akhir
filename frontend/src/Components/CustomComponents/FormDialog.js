@@ -10,8 +10,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
 //Custom Component
-import Button from '../Button'
-import TextField from '../TextField'
+import Button from '../ReusableComponent/Button'
+import TextField from '../ReusableComponent/TextField'
 
 import { FontFamily } from '../../Constants/FontFamily';
 import { Color } from '../../Constants/Colors';

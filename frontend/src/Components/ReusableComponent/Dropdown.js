@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { MenuItems } from '../Constants/MenuItems';
+import { MenuItems } from '../../Constants/MenuItems';
 
-import '../Styles/Dropdown.css';
-import { useDropdownStyles } from '../Styles/DropdownStyles';
+import { useDropdownStyles } from '../../Styles/DropdownStyles';
+import '../../Styles/Dropdown.css';
 
 const Dropdown = (props) => {
     const history = useHistory()

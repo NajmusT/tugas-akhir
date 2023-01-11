@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
-import ImageIcon from "../asset/icons/Image";
-import "../Styles/ImagesUploaderStyles.scss";
+
+import ImageIcon from "../../asset/icons/Image";
+import "../../Styles/ImagesUploaderStyles.scss";
 
 const ImagesUploader = (props) => {
     const { useInput } = props

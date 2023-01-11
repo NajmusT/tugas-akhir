@@ -5,10 +5,10 @@ import { Grid, Typography } from '@material-ui/core'
 import { FontFamily } from '../../Constants/FontFamily'
 import { Color } from '../../Constants/Colors'
 
-import Breadcrumb from '../../Components/Breadcrumb'
-import CustomSelect from '../../Components/Select'
-import Button from '../../Components/Button'
-import CustomDataTable from '../../Components/DataTable'
+import Breadcrumb from '../../Components/ReusableComponent/Breadcrumb'
+import CustomSelect from '../../Components/ReusableComponent/Select'
+import Button from '../../Components/ReusableComponent/Button'
+import CustomDataTable from '../../Components/ReusableComponent/DataTable'
 
 const DecisionSupport = () => {
     const [jenis, setJenis] = useState(null)

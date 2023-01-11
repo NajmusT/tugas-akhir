@@ -9,7 +9,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { FontFamily } from '../Constants/FontFamily';
+
+import { FontFamily } from '../../Constants/FontFamily';
 
 const useStyles = makeStyles({
     root: {

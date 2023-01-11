@@ -6,11 +6,13 @@ import { Grid, Typography } from '@material-ui/core'
 import { FontFamily } from '../../Constants/FontFamily'
 import { Color } from '../../Constants/Colors'
 
-import Button from '../Button'
-import Breadcrumb from '../Breadcrumb'
-import CustomDataTable from '../DataTable'
+import Button from '../ReusableComponent/Button'
+import Breadcrumb from '../ReusableComponent/Breadcrumb'
+import CustomDataTable from '../ReusableComponent/DataTable'
+import Search from '../ReusableComponent/Search';
+
 import ImageIcon from '../../asset/icons/Image';
-import Search from '../Search'
+
 import { getCurrentUser } from '../../Utils'
 
 const ViewListPrasarana = (props) => {

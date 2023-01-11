@@ -1,9 +1,11 @@
 import React from 'react'
-import TextField from './TextField'
 
 import SearchIcon from '@material-ui/icons/Search';
-import { Color } from '../Constants/Colors';
 import { makeStyles } from '@material-ui/core';
+
+import TextField from './TextField'
+
+import { Color } from '../../Constants/Colors';
 
 const useSearchStyles = makeStyles({
     button: {

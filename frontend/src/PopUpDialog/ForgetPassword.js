@@ -1,9 +1,11 @@
 import { Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import FormDialog from '../Components/CustomComponents/FormDialog'
-import TextField from '../Components/TextField'
-import { FontFamily } from '../Constants/FontFamily'
 import axios from 'axios'
+
+import FormDialog from '../Components/CustomComponents/FormDialog'
+import TextField from '../Components/ReusableComponent/TextField'
+
+import { FontFamily } from '../Constants/FontFamily'
 
 const ForgetPassword = (props) => {
     const { open, handleClose } = props

@@ -6,10 +6,10 @@ import { Grid, Typography } from '@material-ui/core'
 import { FontFamily } from '../../Constants/FontFamily'
 import { Color } from '../../Constants/Colors'
 
-import Breadcrumb from '../Breadcrumb'
-import CustomTextField from '../TextField'
-import CustomSelect from '../Select'
-import Button from '../Button'
+import Breadcrumb from '../ReusableComponent/Breadcrumb'
+import CustomTextField from '../ReusableComponent/TextField'
+import CustomSelect from '../ReusableComponent/Select'
+import Button from '../ReusableComponent/Button'
 
 import ImageIcon from '../../asset/icons/Image';
 

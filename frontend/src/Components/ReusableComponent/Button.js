@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
-import { ButtonStyles } from '../Styles/ButtonStyles';
 import MaterialUIButton from '@material-ui/core/Button';
+
+import { ButtonStyles } from '../../Styles/ButtonStyles';
 
 class Button extends Component {
     render() {

@@ -5,10 +5,9 @@ import { Grid, Typography } from '@material-ui/core'
 import { FontFamily } from '../../Constants/FontFamily'
 import { Color } from '../../Constants/Colors'
 
-import Breadcrumb from '../../Components/Breadcrumb'
-import CustomDataTable from '../../Components/DataTable'
-
-import Search from '../../Components/Search'
+import Breadcrumb from '../../Components/ReusableComponent/Breadcrumb'
+import CustomDataTable from '../../Components/ReusableComponent/DataTable'
+import Search from '../../Components/ReusableComponent/Search'
 
 const LaporanPengaduan = () => {
     const columns = [

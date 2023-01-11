@@ -2,7 +2,8 @@ import React from 'react'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, makeStyles, IconButton } from '@material-ui/core'
 import NotListedLocationIcon from '@material-ui/icons/NotListedLocation';
 import CloseIcon from '@material-ui/icons/Close';
-import { FontFamily } from '../Constants/FontFamily';
+
+import { FontFamily } from '../../Constants/FontFamily';
 
 const useStyles = makeStyles(theme => ({
     dialog: {
