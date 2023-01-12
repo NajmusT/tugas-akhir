@@ -2,14 +2,13 @@ const Sekolah = require('../models/Sekolah')
 const router = require('express').Router()
 const path = require("path")
 const fs = require("fs")
-
 const { v1: uuidv1 } = require('uuid');
 
 //create
 router.post('/new', (req, res) => {
-    const file = req.files.file
-    const ext = path.extname(file.name)
-    const fileName = file.md5 + ext
+    const file = req.files === null ? null : req.files.file
+    const ext = file != null ? path.extname(file.name) : ''
+    const fileName = file != null ? (file.md5 + ext) : ''
     const url = `${req.protocol}`
     const allowedType = ['.png', '.jpg', '.jpeg'];
 
@@ -38,21 +37,21 @@ router.post('/new', (req, res) => {
         updatedBy: req.body.updatedBy
     })
 
-    if (allowedType.includes(ext.toLowerCase())) {
-        file.mv(`./public/images/${fileName}`, async (err) => {
-            if (err) return res.status(500).json({ msg: err.message });
-            sekolahBaru.save()
-                .then(sekolah => res.json(sekolah))
-                .catch(err => res.status(400).json("Error! " + err))
-        })
-    } else {
-        return res.status(400).json("Tipe file tidak valid")
+    if (file !== null) {
+        if (allowedType.includes(ext.toLowerCase())) {
+            file.mv(`./public/images/${fileName}`, async (err) => {
+                if (err) return res.status(500).json({ msg: err.message });
+            })
+        } else { return res.status(400).json("Tipe file tidak valid") }
     }
+
+    sekolahBaru.save()
+        .then(sekolah => res.json(sekolah))
+        .catch(err => res.status(400).json("Error! " + err))
 })
 
 //retrieve all
 router.route('/').get((req, res) => {
-    // using .find() without a parameter will match on all Schools instances
     Sekolah.find()
         .then(semuaSekolah => res.json(semuaSekolah))
         .catch(err => res.status(400).json('Error! ' + err))
@@ -60,7 +59,6 @@ router.route('/').get((req, res) => {
 
 //retrieve mine
 router.route('/mine').get((req, res) => {
-    // using .find() without a parameter will match on all Prasarana instances
     Sekolah.find({ createdBy: req.user._id })
         .then(semuaSekolah => res.json(semuaSekolah))
         .catch(err => res.status(400).json('Error! ' + err))
@@ -88,9 +86,7 @@ router.route('/delete/:id').delete((req, res) => {
 router.route('/update/:id').put((req, res) => {
     const sekolah = Sekolah.findOne({ id: req.params.id })
 
-    if (!sekolah) {
-        return res.status(400).json("No data found")
-    }
+    if (!sekolah) { return res.status(400).json("No data found") }
 
     let fileName = ""
     let url = ""
@@ -100,7 +96,6 @@ router.route('/update/:id').put((req, res) => {
         url = sekolah.fotoSekolah.url
     } else {
         const file = req.files.file;
-        const fileSize = file.data.length;
         const ext = path.extname(file.name);
         url = `${req.protocol}`
         fileName = file.md5 + ext;
@@ -110,17 +105,14 @@ router.route('/update/:id').put((req, res) => {
             const filepath = `./public/images/${sekolah.fotoSekolah.fileName}`;
             fs.unlinkSync(filepath);
 
+            req.body.fotoSekolah.url = url
+            req.body.fotoSekolah.fileName = fileName
+
             file.mv(`./public/images/${fileName}`, (err) => {
                 if (err) return res.status(500).json({ msg: err.message });
             });
-
-        } else {
-            return res.status(400).json("Tipe file tidak valid")
-        }
+        } else { return res.status(400).json("Tipe file tidak valid") }
     }
-
-    req.body.fotoSekolah.url = url
-    req.body.fotoSekolah.fileName = fileName
 
     Sekolah.findOneAndUpdate(req.params.id, req.body)
         .then(sekolah => res.json(`Sukses! Data sekolah ${sekolah.nama} telah terupdate.`))

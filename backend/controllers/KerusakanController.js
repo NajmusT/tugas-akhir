@@ -1,12 +1,38 @@
 const Kerusakan = require('../models/Kerusakan')
 const router = require('express').Router()
-
+const path = require("path")
+const fs = require("fs")
 const { v1: uuidv1 } = require('uuid');
-const { protect } = require("../middlewares/authMiddlewares")
 
 //create
 router.route('/new').post((req, res) => {
-    const kerusakanBaru = new Kerusakan({ _id: uuidv1(), createdBy: req.user._id, ...req.body })
+    const file = req.files === null ? null : req.files.file
+    const ext = file != null ? path.extname(file.name) : ''
+    const fileName = file != null ? (file.md5 + ext) : ''
+    const url = `${req.protocol}`
+    const allowedType = ['.png', '.jpg', '.jpeg'];
+
+    const kerusakanBaru = new Kerusakan({
+        _id: uuidv1(),
+        idSarana: req.body.idSarana,
+        idPrasarana: req.body.idPrasarana,
+        kondisi: req.body.kondisi,
+        deskripsi: req.body.deskripsi,
+        bukti: { url: url, fileName: fileName },
+        createdBy: req.body.createdBy,
+        createdAt: moment(),
+        updatedBy: req.body.updatedBy,
+        updatedAt: moment()
+    })
+
+    if (file !== null) {
+        if (allowedType.includes(ext.toLowerCase())) {
+            file.mv(`./public/images/${fileName}`, async (err) => {
+                if (err) return res.status(500).json({ msg: err.message });
+            })
+        } else { return res.status(400).json("Tipe file tidak valid") }
+    }
+
     kerusakanBaru.save()
         .then(kerusakan => res.json(kerusakan))
         .catch(err => res.status(400).json("Error! " + err))

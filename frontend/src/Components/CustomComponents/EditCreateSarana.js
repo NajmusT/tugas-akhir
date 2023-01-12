@@ -10,8 +10,7 @@ import Breadcrumb from '../ReusableComponent/Breadcrumb'
 import CustomTextField from '../ReusableComponent/TextField'
 import CustomSelect from '../ReusableComponent/Select'
 import Button from '../ReusableComponent/Button'
-
-import ImageIcon from '../../asset/icons/Image';
+import ImagesUploader from '../ReusableComponent/ImagesUploader'
 
 const EditCreateSarana = (props) => {
     const { isEditMode, sekolah, ruangan } = props
@@ -19,7 +18,6 @@ const EditCreateSarana = (props) => {
     const history = useHistory()
 
     const [name, setName] = useState(null)
-    const [foto, setFoto] = useState(null)
     const [kondisi, setKondisi] = useState(null)
     const [jumlah, setJumlah] = useState(null)
     const [satuan, setSatuan] = useState(null)
@@ -27,13 +25,24 @@ const EditCreateSarana = (props) => {
     const [deskripsi, setDeskripsi] = useState(null)
     const [prasarana, setPrasarana] = useState(null)
     const [school, setSchool] = useState(null)
+    const [file, setFile] = useState(null)
+    const [url, setUrl] = useState(null)
+
+    const useInput = () => {
+        const handleChange = (newUrlValue, newFileValue) => {
+            setUrl(newUrlValue)
+            setFile(newFileValue)
+        }
+
+        return {
+            urlValue: url,
+            fileValue: file,
+            handleChange: handleChange
+        }
+    }
 
     const handleChangeName = (e) => {
         setName(e.target.value)
-    }
-
-    const handleChangeFoto = (e) => {
-        setFoto(e.target.value)
     }
 
     const handleChangeKondisi = (e) => {
@@ -58,11 +67,9 @@ const EditCreateSarana = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+
     }
-
-    useEffect(() => {
-
-    }, [])
 
     return (
         <React.Fragment>
@@ -85,8 +92,8 @@ const EditCreateSarana = (props) => {
                         borderRadius: 12
                     }}>
                         <Grid container style={{ padding: '36px' }}>
-                            <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
-                                <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
+                            <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', borderRadius: 12 }}>
+                                <ImagesUploader useInput={useInput} width={700} height={460} />
                             </Grid>
                             <Grid item container xs={6} style={{ paddingLeft: 32 }}>
                                 <Grid item xs={12}>

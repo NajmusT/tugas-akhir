@@ -17,7 +17,12 @@ const saranaSchema = new Schema(
             required: true
         },
         foto: {
-            type: String
+            url: {
+                type: String,
+            },
+            fileName: {
+                type: String,
+            }
         },
         jumlah: {
             kuantitas: {
@@ -49,14 +54,12 @@ const saranaSchema = new Schema(
             }
         },
         createdBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: String,
+            required: true
         },
         updatedBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: String,
+            required: true
         },
         createdAt: {
             type: Date

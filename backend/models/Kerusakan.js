@@ -19,21 +19,25 @@ const kerusakanSchema = new Schema(
             required: true
         },
         bukti: {
-            type: String,
-            required: true
+            url: {
+                type: String,
+                required: true
+            },
+            fileName: {
+                type: String,
+                required: true
+            }
         },
         deskripsi: {
             type: String
         },
         createdBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: String,
+            required: true
         },
         updatedBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: String,
+            required: true
         },
         createdAt: {
             type: Date

@@ -12,6 +12,7 @@ import CustomSelect from '../ReusableComponent/Select'
 import Button from '../ReusableComponent/Button'
 
 import ImageIcon from '../../asset/icons/Image';
+import ImagesUploader from '../ReusableComponent/ImagesUploader'
 
 const BuatPengaduan = () => {
     const history = useHistory()
@@ -25,6 +26,21 @@ const BuatPengaduan = () => {
     const [schools, setSchools] = useState(null)
     const [prasaranas, setPrasaranas] = useState(null)
     const [saranas, setSaranas] = useState(null)
+    const [file, setFile] = useState(null)
+    const [url, setUrl] = useState(null)
+
+    const useInput = () => {
+        const handleChange = (newUrlValue, newFileValue) => {
+            setUrl(newUrlValue)
+            setFile(newFileValue)
+        }
+
+        return {
+            urlValue: url,
+            fileValue: file,
+            handleChange: handleChange
+        }
+    }
 
     const handleChangeJenisPengaduan = (e) => {
         setJenisPengaduan(e.target.value)
@@ -72,8 +88,8 @@ const BuatPengaduan = () => {
                         borderRadius: 12
                     }}>
                         <Grid container style={{ padding: '36px' }}>
-                            <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
-                                <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
+                            <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', borderRadius: 12 }}>
+                                <ImagesUploader useInput={useInput} width={680} height={400} />
                             </Grid>
                             <Grid item container xs={6} style={{ paddingLeft: 32 }}>
                                 <Grid item xs={12}>

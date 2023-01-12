@@ -269,8 +269,8 @@ const EditDaftarSekolah = (props) => {
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container>
-                        <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
-                            <ImagesUploader useInput={useInput} />
+                        <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', borderRadius: 12 }}>
+                            <ImagesUploader useInput={useInput} width={400} height={460} />
                         </Grid>
                         <Grid item container xs={6} style={{ paddingLeft: 24 }}>
                             <Grid container>

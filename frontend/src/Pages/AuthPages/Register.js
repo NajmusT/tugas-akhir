@@ -141,7 +141,7 @@ const Register = () => {
                         <form className={classes.form} onSubmit={handleSubmit} encType='multipart/form-data'>
                             <Grid container style={{ paddingBottom: 8 }}>
                                 <Grid item container xs={6} style={{ alignSelf: 'center' }}>
-                                    <ImagesUploader useInput={useInput} />
+                                    <ImagesUploader useInput={useInput} width={320} height={320} />
                                 </Grid>
                                 <Grid item container xs={6} style={{ paddingLeft: 48, paddingRight: 8 }}>
                                     <Grid container>

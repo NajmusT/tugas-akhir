@@ -11,44 +11,23 @@ const kriteriaSchema = new Schema(
             type: String,
             required: true
         },
-        bobotKriteria: {
-            type: Number,
-            required: true
-        },
-        jenis: {
-            type: String,
-            required: true
-        },
-        penilaianKriteria: {
-            kriteriaPembanding: {
-                type: String,
-                required: true
-            },
-            skalaPenilaian: {
-                type: Number,
-                required: true
-            }
-        },
         rootId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Kriteria'
+            type: String
         },
         createdAt: {
             type: Date
         },
-        updatedAt: {
-            type: Date
-        },
         createdBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: String,
+            required: true
         },
         updatedBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: String,
+            required: true
         },
+        updatedAt: {
+            type: Date
+        }
     },
     {
         collection: 'kriteria',

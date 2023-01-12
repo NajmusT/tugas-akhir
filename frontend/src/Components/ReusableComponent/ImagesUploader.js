@@ -4,7 +4,7 @@ import ImageIcon from "../../asset/icons/Image";
 import "../../Styles/ImagesUploaderStyles.scss";
 
 const ImagesUploader = (props) => {
-    const { useInput } = props
+    const { useInput, width, height } = props
 
     const onSelectFile = (event) => {
         const image = event.target.files[0]
@@ -37,14 +37,15 @@ const ImagesUploader = (props) => {
                         src={profilePicture.urlValue}
                         alt="profile picture"
                         onClick={handleClickProfilePicture}
+                        style={{ width: width, height: height, alignContent: 'center', justifyItems: 'center' }}
                     >
-                        <ImageIcon fill={'#EFEFEF'} style={{ position: 'relative', width: '128px', height: '128px', padding: "0px 32px", top: '32%', left: '22%' }} />
+                        <ImageIcon fill={'#EFEFEF'} style={{ position: 'relative', width: '128px', height: '128px', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
                     </div>
                 ) : (
                     <div
                         className="profile-picture"
                         onClick={handleClickProfilePicture}
-                        style={{ justifyContent: 'center', alignContent: 'center' }}
+                        style={{ width: width, height: height, justifyContent: 'center', alignContent: 'center' }}
                     >
                         <img src={profilePicture.urlValue} alt={'fotoProfil'} width="100%" height={"100%"} />
                     </div>

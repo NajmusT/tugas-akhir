@@ -12,7 +12,12 @@ const prasaranaSchema = new Schema(
             required: true
         },
         foto: {
-            type: String
+            url: {
+                type: String,
+            },
+            fileName: {
+                type: String,
+            }
         },
         jenis: {
             type: String,
@@ -23,19 +28,16 @@ const prasaranaSchema = new Schema(
             required: true
         },
         idSekolah: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'Sekolah'
+            type: String,
+            required: true
         },
         createdBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: String,
+            required: true
         },
         updatedBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+            type: String,
+            required: true
         },
         createdAt: {
             type: Date
