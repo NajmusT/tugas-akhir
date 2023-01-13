@@ -84,8 +84,8 @@ const BuatPengaduan = () => {
                         borderRadius: 12
                     }}>
                         <Grid container style={{ padding: '36px' }}>
-                            <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', borderRadius: 12 }}>
-                                <ImagesUploader useInput={useInput} width={680} height={400} />
+                            <Grid item container xs={6} style={{ borderRadius: 12 }}>
+                                <ImagesUploader useInput={useInput} width={'46vw'} height={jenisPengaduan === 'Kerusakan Sarana' ? 438 : 366} />
                             </Grid>
                             <Grid item container xs={6} style={{ paddingLeft: 32 }}>
                                 <Grid item xs={12}>

@@ -79,9 +79,7 @@ const EditCreateSarana = (props) => {
             />
             <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
                 <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
-                    <Typography style={{
-                        fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
-                    }}>
+                    <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
                         {sekolah}
                     </Typography>
                 </Grid>
@@ -92,8 +90,8 @@ const EditCreateSarana = (props) => {
                         borderRadius: 12
                     }}>
                         <Grid container style={{ padding: '36px' }}>
-                            <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', borderRadius: 12 }}>
-                                <ImagesUploader useInput={useInput} width={700} height={460} />
+                            <Grid item container xs={6} style={{ borderRadius: 12 }}>
+                                <ImagesUploader useInput={useInput} width={'46vw'} height={'472px'} />
                             </Grid>
                             <Grid item container xs={6} style={{ paddingLeft: 32 }}>
                                 <Grid item xs={12}>

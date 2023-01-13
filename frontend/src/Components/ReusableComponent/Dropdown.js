@@ -7,6 +7,8 @@ import { useDropdownStyles } from '../../Styles/DropdownStyles';
 import '../../Styles/Dropdown.css';
 
 const Dropdown = (props) => {
+    const { sekolah } = props
+
     const history = useHistory()
     const classes = useDropdownStyles()
 
@@ -25,7 +27,7 @@ const Dropdown = (props) => {
                         <div
                             className={classes.dropdownLink}
                             onClick={() => {
-                                history.push(`/data/list-prasarana/${item.path}`)
+                                history.push(`/data/list-prasarana/${item.path}/${sekolah}`)
                                 setClick(false)
                             }}
                         >

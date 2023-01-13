@@ -35,8 +35,9 @@ function Navbar() {
     const [location, setLocation] = useState(history.location.pathname)
     const [isAuthPages, setIsAuthPage] = useState(false)
     const [user, setUser] = useState(lodash.cloneDeep(getCurrentUser()))
+    const [sekolah, setSekolah] = useState(null)
 
-    const image3 = user?.fotoProfil != null ? require(`../../../../backend/public/images/${user.fotoProfil.fileName}`) : '';
+    const fotoProfil = user?.fotoProfil != null ? require(`../../../../backend/public/images/${user.fotoProfil.fileName}`) : null;
 
     const anchorRef = useRef(null);
 
@@ -117,6 +118,10 @@ function Navbar() {
     }, [location, setLocation])
 
     useEffect(() => {
+        if (user?.roles === 'admin-sekolah') {
+            axios.get('http://localhost:5000/sekolah').then(res => { setSekolah(res.data.filter((item => item.createdBy === user._id))[0]) })
+        }
+
         if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
         }
@@ -158,12 +163,12 @@ function Navbar() {
                                                         <ExpandMoreIcon />
                                                     </div>
                                                 </div>
-                                                {dropdown && <Dropdown />}
+                                                {dropdown && <Dropdown sekolah={sekolah._id} />}
                                             </div>
                                             <div className={classes.navbarItem}>
                                                 {user?.roles === 'admin-sekolah' &&
                                                     <div
-                                                        onClick={() => { history.push('/pengaduan') }}
+                                                        onClick={() => { history.push(`pengaduan`) }}
                                                         className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
                                                     >
                                                         {('Pengaduan').toUpperCase()}
@@ -201,7 +206,7 @@ function Navbar() {
                                     <AccountCircle style={{ fontSize: 24 }} />
                                 </IconButton> :
                                 <div ref={anchorRef} onClick={handleToggle} style={{ justifyContent: 'center', alignContent: 'center', paddingLeft: 56 }}>
-                                    <img src={image3} alt={'foto-profil'} style={{ width: '40%', height: '40%', borderRadius: '50%' }} />
+                                    <img src={fotoProfil} alt={'foto-profil'} style={{ width: '40%', height: '40%', borderRadius: '50%' }} />
                                 </div>
                             }
                             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>

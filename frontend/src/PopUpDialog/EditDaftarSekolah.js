@@ -27,36 +27,42 @@ import { useAuthStyles } from '../Styles/AuthStyles';
 import { getCurrentUser } from '../Utils';
 
 const EditDaftarSekolah = (props) => {
-    const { isEditMode, dataSekolah } = props
+    const { isEditMode, dataSekolah, handleClose } = props
+
+    const fotoSekolah = isEditMode ? require(`../../../backend/public/images/${dataSekolah.fotoSekolah.fileName}`) : null
+
+    const dapatAPBD = isEditMode ? (dataSekolah.bantuanPengadaan.includes("APBD") ? true : false) : false
+    const dapatAPBN = isEditMode ? (dataSekolah.bantuanPengadaan.includes("APBN") ? true : false) : false
+    const dapatBOS = isEditMode ? (dataSekolah.bantuanPengadaan.includes("BOS") ? true : false) : false
 
     const history = useHistory();
     const classes = useAuthStyles()
     const userId = getCurrentUser()?._id
 
     const [alamat, setAlamat] = useState(null)
-    const [kepsek, setKepsek] = useState(null)
-    const [alamatJalan, setAlamatJalan] = useState(null)
-    const [luasLahan, setLuasLahan] = useState(null)
+    const [kepsek, setKepsek] = useState(isEditMode ? dataSekolah.kepalaSekolah : null)
+    const [alamatJalan, setAlamatJalan] = useState(isEditMode ? dataSekolah.alamat.jalan : null)
+    const [luasLahan, setLuasLahan] = useState(isEditMode ? dataSekolah.lahan.luas : null)
     const [kelurahan, setKelurahan] = useState(null)
-    const [komite, setKomite] = useState(null)
-    const [sekolah, setSekolah] = useState(null)
-    const [skAkre, setSkakre] = useState(null)
-    const [npsn, setNpsn] = useState(null)
-    const [akreditasi, setAkreditasi] = useState(null)
-    const [tipe, setTipe] = useState(null)
-    const [noSuratPendirian, setNoSuratPendirian] = useState(null)
-    const [tanggalPendirian, setTanggalPendirian] = useState(null)
-    const [noSuratIzin, setNoSuratIzin] = useState(null)
-    const [tanggalIzinOperasional, setTanggalIzinOperasional] = useState(null)
-    const [rombonganBelajar, setRombonganBelajar] = useState(null)
-    const [kepemilikan, setKepemilikan] = useState(null)
-    const [jumlahGuru, setJumlahGuru] = useState(null)
-    const [apbd, setApbd] = useState(false)
-    const [apbn, setApbn] = useState(false)
-    const [bos, setBos] = useState(false)
+    const [komite, setKomite] = useState(isEditMode ? dataSekolah.ketuaKomite : null)
+    const [sekolah, setSekolah] = useState(isEditMode ? dataSekolah.nama : null)
+    const [skAkre, setSkakre] = useState(isEditMode ? dataSekolah.akreditasi.noSK : null)
+    const [npsn, setNpsn] = useState(isEditMode ? dataSekolah.npsn : null)
+    const [akreditasi, setAkreditasi] = useState(isEditMode ? dataSekolah.akreditasi.nilaiHuruf : null)
+    const [tipe, setTipe] = useState(isEditMode ? dataSekolah.jenis : null)
+    const [noSuratPendirian, setNoSuratPendirian] = useState(isEditMode ? dataSekolah.pendirian.noSurat : null)
+    const [tanggalPendirian, setTanggalPendirian] = useState(isEditMode ? dataSekolah.pendirian.tanggal : null)
+    const [noSuratIzin, setNoSuratIzin] = useState(isEditMode ? dataSekolah.izinOperasional.noSurat : null)
+    const [tanggalIzinOperasional, setTanggalIzinOperasional] = useState(isEditMode ? dataSekolah.izinOperasional.tanggal : null)
+    const [rombonganBelajar, setRombonganBelajar] = useState(isEditMode ? dataSekolah.rombonganBelajar : null)
+    const [kepemilikan, setKepemilikan] = useState(isEditMode ? dataSekolah.lahan.kepemilikan : null)
+    const [jumlahGuru, setJumlahGuru] = useState(isEditMode ? dataSekolah.jumlahGuru : null)
+    const [apbd, setApbd] = useState(dapatAPBD)
+    const [apbn, setApbn] = useState(dapatAPBN)
+    const [bos, setBos] = useState(dapatBOS)
     const [bantuanPengadaan, setBantuanPengadaan] = useState(false)
-    const [file, setFile] = useState(null)
-    const [url, setUrl] = useState(null)
+    const [file, setFile] = useState(isEditMode ? fotoSekolah : null)
+    const [url, setUrl] = useState(isEditMode ? null : null)
 
     const useInput = () => {
         const handleChange = (newUrlValue, newFileValue) => {
@@ -154,16 +160,11 @@ const EditDaftarSekolah = (props) => {
         const formData = new FormData()
 
         const data = {
-            npsn: npsn,
-            nama: sekolah,
-            jenis: tipe,
             fotoSekolah: { url: url, fileName: file },
             alamat: {
                 jalan: alamatJalan,
                 kodePos: (alamat.filter(item => item.desaKelurahan === kelurahan).map(dt => dt.kodePos))[0]
             },
-            kepalaSekolah: kepsek,
-            ketuaKomite: komite,
             akreditasi: {
                 noSK: skAkre,
                 nilaiHuruf: akreditasi
@@ -180,13 +181,6 @@ const EditDaftarSekolah = (props) => {
                 luas: luasLahan,
                 kepemilikan: kepemilikan
             },
-            bantuanPengadaan: bantuanPengadaan,
-            rombonganBelajar: rombonganBelajar,
-            jumlahGuru: jumlahGuru,
-            createdBy: userId,
-            updatedBy: userId,
-            updatedAt: moment(),
-            createdAt: moment()
         }
 
         formData.append("file", file)
@@ -256,10 +250,6 @@ const EditDaftarSekolah = (props) => {
 
         setBantuanPengadaan(bantuan)
     }, [apbn, apbd, bos])
-
-    useEffect(() => {
-        console.log(userId)
-    }, [userId])
 
     return (
         <div className={classes.modal}>
@@ -575,13 +565,27 @@ const EditDaftarSekolah = (props) => {
                             </FormControl>
                         </Grid>
                     </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        className={classes.submit}
-                        buttonText={"Daftar Sekolah"}
-                    />
+                    <div style={{ display: 'flex', paddingTop: 8, justifyContent: 'flex-end' }}>
+                        {
+                            isEditMode &&
+                            <div style={{ paddingRight: 8 }}>
+                                <Button
+                                    variant="contained"
+                                    buttonText={"Discard"}
+                                    page='main'
+                                    buttonType='danger'
+                                    onClick={handleClose}
+                                />
+                            </div>
+                        }
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            page='main'
+                            buttonType='primary'
+                            buttonText={isEditMode ? "Save Changes" : "Submit"}
+                        />
+                    </div>
                 </form>
             </div>
         </div >
