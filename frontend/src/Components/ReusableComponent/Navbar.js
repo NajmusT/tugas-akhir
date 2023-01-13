@@ -35,8 +35,6 @@ function Navbar() {
     const [location, setLocation] = useState(history.location.pathname)
     const [isAuthPages, setIsAuthPage] = useState(false)
     const [user, setUser] = useState(lodash.cloneDeep(getCurrentUser()))
-    const [sekolah, setSekolah] = useState(null)
-    const [allSekolah, setAllSekolah] = useState(null)
 
     const image3 = user?.fotoProfil != null ? require(`../../../../backend/public/images/${user.fotoProfil.fileName}`) : '';
 
@@ -63,12 +61,6 @@ function Navbar() {
     const prevOpen = useRef(open);
 
     const onMouseEnter = () => {
-        if (user?.roles === 'admin-sekolah') {
-            axios.get('http://localhost:5000/sekolah').then(res => { setAllSekolah(res.data) })
-        } else if (user?.roles === 'staff-dinas') {
-            axios.get('http://localhost:5000/sekolah').then(res => { setSekolah(res.data.filter(item => item.createdBy === user._id)) })
-        }
-
         if (window.innerWidth < 960) { setDropdown(false); }
         else { setDropdown(true); }
     };
@@ -83,12 +75,8 @@ function Navbar() {
         history.push('/')
     }
 
-    useEffect(() => {
-        setLocation(history.location.pathname)
-    }, [history])
-
-    useEffect(() => {
-        if (location === '/' || location === '/sign-up' || location === '/daftar-sekolah' || location === '/daftar-sekolah' || location.includes('reset-password')) {
+    const checkLocation = () => {
+        if (location === '' || location === '/sign-up' || location === '/daftar-sekolah' || location === '/daftar-sekolah' || location.includes('reset-password')) {
             setIsAuthPage(true)
         } else {
             setIsAuthPage(false)
@@ -120,7 +108,13 @@ function Navbar() {
             setClickDashboard(false)
             setClickDSS(true)
         }
-    }, [location])
+    }
+
+    useEffect(() => {
+        setUser(lodash.cloneDeep(getCurrentUser()))
+        setLocation(history.location.pathname)
+        checkLocation()
+    }, [location, setLocation])
 
     useEffect(() => {
         if (prevOpen.current === true && open === false) {

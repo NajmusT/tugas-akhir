@@ -73,6 +73,10 @@ const sekolahSchema = new Schema(
             }
         },
         lahan: {
+            luas: {
+                type: Number,
+                required: true
+            },
             kepemilikan: {
                 type: String,
                 required: true

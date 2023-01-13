@@ -33,19 +33,18 @@ const EditDaftarSekolah = (props) => {
     const classes = useAuthStyles()
     const userId = getCurrentUser()?._id
 
-    const [alamat, setAlamat] = useState(isEditMode ? dataSekolah.alamat : null)
-    const [kepsek, setKepsek] = useState(isEditMode ? dataSekolah.kepsek : null)
-    const [fotoSekolah, setFotoSekolah] = useState(isEditMode ? dataSekolah.fotoSekolah : null)
-    const [alamatJalan, setAlamatJalan] = useState(isEditMode ? alamat.jalan : null)
-    const [kecamatan, setKecamatan] = useState(isEditMode ? alamat.kecamatan : null)
-    const [kelurahan, setKelurahan] = useState(isEditMode ? alamat.kelurahan : null)
-    const [komite, setKomite] = useState(isEditMode ? dataSekolah.ketuaKomite : null)
-    const [sekolah, setSekolah] = useState(isEditMode ? dataSekolah : null)
-    const [skAkre, setSkakre] = useState(isEditMode ? dataSekolah.akreditasi.noSK : null)
-    const [npsn, setNpsn] = useState(isEditMode ? dataSekolah.npsn : null)
-    const [akreditasi, setAkreditasi] = useState(isEditMode ? dataSekolah.akreditasi.nilaiHuruf : null)
-    const [tipe, setTipe] = useState(isEditMode ? dataSekolah.jenis : null)
-    const [noSuratPendirian, setNoSuratPendirian] = useState(isEditMode ? dataSekolah.pendirian.noSurat : null)
+    const [alamat, setAlamat] = useState(null)
+    const [kepsek, setKepsek] = useState(null)
+    const [alamatJalan, setAlamatJalan] = useState(null)
+    const [luasLahan, setLuasLahan] = useState(null)
+    const [kelurahan, setKelurahan] = useState(null)
+    const [komite, setKomite] = useState(null)
+    const [sekolah, setSekolah] = useState(null)
+    const [skAkre, setSkakre] = useState(null)
+    const [npsn, setNpsn] = useState(null)
+    const [akreditasi, setAkreditasi] = useState(null)
+    const [tipe, setTipe] = useState(null)
+    const [noSuratPendirian, setNoSuratPendirian] = useState(null)
     const [tanggalPendirian, setTanggalPendirian] = useState(null)
     const [noSuratIzin, setNoSuratIzin] = useState(null)
     const [tanggalIzinOperasional, setTanggalIzinOperasional] = useState(null)
@@ -104,8 +103,8 @@ const EditDaftarSekolah = (props) => {
         setKelurahan(e.target.value)
     }
 
-    const handleChangeKecamatan = (e) => {
-        setKecamatan(e.target.value)
+    const handleChangeLuasLahan = (e) => {
+        setLuasLahan(e.target.value)
     }
 
     const handleChangeAlamatJalan = (e) => {
@@ -161,7 +160,7 @@ const EditDaftarSekolah = (props) => {
             fotoSekolah: { url: url, fileName: file },
             alamat: {
                 jalan: alamatJalan,
-                kodePos: (alamat.filter(item => item.kecamatan === kecamatan && item.desaKelurahan === kelurahan).map(dt => dt.kodePos))[0]
+                kodePos: (alamat.filter(item => item.desaKelurahan === kelurahan).map(dt => dt.kodePos))[0]
             },
             kepalaSekolah: kepsek,
             ketuaKomite: komite,
@@ -178,6 +177,7 @@ const EditDaftarSekolah = (props) => {
                 tanggal: tanggalIzinOperasional
             },
             lahan: {
+                luas: luasLahan,
                 kepemilikan: kepemilikan
             },
             bantuanPengadaan: bantuanPengadaan,
@@ -416,22 +416,6 @@ const EditDaftarSekolah = (props) => {
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
                             <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Kecamatan
-                            </Typography>
-                            <CustomSelect
-                                id={"kecamatan"}
-                                margin={"normal"}
-                                fullWidth
-                                label={"Kecamatan"}
-                                variant={"standard"}
-                                page={"auth"}
-                                value={kecamatan}
-                                onChange={handleChangeKecamatan}
-                                option={alamat !== null ? alamat.filter((item, index) => item.kecamatan != item[index - 1].kecamatan).map(i => i.kecamatan) : []}
-                            />
-                        </Grid>
-                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
                                 Kelurahan
                             </Typography>
                             <CustomSelect
@@ -443,7 +427,7 @@ const EditDaftarSekolah = (props) => {
                                 page={"auth"}
                                 value={kelurahan}
                                 onChange={handleChangeKelurahan}
-                                option={alamat !== null ? alamat.filter(item => item.kecamatan === kecamatan).map(kelurahan => kelurahan.desaKelurahan) : []}
+                                option={alamat !== null ? alamat.map(kelurahan => kelurahan.desaKelurahan) : []}
                             />
                         </Grid>
                         <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -460,6 +444,22 @@ const EditDaftarSekolah = (props) => {
                                 value={kepemilikan}
                                 onChange={handleChangeKepemilikan}
                                 option={['Milik Sendiri', 'Milik Pemerintah', 'Tidak diketahui']}
+                            />
+                        </Grid>
+                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
+                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                Luas Lahan (m2)
+                            </Typography>
+                            <TextField
+                                id="luas lahan"
+                                variant="standard"
+                                margin="normal"
+                                fullWidth
+                                label="Luas Lahan"
+                                type="number"
+                                page="auth"
+                                value={luasLahan}
+                                onChange={handleChangeLuasLahan}
                             />
                         </Grid>
                     </Grid>

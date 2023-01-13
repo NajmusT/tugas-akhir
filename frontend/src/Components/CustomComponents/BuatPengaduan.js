@@ -70,14 +70,10 @@ const BuatPengaduan = () => {
 
     return (
         <React.Fragment>
-            <Breadcrumb
-                subsubtitle={'Pengaduan Kerusakan'}
-            />
+            <Breadcrumb subsubtitle={'Pengaduan Kerusakan'} />
             <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
                 <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
-                    <Typography style={{
-                        fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
-                    }}>
+                    <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
                         {sekolah}
                     </Typography>
                 </Grid>
@@ -95,9 +91,7 @@ const BuatPengaduan = () => {
                                 <Grid item xs={12}>
                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
                                         <div style={{ width: '172px' }}>
-                                            <Typography style={{
-                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                            }}>
+                                            <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400] }}>
                                                 Jenis Pengaduan
                                             </Typography>
                                         </div>
@@ -115,9 +109,7 @@ const BuatPengaduan = () => {
                                     </Grid>
                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
                                         <div style={{ width: '172px' }}>
-                                            <Typography style={{
-                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                            }}>
+                                            <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400] }}>
                                                 Nama Sekolah
                                             </Typography>
                                         </div>
@@ -135,9 +127,7 @@ const BuatPengaduan = () => {
                                     </Grid>
                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
                                         <div style={{ width: '172px' }}>
-                                            <Typography style={{
-                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                            }}>
+                                            <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400] }}>
                                                 Nama Ruangan
                                             </Typography>
                                         </div>
@@ -156,9 +146,7 @@ const BuatPengaduan = () => {
                                     {jenisPengaduan === "Kerusakan Sarana" &&
                                         <Grid style={{ display: 'flex', alignItems: 'center' }}>
                                             <div style={{ width: '172px' }}>
-                                                <Typography style={{
-                                                    fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                                }}>
+                                                <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400] }}>
                                                     Nama Sarana
                                                 </Typography>
                                             </div>
@@ -177,9 +165,7 @@ const BuatPengaduan = () => {
                                     }
                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
                                         <div style={{ width: '172px' }}>
-                                            <Typography style={{
-                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                            }}>
+                                            <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400] }}>
                                                 Kategori Rusak
                                             </Typography>
                                         </div>
@@ -197,9 +183,7 @@ const BuatPengaduan = () => {
                                     </Grid>
                                     <Grid style={{ display: 'flex', alignItems: 'center', paddingTop: 4, paddingBottom: 4 }}>
                                         <div style={{ alignSelf: 'center' }}>
-                                            <Typography style={{
-                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                            }}>
+                                            <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400] }}>
                                                 Deskripsi
                                             </Typography>
                                         </div>

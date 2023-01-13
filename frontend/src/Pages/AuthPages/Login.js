@@ -97,7 +97,12 @@ const Login = () => {
                 let user = lodash.cloneDeep(getCurrentUser())
 
                 if (user.roles === 'operator') { history.push("/manajemen-user"); }
-                else { history.push("/beranda") }
+                else if (user.roles === 'staf-dinas') { history.push("/beranda") }
+                else {
+                    const jumlahSekolah = (await axios.get('http://localhost:5000/sekolah')).data.filter(item => item.createdBy === user._id).length
+                    if (jumlahSekolah === 0) { history.push("/daftar-sekolah") }
+                    else { history.push("/beranda") }
+                }
 
             } catch (error) {
                 if (error.response) {

@@ -10,10 +10,6 @@ const Dropdown = (props) => {
     const history = useHistory()
     const classes = useDropdownStyles()
 
-    const { sekolah } = props
-
-    useEffect(() => { console.log(sekolah) }, [sekolah])
-
     const [click, setClick] = useState(false);
 
     const handleClick = () => setClick(!click);
@@ -29,7 +25,7 @@ const Dropdown = (props) => {
                         <div
                             className={classes.dropdownLink}
                             onClick={() => {
-                                history.push(`/data/list-prasarana/${item.path}/${sekolah !== null && sekolah._id}`)
+                                history.push(`/data/list-prasarana/${item.path}`)
                                 setClick(false)
                             }}
                         >

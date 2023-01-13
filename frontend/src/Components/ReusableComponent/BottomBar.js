@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 
 //Material UI
@@ -16,6 +16,7 @@ import whatsapp from '../../asset/images/whatsapp.png'
 import email from '../../asset/images/email.png'
 
 import { useBottomBarStyles } from '../../Styles/BottomBarStyles'
+import { set } from 'lodash';
 
 const BottomBar = () => {
   const classes = useBottomBarStyles()
@@ -24,17 +25,21 @@ const BottomBar = () => {
   const [location, setLocation] = useState(history.location.pathname)
   const [isAuthPages, setIsAuthPage] = useState(false)
 
-  useEffect(() => {
-    setLocation(history.location.pathname)
-  }, [history])
-
-  useEffect(() => {
+  const checkLocation = () => {
     if (location === '/' || location === '/sign-up' || location === '/daftar-sekolah' || location === '/daftar-sekolah' || location.includes('reset-password')) {
       setIsAuthPage(true)
     } else {
       setIsAuthPage(false)
     }
-  }, [location])
+  }
+
+  useEffect(() => {
+    checkLocation()
+  }, [location, setLocation])
+
+  useEffect(() => {
+    setLocation(history.location.pathname)
+  }, [history.location.pathname])
 
   return (
     <React.Fragment>
