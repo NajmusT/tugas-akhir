@@ -2,6 +2,7 @@ const Prasarana = require('../models/Prasarana')
 const router = require('express').Router()
 const path = require("path")
 const fs = require("fs")
+const moment = require("moment")
 const { v1: uuidv1 } = require('uuid');
 
 //create
@@ -25,13 +26,11 @@ router.route('/new').post((req, res) => {
         updatedAt: moment()
     })
 
-    if (file !== null) {
-        if (allowedType.includes(ext.toLowerCase())) {
-            file.mv(`./public/images/${fileName}`, async (err) => {
-                if (err) return res.status(500).json({ msg: err.message });
-            })
-        } else { return res.status(400).json("Tipe file tidak valid") }
-    }
+    if (file != null && allowedType.includes(ext.toLowerCase())) {
+        file.mv(`./public/images/${fileName}`, async (err) => {
+            if (err) return res.status(500).json({ msg: err.message });
+        })
+    } else { return res.status(400).json("Tipe file tidak valid") }
 
     prasaranaBaru.save()
         .then(prasarana => res.json(prasarana))

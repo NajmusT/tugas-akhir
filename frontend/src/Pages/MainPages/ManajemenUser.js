@@ -21,9 +21,12 @@ import TerimaAkun from '../../PopUpDialog/TerimaAkun'
 
 import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
 import WarningIcon from '@material-ui/icons/ErrorOutline';
+import LoadingScreen from '../LoadingScreen'
 
 
 const ManajemenUser = () => {
+    const isOperator = JSON.parse(localStorage.getItem('user'))?.payload.roles === 'operator'
+
     const [allUser, setAllUser] = useState(null)
     const [rows, setRows] = useState(null)
     const [openTerimaModalNotif, setopenTerimaModalNotif] = useState(false)
@@ -192,7 +195,7 @@ const ManajemenUser = () => {
 
     useEffect(() => {
         if (allUser != null) {
-            setRows(allUser?.filter(user => user._id != getCurrentUser()?._id && user.isActive === false).map(usr =>
+            setRows(allUser?.filter(user => user._id != JSON.parse(localStorage.getItem('user'))?.payload._id && user.isActive === false).map(usr =>
                 createData(usr._id, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("D MMMM YYYY, hh:mm a"), (<>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div >
@@ -227,25 +230,29 @@ const ManajemenUser = () => {
 
     return (
         <React.Fragment>
-            {openTerimaModalNotif && TerimaModalNotif()}
-            {openTolakModalNotif && TolakModalNotif()}
-            {openTolakModal && TolakModal()}
-            {openTerimaModal && TerimaModal()}
+            {isOperator ?
+                <React.Fragment>
+                    {openTerimaModalNotif && TerimaModalNotif()}
+                    {openTolakModalNotif && TolakModalNotif()}
+                    {openTolakModal && TolakModal()}
+                    {openTerimaModal && TerimaModal()}
 
-            <Breadcrumb subsubtitle={'Manajemen User'} />
-            <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
-                <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
-                    <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
-                        {'Pengajuan Daftar Akun'}
-                    </Typography>
-                </Grid>
-                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
-                    <Search />
-                </Grid>
-                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
-                    <CustomDataTable columns={columns} rows={rows} />
-                </Grid>
-            </Grid>
+                    <Breadcrumb subsubtitle={'Manajemen User'} />
+                    <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
+                        <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
+                            <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
+                                {'Pengajuan Daftar Akun'}
+                            </Typography>
+                        </Grid>
+                        <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
+                            <Search />
+                        </Grid>
+                        <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
+                            <CustomDataTable columns={columns} rows={rows} />
+                        </Grid>
+                    </Grid>
+                </React.Fragment> : <LoadingScreen />
+            }
         </React.Fragment>
     )
 }

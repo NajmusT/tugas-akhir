@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
+import lodash from 'lodash'
 
 //Material UI
 import { Grid, Typography } from '@material-ui/core'
@@ -16,34 +17,34 @@ import whatsapp from '../../asset/images/whatsapp.png'
 import email from '../../asset/images/email.png'
 
 import { useBottomBarStyles } from '../../Styles/BottomBarStyles'
-import { set } from 'lodash';
+
+import { getCurrentUser } from '../../Utils';
 
 const BottomBar = () => {
   const classes = useBottomBarStyles()
   const history = useHistory()
 
-  const [location, setLocation] = useState(history.location.pathname)
-  const [isAuthPages, setIsAuthPage] = useState(false)
+  // const [location, setLocation] = useState(history.location.pathname)
+  // const [isAuthPages, setIsAuthPage] = useState(false)
 
-  const checkLocation = () => {
-    if (location === '/' || location === '/sign-up' || location === '/daftar-sekolah' || location === '/daftar-sekolah' || location.includes('reset-password')) {
-      setIsAuthPage(true)
+  var location = history.location.pathname
+  var isAuthPages = location === '' || location === '/sign-up' || location === '/daftar-sekolah' || location === '/daftar-sekolah' || location.includes('reset-password')
+  var user = JSON.parse(localStorage.getItem('user'))?.payload
+
+  useEffect(() => {
+    user = JSON.parse(localStorage.getItem('user'))?.payload
+    location = history.location.pathname
+
+    if (user === null || location === '/' || location === '/sign-up' || location === '/daftar-sekolah' || location === '/daftar-sekolah' || location.includes('reset-password')) {
+      isAuthPages = true
     } else {
-      setIsAuthPage(false)
+      isAuthPages = false
     }
-  }
-
-  useEffect(() => {
-    checkLocation()
-  }, [location, setLocation])
-
-  useEffect(() => {
-    setLocation(history.location.pathname)
-  }, [history.location.pathname])
+  }, [location])
 
   return (
     <React.Fragment>
-      {!isAuthPages ?
+      {user != null && !isAuthPages ?
         <Grid container>
           <Grid item container xs={12}>
             <div>

@@ -94,6 +94,7 @@ import ViewListUKS from './Pages/MainPages/Data/UKS/ViewList';
 import ViewUKS from './Pages/MainPages/Data/UKS/View';
 import ViewSaranaUKS from './Pages/MainPages/Data/UKS/ViewSarana';
 import ManajemenUser from './Pages/MainPages/ManajemenUser';
+import ViewPrasarana from './Components/CustomComponents/ViewPrasarana';
 
 const App = () => {
   return (
@@ -106,10 +107,12 @@ const App = () => {
         <Route path="/beranda" exact component={Dashboard} />
         <Route path='/daftar-sekolah' component={DaftarSekolah} />
 
+        <Route path='/data/prasarana/:location/:id' component={ViewPrasarana} />
+
         <Route path='/data/list-prasarana/laboratorium-IPA/:id' component={ViewListLabIPA} />
         <Route path='/data/laboratorium-IPA/prasarana/create' component={CreatePrasaranaLabIPA} />
         <Route path='/data/prasarana/laboratorium-IPA/edit/:id' component={EditPrasaranaLabIPA} />
-        <Route path='/data/prasarana/laboratorium-IPA/:id' component={ViewLabIPA} />
+        {/* <Route path='/data/prasarana/laboratorium-IPA/:id' component={ViewLabIPA} /> */}
         <Route path='/data/sarana/laboratorium-IPA/:id' component={ViewSaranaLabIPA} />
         <Route path='/data/sarana/laboratorium-IPA/edit/:id' component={EditSaranaLabIPA} />
         <Route path='/data/laboratorium-IPA/sarana/create' component={CreateSaranaLabIPA} />
@@ -117,7 +120,7 @@ const App = () => {
         <Route path='/data/list-prasarana/ruang-kelas/:id' component={ViewListRuangKelas} />
         <Route path='/data/ruang-kelas/prasarana/create' component={CreatePrasaranaRuangKelas} />
         <Route path='/data/prasarana/ruang-kelas/edit/:id' component={EditPrasaranaRuangKelas} />
-        <Route path='/data/prasarana/ruang-kelas/:id' component={ViewRuangKelas} />
+        {/* <Route path='/data/prasarana/ruang-kelas/:id' component={ViewRuangKelas} /> */}
         <Route path='/data/sarana/ruang-kelas/edit/:id' component={EditSaranaRuangKelas} />
         <Route path='/data/ruang-kelas/sarana/create' component={CreateSaranaRuangKelas} />
         <Route path='/data/sarana/ruang-kelas' component={ViewSaranaRuangKelas} />
@@ -125,7 +128,7 @@ const App = () => {
         <Route path='/data/list-prasarana/ruang-guru/:id' component={ViewListRuangGuru} />
         <Route path='/data/ruang-guru/prasarana/create' component={CreatePrasaranaRuangGuru} />
         <Route path='/data/prasarana/ruang-guru/edit/:id' component={EditPrasaranaRuangGuru} />
-        <Route path='/data/prasarana/ruang-guru/:id' component={ViewRuangGuru} />
+        {/* <Route path='/data/prasarana/ruang-guru/:id' component={ViewRuangGuru} /> */}
         <Route path='/data/sarana/ruang-guru/:id' component={ViewSaranaRuangGuru} />
         <Route path='/data/sarana/ruang-guru/edit/:id' component={EditSaranaRuangGuru} />
         <Route path='/data/ruang-guru/sarana/create' component={CreateSaranaRuangGuru} />
@@ -133,7 +136,7 @@ const App = () => {
         <Route path='/data/list-prasarana/ruang-pimpinan/:id' component={ViewListRuangPimpinan} />
         <Route path='/data/ruang-pimpinan/prasarana/create' component={CreatePrasaranaRuangPimpinan} />
         <Route path='/data/prasarana/ruang-pimpinan/edit/:id' component={EditPrasaranaRuangPimpinan} />
-        <Route path='/data/prasarana/ruang-pimpinan/:id' component={ViewRuangPimpinan} />
+        {/* <Route path='/data/prasarana/ruang-pimpinan/:id' component={ViewRuangPimpinan} /> */}
         <Route path='/data/sarana/ruang-pimpinan/edit/:id' component={EditSaranaRuangPimpinan} />
         <Route path='/data/ruang-pimpinan/sarana/create' component={CreateSaranaRuangPimpinan} />
         <Route path='/data/sarana/ruang-pimpinan/:id' component={ViewSaranaRuangPimpinan} />
@@ -141,7 +144,7 @@ const App = () => {
         <Route path='/data/list-prasarana/UKS/:id' component={ViewListUKS} />
         <Route path='/data/UKS/prasarana/create' component={CreatePrasaranaUKS} />
         <Route path='/data/prasarana/UKS/edit/:id' component={EditPrasaranaUKS} />
-        <Route path='/data/prasarana/UKS/:id' component={ViewUKS} />
+        {/* <Route path='/data/prasarana/UKS/:id' component={ViewUKS} /> */}
         <Route path='/data/sarana/UKS/:id' component={ViewSaranaUKS} />
         <Route path='/data/sarana/UKS/edit/:id' component={EditSaranaUKS} />
         <Route path='/data/UKS/sarana/create' component={CreateSaranaUKS} />
@@ -149,13 +152,13 @@ const App = () => {
         <Route path='/data/list-prasarana/Toilet/:id' component={ViewListToilet} />
         <Route path='/data/Toilet/prasarana/create' component={CreatePrasaranaToilet} />
         <Route path='/data/prasarana/Toilet/edit/:id' component={EditPrasaranaToilet} />
-        <Route path='/data/prasarana/Toilet/:id' component={ViewToilet} />
+        {/* <Route path='/data/prasarana/Toilet/:id' component={ViewToilet} /> */}
         <Route path='/data/sarana/Toilet/:id' component={ViewSaranaToilet} />
         <Route path='/data/sarana/Toilet/edit/:id' component={EditSaranaToilet} />
         <Route path='/data/Toilet/sarana/create' component={CreateSaranaToilet} />
 
         <Route path='/data/list-prasarana/tempat-beribadah/:id' component={ViewListTempatBeribadah} />
-        <Route path='/data/prasarana/tempat-beribadah/:id' component={ViewTempatBeribadah} />
+        {/* <Route path='/data/prasarana/tempat-beribadah/:id' component={ViewTempatBeribadah} /> */}
         <Route path='/data/tempat-beribadah/prasarana/create' component={CreatePrasaranaTempatBeribadah} />
         <Route path='/data/prasarana/tempat-beribadah/edit/:id' component={EditPrasaranaTempatBeribadah} />
         <Route path='/data/sarana/tempat-beribadah/edit/:id' component={EditSaranaTempatBeribadah} />
@@ -165,13 +168,13 @@ const App = () => {
         <Route path='/data/list-prasarana/gudang/:id' component={ViewListGudang} />
         <Route path='/data/gudang/prasarana/create' component={CreatePrasaranaGudang} />
         <Route path='/data/prasarana/gudang/edit/:id' component={EditPrasaranaGudang} />
-        <Route path='/data/prasarana/gudang/:id' component={ViewGudang} />
+        {/* <Route path='/data/prasarana/gudang/:id' component={ViewGudang} /> */}
         <Route path='/data/sarana/gudang/edit/:id' component={EditSaranaGudang} />
         <Route path='/data/gudang/sarana/create' component={CreateSaranaGudang} />
         <Route path='/data/sarana/gudang/:id' component={ViewSaranaGudang} />
 
         <Route path='/data/list-prasarana/ruang-perpustakaan/:id' component={ViewListPerpustakaan} />
-        <Route path='/data/prasarana/ruang-perpustakaan/:id' component={ViewPerpustakaan} />
+        {/* <Route path='/data/prasarana/ruang-perpustakaan/:id' component={ViewPerpustakaan} /> */}
         <Route path='/data/ruang-perpustakaan/prasarana/create' component={CreatePrasaranaPerpustakaan} />
         <Route path='/data/prasarana/ruang-perpustakaan/edit/:id' component={EditPrasaranaPerpustakaan} />
         <Route path='/data/sarana/ruang-perpustakaan/edit/:id' component={EditSaranaPerpustakaan} />
@@ -181,7 +184,7 @@ const App = () => {
         <Route path='/data/list-prasarana/tempat-bermain-dan-berolahraga/:id' component={ViewListTempatBermaindanBerolahraga} />
         <Route path='/data/tempat-bermain-dan-berolahraga/prasarana/create' component={CreatePrasaranaTempatBermaindanBerolahraga} />
         <Route path='/data/prasarana/tempat-bermain-dan-berolahraga/edit/:id' component={EditPrasaranaTempatBermaindanBerolahraga} />
-        <Route path='/data/prasarana/tempat-bermain-dan-berolahraga/:id' component={ViewTempatBermaindanBerolahraga} />
+        {/* <Route path='/data/prasarana/tempat-bermain-dan-berolahraga/:id' component={ViewTempatBermaindanBerolahraga} /> */}
         <Route path='/data/sarana/tempat-bermain-dan-berolahraga/edit/:id' component={EditSaranaTempatBermaindanBerolahraga} />
         <Route path='/data/tempat-bermain-dan-berolahraga/sarana/create' component={CreateSaranaTempatBermaindanBerolahraga} />
         <Route path='/data/sarana/tempat-bermain-dan-berolahraga/:id' component={ViewSaranaTempatBermaindanBerolahraga} />

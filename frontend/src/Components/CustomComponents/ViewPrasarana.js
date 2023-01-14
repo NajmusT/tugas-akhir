@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 
 //Material UI
 import { Grid, Typography } from '@material-ui/core'
@@ -13,67 +13,86 @@ import Search from '../ReusableComponent/Search'
 
 import ImageIcon from '../../asset/icons/Image';
 import { getCurrentUser } from '../../Utils'
+import axios from 'axios'
 
-const ViewPrasarana = (props) => {
-    const { prasarana } = props
-    const [user, setUser] = useState(getCurrentUser())
+const ViewPrasarana = () => {
+    const prasaranaId = useParams()
+
+    const user = JSON.parse(localStorage.getItem('user'))?.payload
+    var fotoPrasarana
+
+    const [rows, setRows] = useState(null)
+    const [prasarana, setPrasarana] = useState(null)
+    const [sekolah, setSekolah] = useState(null)
+    const [allSarana, setAllSarana] = useState(null)
+
+    const createData = (id, nama, jumlah, kondisi, jenis, deskripsi, aksi) => {
+        return { id, nama, jumlah, kondisi, jenis, deskripsi, aksi }
+    }
 
     const columns = [
         { id: 'id', label: 'ID', minWidth: 32 },
-        { id: 'nama-barang', label: 'Nama Barang', minWidth: 120 },
-        {
-            id: 'jumlah-barang',
-            label: 'Jumlah Barang',
-            minWidth: 120,
-        },
-        {
-            id: 'kondisi',
-            label: 'Kondisi',
-            minWidth: 120
-        },
-        {
-            id: 'jenis',
-            label: 'Jenis',
-            minWidth: 120
-        },
-        {
-            id: 'deskripsi',
-            label: 'Deskripsi',
-            minWidth: 240
-        },
-        {
-            id: 'aksi',
-            label: 'Aksi',
-            minWidth: 120
-        }
+        { id: 'nama', label: 'Nama Barang', minWidth: 120 },
+        { id: 'jumlah', label: 'Jumlah Barang', minWidth: 120, },
+        { id: 'kondisi', label: 'Kondisi', minWidth: 120 },
+        { id: 'jenis', label: 'Jenis', minWidth: 120 },
+        { id: 'deskripsi', label: 'Deskripsi', minWidth: 240 },
+        { id: 'aksi', label: 'Aksi', minWidth: 120 }
     ]
 
-    const rows = []
-
     const history = useHistory()
+
+    useEffect(() => {
+        console.log(prasaranaId)
+
+        axios.get(`http://localhost:5000/prasarana/${prasaranaId.id}`).then(res => { setPrasarana(res.data) })
+        axios.get(`http://localhost:5000/sarana`).then(res => { setAllSarana(res.data) })
+    }, [])
+
+    useEffect(() => {
+        if (prasarana != null) {
+            axios.get(`http://localhost:5000/sekolah/${prasarana.idSekolah}`).then(res => { setSekolah(res.data) })
+
+            if (prasarana.foto.fileName != "") {
+                fotoPrasarana = require(`../../../../backend/public/images/${prasarana.foto.fileName}`)
+            } else {
+                fotoPrasarana = null
+            }
+        }
+    }, [prasarana, setPrasarana])
+
+    useEffect(() => {
+        if (allSarana != null) {
+            setRows(allSarana?.filter(item => item).map(sarana =>
+                createData()
+            ))
+        }
+    }, [allSarana, setAllSarana])
 
     return (
         <React.Fragment>
             <Breadcrumb
                 title={'Data Prasarana Pendidikan'}
-                subtitle={prasarana.jenis}
-                subsubtitle={prasarana.nama}
+                subtitle={prasarana?.jenis}
+                subsubtitle={prasarana?.nama}
             />
             <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
                 <Grid item container xs={6} style={{ padding: '2vw 2vw 0vw 2vw' }}>
                     <Typography style={{
                         fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
                     }}>
-                        {prasarana.nama}
+                        {prasarana?.nama}
                     </Typography>
                 </Grid>
                 <Grid item container xs={6} style={{ padding: '2vw 2vw 0vw 2vw', justifyContent: 'flex-end' }}>
-                    <Button
-                        variant="contained"
-                        buttonText={"EDIT"}
-                        page='main'
-                        buttonType='primary'
-                    />
+                    {user?.roles === 'admin-sekolah' ?
+                        <Button
+                            variant="contained"
+                            buttonText={"EDIT"}
+                            page='main'
+                            buttonType='primary'
+                        /> : <></>
+                    }
                 </Grid>
                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
                     <div style={{
@@ -82,11 +101,12 @@ const ViewPrasarana = (props) => {
                         borderRadius: 12
                     }}>
                         <Grid container style={{ padding: '36px' }}>
-                            {prasarana.foto === '' ?
+                            {fotoPrasarana === null ?
                                 <Grid item container xs={5} style={{ alignContent: 'center', height: '240px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                     <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
-                                </Grid> : <Grid item container xs={5} style={{ alignContent: 'center', height: '240px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
-                                    <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
+                                </Grid> :
+                                <Grid item container xs={5} style={{ alignContent: 'center', height: '240px', borderRadius: 12 }}>
+                                    <img src={fotoPrasarana} alt={'fotoPrasarana'} style={{ width: '100%', height: '100%' }} />
                                 </Grid>
                             }
                             <Grid item container xs={7} style={{ paddingLeft: 64 }}>
@@ -103,7 +123,7 @@ const ViewPrasarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {prasarana.nama}
+                                                {prasarana?.nama}
                                             </Typography>
                                         </div>
                                     </div>
@@ -119,7 +139,7 @@ const ViewPrasarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {prasarana.namaSekolah}
+                                                {sekolah?.nama}
                                             </Typography>
                                         </div>
                                     </div>
@@ -135,7 +155,7 @@ const ViewPrasarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {prasarana.jenis}
+                                                {prasarana?.jenis}
                                             </Typography>
                                         </div>
                                     </div>
@@ -151,7 +171,7 @@ const ViewPrasarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {prasarana.kondisi}
+                                                {prasarana?.kondisi}
                                             </Typography>
                                         </div>
                                     </div>
@@ -169,7 +189,7 @@ const ViewPrasarana = (props) => {
                                 buttonText={"CREATE"}
                                 page='main'
                                 buttonType='primary'
-                                onClick={() => { history.push(`${history.location.pathname}/sarana/create`) }}
+                                onClick={() => { history.push(`/data/${prasaranaId.location}/sarana/create`) }}
                             />
                         </div>
                     }

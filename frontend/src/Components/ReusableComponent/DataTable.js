@@ -15,10 +15,6 @@ import { FontFamily } from '../../Constants/FontFamily';
 const useStyles = makeStyles({
     root: {
         width: '100%',
-    },
-    container: {
-        minHeight: 120,
-        maxHeight: 600
     }
 });
 
@@ -27,7 +23,7 @@ const CustomDataTable = (props) => {
     const { columns, rows } = props
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [data, setData] = useState(null)
 
     useEffect(() => {
@@ -47,7 +43,7 @@ const CustomDataTable = (props) => {
 
     return (
         <Paper className={classes.root}>
-            <TableContainer className={classes.container}>
+            <TableContainer style={{ height: rowsPerPage == 5 ? 400 : 720 }}>
                 <Table >
                     <TableHead>
                         <TableRow >

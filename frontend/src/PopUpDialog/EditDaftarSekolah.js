@@ -37,7 +37,7 @@ const EditDaftarSekolah = (props) => {
 
     const history = useHistory();
     const classes = useAuthStyles()
-    const userId = getCurrentUser()?._id
+    const userId = JSON.parse(localStorage.getItem('user'))?.payload._id
 
     const [alamat, setAlamat] = useState(null)
     const [kepsek, setKepsek] = useState(isEditMode ? dataSekolah.kepalaSekolah : null)
@@ -63,6 +63,8 @@ const EditDaftarSekolah = (props) => {
     const [bantuanPengadaan, setBantuanPengadaan] = useState(false)
     const [file, setFile] = useState(isEditMode ? fotoSekolah : null)
     const [url, setUrl] = useState(isEditMode ? null : null)
+    const [openDialog, setOpenDialog] = useState(false)
+    const [error, setError] = useState(null)
 
     const useInput = () => {
         const handleChange = (newUrlValue, newFileValue) => {
@@ -252,343 +254,345 @@ const EditDaftarSekolah = (props) => {
     }, [apbn, apbd, bos])
 
     return (
-        <div className={classes.modal}>
-            <div className={classes.paper} style={{ width: 800 }}>
-                <Typography className={classes.title}>
-                    {isEditMode ? 'Edit Sekolah' : 'Daftar Sekolah'}
-                </Typography>
-                <form className={classes.form} onSubmit={handleSubmit}>
-                    <Grid container>
-                        <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', borderRadius: 12 }}>
-                            <ImagesUploader useInput={useInput} width={400} height={460} />
-                        </Grid>
-                        <Grid item container xs={6} style={{ paddingLeft: 24 }}>
-                            <Grid container>
-                                <Grid item container xs={12}>
-                                    <Typography className={classes.textBody}>
-                                        Nama Sekolah
-                                    </Typography>
-                                    <TextField
-                                        id="nama-sekolah"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Nama Sekolah"
-                                        type="text"
-                                        page="auth"
-                                        value={sekolah}
-                                        onChange={handleChangeSekolah}
-                                    />
+        <React.Fragment>
+            <div className={classes.modal}>
+                <div className={classes.paper} style={{ width: 800 }}>
+                    <Typography className={classes.title}>
+                        {isEditMode ? 'Edit Sekolah' : 'Daftar Sekolah'}
+                    </Typography>
+                    <form className={classes.form} onSubmit={handleSubmit}>
+                        <Grid container>
+                            <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', borderRadius: 12 }}>
+                                <ImagesUploader useInput={useInput} width={400} height={460} />
+                            </Grid>
+                            <Grid item container xs={6} style={{ paddingLeft: 24 }}>
+                                <Grid container>
+                                    <Grid item container xs={12}>
+                                        <Typography className={classes.textBody}>
+                                            Nama Sekolah
+                                        </Typography>
+                                        <TextField
+                                            id="nama-sekolah"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Nama Sekolah"
+                                            type="text"
+                                            page="auth"
+                                            value={sekolah}
+                                            onChange={handleChangeSekolah}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid container>
+                                    <Grid item container xs={6}>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                            Tipe Sekolah
+                                        </Typography>
+                                        <CustomSelect
+                                            id={"tipe-sekolah"}
+                                            margin={"normal"}
+                                            fullWidth
+                                            label={"Tipe Sekolah"}
+                                            variant={"standard"}
+                                            page={"auth"}
+                                            value={tipe}
+                                            onChange={handleChangeTipe}
+                                            option={['Negeri', 'Swasta']}
+                                        />
+                                    </Grid>
+                                    <Grid item container xs={6} style={{ paddingLeft: 16 }}>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                            NPSN
+                                        </Typography>
+                                        <TextField
+                                            id="npsn"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="NPSN"
+                                            type="text"
+                                            page="auth"
+                                            value={npsn}
+                                            onChange={handleChangeNpsn}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid container>
+                                    <Grid item container xs={6}>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                            Akreditasi
+                                        </Typography>
+                                        <CustomSelect
+                                            id={"akreditasi"}
+                                            margin={"normal"}
+                                            fullWidth
+                                            label={"Akreditasi"}
+                                            variant={"standard"}
+                                            page={"auth"}
+                                            value={akreditasi}
+                                            onChange={handleChangeAkreditasi}
+                                            option={['A', 'B', 'C', 'D', 'E']}
+                                        />
+                                    </Grid>
+                                    <Grid item container xs={6} style={{ paddingLeft: 16 }}>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                            SK Akreditasi
+                                        </Typography>
+                                        <TextField
+                                            id="sk-akreditasi"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="SK Akreditasi"
+                                            type="text"
+                                            page="auth"
+                                            value={skAkre}
+                                            onChange={handleChangeSkakre}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid container>
+                                    <Grid item container xs={12}>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                            Nama Kepala Sekolah
+                                        </Typography>
+                                        <TextField
+                                            id="nama-kepala-sekolah"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Nama Kepala Sekolah"
+                                            type="text"
+                                            page="auth"
+                                            value={kepsek}
+                                            onChange={handleChangeKepsek}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid container>
+                                    <Grid item container xs={12}>
+                                        <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                            Nama Komite Sekolah
+                                        </Typography>
+                                        <TextField
+                                            id="nama-komite-sekolah"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Nama Komite Sekolah"
+                                            type="text"
+                                            page="auth"
+                                            value={komite}
+                                            onChange={handleChangeKomite}
+                                        />
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid container>
-                                <Grid item container xs={6}>
-                                    <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                        Tipe Sekolah
-                                    </Typography>
-                                    <CustomSelect
-                                        id={"tipe-sekolah"}
-                                        margin={"normal"}
-                                        fullWidth
-                                        label={"Tipe Sekolah"}
-                                        variant={"standard"}
-                                        page={"auth"}
-                                        value={tipe}
-                                        onChange={handleChangeTipe}
-                                        option={['Negeri', 'Swasta']}
-                                    />
-                                </Grid>
-                                <Grid item container xs={6} style={{ paddingLeft: 16 }}>
-                                    <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                        NPSN
-                                    </Typography>
-                                    <TextField
-                                        id="npsn"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="NPSN"
-                                        type="text"
-                                        page="auth"
-                                        value={npsn}
-                                        onChange={handleChangeNpsn}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item container xs={6}>
-                                    <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                        Akreditasi
-                                    </Typography>
-                                    <CustomSelect
-                                        id={"akreditasi"}
-                                        margin={"normal"}
-                                        fullWidth
-                                        label={"Akreditasi"}
-                                        variant={"standard"}
-                                        page={"auth"}
-                                        value={akreditasi}
-                                        onChange={handleChangeAkreditasi}
-                                        option={['A', 'B', 'C', 'D', 'E']}
-                                    />
-                                </Grid>
-                                <Grid item container xs={6} style={{ paddingLeft: 16 }}>
-                                    <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                        SK Akreditasi
-                                    </Typography>
-                                    <TextField
-                                        id="sk-akreditasi"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="SK Akreditasi"
-                                        type="text"
-                                        page="auth"
-                                        value={skAkre}
-                                        onChange={handleChangeSkakre}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item container xs={12}>
-                                    <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                        Nama Kepala Sekolah
-                                    </Typography>
-                                    <TextField
-                                        id="nama-kepala-sekolah"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Nama Kepala Sekolah"
-                                        type="text"
-                                        page="auth"
-                                        value={kepsek}
-                                        onChange={handleChangeKepsek}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item container xs={12}>
-                                    <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                        Nama Komite Sekolah
-                                    </Typography>
-                                    <TextField
-                                        id="nama-komite-sekolah"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Nama Komite Sekolah"
-                                        type="text"
-                                        page="auth"
-                                        value={komite}
-                                        onChange={handleChangeKomite}
-                                    />
-                                </Grid>
-                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid container style={{ paddingTop: 12 }}>
-                        <Grid item container xs={3}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Alamat Jalan
-                            </Typography>
-                            <TextField
-                                id="alamat-jalan"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Alamat Jalan"
-                                type="text"
-                                page="auth"
-                                value={alamatJalan}
-                                onChange={handleChangeAlamatJalan}
-                            />
-                        </Grid>
-                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Kelurahan
-                            </Typography>
-                            <CustomSelect
-                                id={"kelurahan"}
-                                margin={"normal"}
-                                fullWidth
-                                label={"Kelurahan"}
-                                variant={"standard"}
-                                page={"auth"}
-                                value={kelurahan}
-                                onChange={handleChangeKelurahan}
-                                option={alamat !== null ? alamat.map(kelurahan => kelurahan.desaKelurahan) : []}
-                            />
-                        </Grid>
-                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Kepemilikan Lahan
-                            </Typography>
-                            <CustomSelect
-                                id={"statusKepemilikan"}
-                                margin={"normal"}
-                                fullWidth
-                                label={"Status Kepemilikan"}
-                                variant={"standard"}
-                                page={"auth"}
-                                value={kepemilikan}
-                                onChange={handleChangeKepemilikan}
-                                option={['Milik Sendiri', 'Milik Pemerintah', 'Tidak diketahui']}
-                            />
-                        </Grid>
-                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Luas Lahan (m2)
-                            </Typography>
-                            <TextField
-                                id="luas lahan"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Luas Lahan"
-                                type="number"
-                                page="auth"
-                                value={luasLahan}
-                                onChange={handleChangeLuasLahan}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid container style={{ paddingTop: 12 }}>
-                        <Grid item container xs={3}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Nomor Pendirian
-                            </Typography>
-                            <TextField
-                                id="nomor-pendirian"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Nomor Pendirian"
-                                type="text"
-                                page="auth"
-                                value={noSuratPendirian}
-                                onChange={handleChangeNoSuratPendirian}
-                            />
-                        </Grid>
-                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Tanggal Berdiri
-                            </Typography>
-                            <TextField
-                                id="tanggal-berdiri"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Tanggal Berdiri"
-                                type="date"
-                                page="auth"
-                                value={tanggalPendirian}
-                                onChange={handleChangeTanggalPendirian}
-                            />
-                        </Grid>
-                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Nomor Ijin Operasional
-                            </Typography>
-                            <TextField
-                                id="nomor-ijin-operasional"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Nomor Ijin Operasional"
-                                type="text"
-                                page="auth"
-                                value={noSuratIzin}
-                                onChange={handleChangeNoSuratIzin}
-                            />
-                        </Grid>
-                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Tanggal Ijin Operasional
-                            </Typography>
-                            <TextField
-                                id="tanggal-ijin-operasional"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Tanggal Ijin Operasional"
-                                type="date"
-                                page="auth"
-                                value={tanggalIzinOperasional}
-                                onChange={handleChangeTanggalIzinOperasional}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid container style={{ paddingTop: 12 }}>
-                        <Grid item container xs={3}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Jumlah Rombongan Belajar
-                            </Typography>
-                            <TextField
-                                id="jumlah-rombel"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Jumlah Rombongan Belajar"
-                                type="number"
-                                page="auth"
-                                value={rombonganBelajar}
-                                onChange={handleChangeRombonganBelajar}
-                            />
-                        </Grid>
-                        <Grid item container xs={3} style={{ paddingLeft: 12 }}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Jumlah Guru
-                            </Typography>
-                            <TextField
-                                id="jumlah-guru"
-                                variant="standard"
-                                margin="normal"
-                                fullWidth
-                                label="Jumlah Guru"
-                                type="number"
-                                page="auth"
-                                value={jumlahGuru}
-                                onChange={handleChangeJumlahGuru}
-                            />
-                        </Grid>
-                        <Grid item container xs={6} style={{ paddingLeft: 12 }}>
-                            <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
-                                Jenis Bantuan Pendanaan
-                            </Typography>
-                            <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                                <FormGroup aria-label="position" row>
-                                    <FormControlLabel control={<Checkbox checked={apbn} onChange={handleChangeBantuan} name="apbn" style={{ color: apbn ? Color.primary[300] : '#000000' }} />} label="APBN" />
-                                    <FormControlLabel control={<Checkbox checked={apbd} onChange={handleChangeBantuan} name="apbd" style={{ color: apbd ? Color.primary[300] : '#000000' }} />} label="APBD" />
-                                    <FormControlLabel control={<Checkbox checked={bos} onChange={handleChangeBantuan} name="bos" style={{ color: bos ? Color.primary[300] : '#000000' }} />} label="Bos Khusus" />
-                                </FormGroup>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                    <div style={{ display: 'flex', paddingTop: 8, justifyContent: 'flex-end' }}>
-                        {
-                            isEditMode &&
-                            <div style={{ paddingRight: 8 }}>
-                                <Button
-                                    variant="contained"
-                                    buttonText={"Discard"}
-                                    page='main'
-                                    buttonType='danger'
-                                    onClick={handleClose}
+                        <Grid container style={{ paddingTop: 12 }}>
+                            <Grid item container xs={3}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Alamat Jalan
+                                </Typography>
+                                <TextField
+                                    id="alamat-jalan"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Alamat Jalan"
+                                    type="text"
+                                    page="auth"
+                                    value={alamatJalan}
+                                    onChange={handleChangeAlamatJalan}
                                 />
-                            </div>
-                        }
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            page='main'
-                            buttonType='primary'
-                            buttonText={isEditMode ? "Save Changes" : "Submit"}
-                        />
-                    </div>
-                </form>
-            </div>
-        </div >
+                            </Grid>
+                            <Grid item container xs={3} style={{ paddingLeft: 12 }}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Kelurahan
+                                </Typography>
+                                <CustomSelect
+                                    id={"kelurahan"}
+                                    margin={"normal"}
+                                    fullWidth
+                                    label={"Kelurahan"}
+                                    variant={"standard"}
+                                    page={"auth"}
+                                    value={kelurahan}
+                                    onChange={handleChangeKelurahan}
+                                    option={alamat !== null ? alamat.map(kelurahan => kelurahan.desaKelurahan) : []}
+                                />
+                            </Grid>
+                            <Grid item container xs={3} style={{ paddingLeft: 12 }}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Kepemilikan Lahan
+                                </Typography>
+                                <CustomSelect
+                                    id={"statusKepemilikan"}
+                                    margin={"normal"}
+                                    fullWidth
+                                    label={"Status Kepemilikan"}
+                                    variant={"standard"}
+                                    page={"auth"}
+                                    value={kepemilikan}
+                                    onChange={handleChangeKepemilikan}
+                                    option={['Milik Sendiri', 'Milik Pemerintah', 'Tidak diketahui']}
+                                />
+                            </Grid>
+                            <Grid item container xs={3} style={{ paddingLeft: 12 }}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Luas Lahan (m2)
+                                </Typography>
+                                <TextField
+                                    id="luas lahan"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Luas Lahan"
+                                    type="number"
+                                    page="auth"
+                                    value={luasLahan}
+                                    onChange={handleChangeLuasLahan}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container style={{ paddingTop: 12 }}>
+                            <Grid item container xs={3}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Nomor Pendirian
+                                </Typography>
+                                <TextField
+                                    id="nomor-pendirian"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Nomor Pendirian"
+                                    type="text"
+                                    page="auth"
+                                    value={noSuratPendirian}
+                                    onChange={handleChangeNoSuratPendirian}
+                                />
+                            </Grid>
+                            <Grid item container xs={3} style={{ paddingLeft: 12 }}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Tanggal Berdiri
+                                </Typography>
+                                <TextField
+                                    id="tanggal-berdiri"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Tanggal Berdiri"
+                                    type="date"
+                                    page="auth"
+                                    value={tanggalPendirian}
+                                    onChange={handleChangeTanggalPendirian}
+                                />
+                            </Grid>
+                            <Grid item container xs={3} style={{ paddingLeft: 12 }}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Nomor Ijin Operasional
+                                </Typography>
+                                <TextField
+                                    id="nomor-ijin-operasional"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Nomor Ijin Operasional"
+                                    type="text"
+                                    page="auth"
+                                    value={noSuratIzin}
+                                    onChange={handleChangeNoSuratIzin}
+                                />
+                            </Grid>
+                            <Grid item container xs={3} style={{ paddingLeft: 12 }}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Tanggal Ijin Operasional
+                                </Typography>
+                                <TextField
+                                    id="tanggal-ijin-operasional"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Tanggal Ijin Operasional"
+                                    type="date"
+                                    page="auth"
+                                    value={tanggalIzinOperasional}
+                                    onChange={handleChangeTanggalIzinOperasional}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container style={{ paddingTop: 12 }}>
+                            <Grid item container xs={3}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Jumlah Rombongan Belajar
+                                </Typography>
+                                <TextField
+                                    id="jumlah-rombel"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Jumlah Rombongan Belajar"
+                                    type="number"
+                                    page="auth"
+                                    value={rombonganBelajar}
+                                    onChange={handleChangeRombonganBelajar}
+                                />
+                            </Grid>
+                            <Grid item container xs={3} style={{ paddingLeft: 12 }}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Jumlah Guru
+                                </Typography>
+                                <TextField
+                                    id="jumlah-guru"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Jumlah Guru"
+                                    type="number"
+                                    page="auth"
+                                    value={jumlahGuru}
+                                    onChange={handleChangeJumlahGuru}
+                                />
+                            </Grid>
+                            <Grid item container xs={6} style={{ paddingLeft: 12 }}>
+                                <Typography className={classes.textBody} style={{ paddingTop: 8 }}>
+                                    Jenis Bantuan Pendanaan
+                                </Typography>
+                                <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+                                    <FormGroup aria-label="position" row>
+                                        <FormControlLabel control={<Checkbox checked={apbn} onChange={handleChangeBantuan} name="apbn" style={{ color: apbn ? Color.primary[300] : '#000000' }} />} label="APBN" />
+                                        <FormControlLabel control={<Checkbox checked={apbd} onChange={handleChangeBantuan} name="apbd" style={{ color: apbd ? Color.primary[300] : '#000000' }} />} label="APBD" />
+                                        <FormControlLabel control={<Checkbox checked={bos} onChange={handleChangeBantuan} name="bos" style={{ color: bos ? Color.primary[300] : '#000000' }} />} label="Bos Khusus" />
+                                    </FormGroup>
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+                        <div style={{ display: 'flex', paddingTop: 8, justifyContent: 'flex-end' }}>
+                            {
+                                isEditMode &&
+                                <div style={{ paddingRight: 8 }}>
+                                    <Button
+                                        variant="contained"
+                                        buttonText={"Discard"}
+                                        page='main'
+                                        buttonType='danger'
+                                        onClick={handleClose}
+                                    />
+                                </div>
+                            }
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                page='main'
+                                buttonType='primary'
+                                buttonText={isEditMode ? "Save Changes" : "Submit"}
+                            />
+                        </div>
+                    </form>
+                </div>
+            </div >
+        </React.Fragment>
     )
 }
 

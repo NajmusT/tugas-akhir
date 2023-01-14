@@ -12,9 +12,7 @@ const ViewGudang = () => {
     }
 
     return (
-        <ViewPrasarana
-            prasarana={prasarana}
-        />
+        <ViewPrasarana prasarana={prasarana} />
     )
 }
 

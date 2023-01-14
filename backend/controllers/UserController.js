@@ -58,7 +58,7 @@ router.route("/:id").get((req, res) => {
 });
 
 //register
-router.post("/register", (req, res) => {
+router.post("/register", (req, res, next) => {
     const { errors, isValid } = validateRegister(req.body)
 
     if (!isValid) { return res.status(400).json({ errors: errors }) }
@@ -68,9 +68,9 @@ router.post("/register", (req, res) => {
             errors.email = "Email telah digunakan"
             return res.status(400).json({ errors: errors })
         } else {
-            const file = req.files.file
-            const ext = path.extname(file.name)
-            const fileName = file.md5 + ext
+            const file = req.files === null ? null : req.files.file
+            const ext = file != null ? path.extname(file.name) : ''
+            const fileName = file != null ? (file.md5 + ext) : ''
             const url = `${req.protocol}`
             const allowedType = ['.png', '.jpg', '.jpeg'];
 
@@ -90,22 +90,25 @@ router.post("/register", (req, res) => {
                 logs: req.body.logs,
             })
 
+            if (file !== null) {
+                if (allowedType.includes(ext.toLowerCase())) {
+                    file.mv(`./public/images/${fileName}`, async (err) => {
+                        if (err) return res.status(500).json({ msg: err.message });
+                    })
+                } else {
+                    return res.status(400).json("Tipe file tidak valid")
+                }
+            }
+
             bcrypt.genSalt(10, (err, salt) => {
                 if (err) return next(err);
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
                     if (err) return next(err)
-                    if (allowedType.includes(ext.toLowerCase())) {
-                        file.mv(`./public/images/${fileName}`, async (err) => {
-                            if (err) return res.status(500).json({ msg: err.message });
 
-                            newUser.password = hash
-                            newUser.save()
-                                .then(user => res.status(200).json("Register berhasil. Tunggu konfirmasi aktivasi melalui email"))
-                                .catch(err => res.status(400).json({ err }))
-                        })
-                    } else {
-                        return res.status(400).json("Tipe file tidak valid")
-                    }
+                    newUser.password = hash
+                    newUser.save()
+                        .then(user => res.status(200).json("Register berhasil. Tunggu konfirmasi aktivasi melalui email"))
+                        .catch(err => res.status(400).json({ err }))
                 });
             });
         }

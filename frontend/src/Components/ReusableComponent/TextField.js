@@ -7,7 +7,7 @@ import { TextFieldStyles } from '../../Styles/TextFieldStyles'
 
 class CustomTextField extends Component {
     render() {
-        const { classes, page, disable, margin, row, fullWidth, value, type, variant, id, label, onChange } = this.props
+        const { classes, error, page, disable, margin, row, fullWidth, value, type, variant, id, label, onChange } = this.props
 
         return (
             <React.Fragment>
@@ -37,6 +37,7 @@ class CustomTextField extends Component {
                         value={value}
                         className={page === "main" ? classes.main : classes.begin}
                         onChange={onChange}
+                        error={error}
                     />) : (disable ?
                         <TextField
                             id={id}
@@ -61,6 +62,7 @@ class CustomTextField extends Component {
                             value={value}
                             className={page === "main" ? classes.main : classes.begin}
                             onChange={onChange}
+                            error={error}
                         />)
                 }
             </React.Fragment>

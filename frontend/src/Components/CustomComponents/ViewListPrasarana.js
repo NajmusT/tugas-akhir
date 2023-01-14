@@ -18,37 +18,107 @@ import EditDaftarSekolah from '../../PopUpDialog/EditDaftarSekolah'
 import axios from 'axios'
 
 const ViewListPrasarana = (props) => {
+    const { jenis } = props
     const sekolahId = useParams()
 
-    const [location, setLocation] = useState([])
-    const [user, setUser] = useState(getCurrentUser())
+    const [location, setLocation] = useState(null)
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user'))?.payload)
     const [openDialog, setOpenDialog] = useState(false)
     const [sekolah, setSekolah] = useState(null)
+    const [allPrasarana, setAllPrasarana] = useState(null)
+    const [rows, setRows] = useState(null)
+
+    const createData = (id, nama, sekolah, jenis, kondisi, aksi) => {
+        return { id, nama, sekolah, jenis, kondisi, aksi }
+    }
 
     const columns = [
-        { id: 'id', label: 'ID', minWidth: 32 },
-        { id: 'nama-ruangan', label: 'Nama Ruangan', minWidth: 120 },
-        { id: 'sekolah', label: 'Sekolah', minWidth: 120 },
-        { id: 'jenis', label: 'Jenis Infrastruktur', minWidth: 120, },
-        { id: 'kondisi', label: 'Kondisi', minWidth: 120 },
-        { id: 'aksi', label: 'Aksi', minWidth: 120 }
+        { id: 'id', label: 'ID', minWidth: 32, align: 'center' },
+        { id: 'nama', label: 'Nama Ruangan', minWidth: 120, align: 'center' },
+        { id: 'sekolah', label: 'Sekolah', minWidth: 120, align: 'center' },
+        { id: 'jenis', label: 'Jenis Infrastruktur', minWidth: 120, align: 'center' },
+        { id: 'kondisi', label: 'Kondisi', minWidth: 120, align: 'center' },
+        { id: 'aksi', label: 'Aksi', minWidth: 120, align: 'center' }
     ]
 
-    const rows = []
-
     const history = useHistory()
-    const fotoSekolah = sekolah !== null ? require(`../../../../backend/public/images/${sekolah.fotoSekolah.fileName}`) : null
+    const fotoSekolah = sekolah != null ? (sekolah.fotoSekolah.fileName != "" ? require(`../../../../backend/public/images/${sekolah.fotoSekolah.fileName}`) : null) : null
 
     useEffect(() => {
+        axios.get(`http://localhost:5000/sekolah/${sekolahId.id}`).then(res => { setSekolah(res.data) })
+        axios.get(`http://localhost:5000/prasarana`).then(res => { setAllPrasarana(res.data) })
+
         let location = history.location.pathname
         setLocation(location.split('/'))
-
-        axios.get(`http://localhost:5000/sekolah/${sekolahId.id}`).then(res => { setSekolah(res.data) })
     }, [])
 
     useEffect(() => {
-        console.log(sekolah)
-    }, [sekolah, setSekolah])
+        if (allPrasarana != null) {
+            setRows(allPrasarana?.filter(item => item.idSekolah === sekolahId.id && item.jenis === jenis)?.map(prasarana =>
+                createData(
+                    prasarana._id,
+                    prasarana.nama,
+                    sekolah.nama,
+                    prasarana.jenis,
+                    prasarana.kondisi,
+                    (user.roles === 'admin-sekolah' ?
+                        <>
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div >
+                                    <Button
+                                        variant="contained"
+                                        buttonText={"Lihat"}
+                                        page='main'
+                                        buttonType='success'
+                                        onClick={() => {
+                                            history.push(`/data/prasarana/${location[location.length - 2]}/${prasarana._id}`)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ paddingLeft: 8 }}>
+                                    <Button
+                                        variant="contained"
+                                        buttonText={"Edit"}
+                                        page='main'
+                                        buttonType='warning'
+                                        onClick={() => {
+                                            history.push(`/data/prasarana/${location[location.length - 2]}/edit/${prasarana._id}`)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ paddingLeft: 8 }}>
+                                    <Button
+                                        variant="contained"
+                                        buttonText={"Hapus"}
+                                        page='main'
+                                        buttonType='danger'
+                                        onClick={() => {
+
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </> :
+                        <>
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div >
+                                    <Button
+                                        variant="contained"
+                                        buttonText={"Lihat"}
+                                        page='main'
+                                        buttonType='success'
+                                        onClick={() => {
+
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </>
+                    )
+                )
+            ))
+        }
+    }, [allPrasarana, setAllPrasarana])
 
     const EditDataSekolah = () => {
         return (

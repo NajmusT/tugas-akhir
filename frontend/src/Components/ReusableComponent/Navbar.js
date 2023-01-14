@@ -34,10 +34,8 @@ function Navbar() {
     const [open, setOpen] = useState(false);
     const [location, setLocation] = useState(history.location.pathname)
     const [isAuthPages, setIsAuthPage] = useState(false)
-    const [user, setUser] = useState(lodash.cloneDeep(getCurrentUser()))
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user'))?.payload)
     const [sekolah, setSekolah] = useState(null)
-
-    const fotoProfil = user?.fotoProfil != null ? require(`../../../../backend/public/images/${user.fotoProfil.fileName}`) : null;
 
     const anchorRef = useRef(null);
 
@@ -112,7 +110,7 @@ function Navbar() {
     }
 
     useEffect(() => {
-        setUser(lodash.cloneDeep(getCurrentUser()))
+        setUser(JSON.parse(localStorage.getItem('user'))?.payload)
         setLocation(history.location.pathname)
         checkLocation()
     }, [location, setLocation])
@@ -131,7 +129,7 @@ function Navbar() {
 
     return (
         <React.Fragment>
-            {!isAuthPages ?
+            {user != null && !isAuthPages ?
                 <Grid container xs={12}>
                     <div className={classes.navbarContainer}>
                         <Grid item xs={1} />
@@ -143,60 +141,81 @@ function Navbar() {
                         <Grid item xs={6}>
                             <div className={classes.navbarMenu}>
                                 {
-                                    user?.roles != 'operator' ?
-                                        <>
-                                            <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
-                                                <div className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={() => { history.push('/beranda') }}>
-                                                    {('Beranda').toUpperCase()}
+                                    user?.roles === 'admin-sekolah' &&
+                                    <React.Fragment>
+                                        <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
+                                            <div className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={() => { history.push('/beranda') }}>
+                                                {('Beranda').toUpperCase()}
+                                            </div>
+                                        </div>
+                                        <div
+                                            className={classes.navbarItem}
+                                            onMouseEnter={onMouseEnter}
+                                            onMouseLeave={onMouseLeave}
+                                        >
+                                            <div
+                                                className={clickData ? classes.navbarLinksActive : classes.navbarLinks}
+                                            >
+                                                {('Data').toUpperCase()}
+                                                <div style={{ paddingLeft: 4, paddingTop: 8, alignItems: 'center' }} >
+                                                    <ExpandMoreIcon />
                                                 </div>
+                                            </div>
+                                            {dropdown && <Dropdown sekolah={sekolah._id} />}
+                                        </div>
+                                        <div className={classes.navbarItem}>
+                                            <div
+                                                onClick={() => { history.push(`pengaduan`) }}
+                                                className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
+                                            >
+                                                {('Pengaduan').toUpperCase()}
+                                            </div>
+                                        </div>
+                                    </React.Fragment>
+                                }
+                                {
+                                    user?.roles === 'staff-dinas' &&
+                                    <React.Fragment>
+                                        <div className={classes.navbarItem} style={{ paddingLeft: 24 }}>
+                                            <div className={clickDashboard ? classes.navbarLinksActive : classes.navbarLinks} onClick={() => { history.push('/beranda') }}>
+                                                {('Beranda').toUpperCase()}
+                                            </div>
+                                        </div>
+                                        <div
+                                            className={classes.navbarItem}
+                                            onMouseEnter={onMouseEnter}
+                                            onMouseLeave={onMouseLeave}
+                                        >
+                                            <div
+                                                className={clickData ? classes.navbarLinksActive : classes.navbarLinks}
+                                            >
+                                                {('Data').toUpperCase()}
+                                                <div style={{ paddingLeft: 4, paddingTop: 8, alignItems: 'center' }} >
+                                                    <ExpandMoreIcon />
+                                                </div>
+                                            </div>
+                                            {dropdown && <Dropdown sekolah={sekolah?._id} />}
+                                        </div>
+                                        <div className={classes.navbarItem}>
+                                            <div
+                                                onClick={() => { history.push('/decision-support') }}
+                                                className={clickDSS ? classes.navbarLinksActive : classes.navbarLinks}
+                                            >
+                                                {('Decision Support').toUpperCase()}
                                             </div>
                                             <div
-                                                className={classes.navbarItem}
-                                                onMouseEnter={onMouseEnter}
-                                                onMouseLeave={onMouseLeave}
+                                                onClick={() => { history.push('/laporan-pengaduan') }}
+                                                className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
                                             >
-                                                <div
-                                                    className={clickData ? classes.navbarLinksActive : classes.navbarLinks}
-                                                >
-                                                    {('Data').toUpperCase()}
-                                                    <div style={{ paddingLeft: 4, paddingTop: 8, alignItems: 'center' }} >
-                                                        <ExpandMoreIcon />
-                                                    </div>
-                                                </div>
-                                                {dropdown && <Dropdown sekolah={sekolah._id} />}
+                                                {('Laporan Pengaduan').toUpperCase()}
                                             </div>
-                                            <div className={classes.navbarItem}>
-                                                {user?.roles === 'admin-sekolah' &&
-                                                    <div
-                                                        onClick={() => { history.push(`pengaduan`) }}
-                                                        className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
-                                                    >
-                                                        {('Pengaduan').toUpperCase()}
-                                                    </div>
-                                                }
-                                                {user?.roles === 'staff-dinas' &&
-                                                    <>
-                                                        <div
-                                                            onClick={() => { history.push('/decision-support') }}
-                                                            className={clickDSS ? classes.navbarLinksActive : classes.navbarLinks}
-                                                        >
-                                                            {('Decision Support').toUpperCase()}
-                                                        </div>
-                                                        <div
-                                                            onClick={() => { history.push('/laporan-pengaduan') }}
-                                                            className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
-                                                        >
-                                                            {('Laporan Pengaduan').toUpperCase()}
-                                                        </div>
-                                                    </>
-                                                }
-                                            </div>
-                                        </> : <></>
+                                        </div>
+                                    </React.Fragment>
                                 }
                             </div>
                         </Grid>
                         <Grid item xs={1} >
-                            {user?.fotoProfil === null ?
+                            {(user === null || user.fotoProfil.fileName === "") &&
                                 <IconButton
                                     ref={anchorRef}
                                     aria-controls={open ? 'menu-list-grow' : undefined}
@@ -204,9 +223,12 @@ function Navbar() {
                                     onClick={handleToggle}
                                 >
                                     <AccountCircle style={{ fontSize: 24 }} />
-                                </IconButton> :
+                                </IconButton>
+                            }
+                            {
+                                (user != null && user.fotoProfil.fileName != "") &&
                                 <div ref={anchorRef} onClick={handleToggle} style={{ justifyContent: 'center', alignContent: 'center', paddingLeft: 56 }}>
-                                    <img src={fotoProfil} alt={'foto-profil'} style={{ width: '40%', height: '40%', borderRadius: '50%' }} />
+                                    <img src={require(`../../../../backend/public/images/${user.fotoProfil.fileName}`)} alt={'foto-profil'} style={{ width: '40%', height: '40%', borderRadius: '50%' }} />
                                 </div>
                             }
                             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
@@ -227,7 +249,8 @@ function Navbar() {
                             </Popper>
                         </Grid>
                     </div>
-                </Grid> : <></>}
+                </Grid> : <></>
+            }
         </React.Fragment>
     );
 }
