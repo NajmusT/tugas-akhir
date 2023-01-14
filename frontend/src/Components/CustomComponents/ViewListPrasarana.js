@@ -82,7 +82,7 @@ const ViewListPrasarana = (props) => {
                                         page='main'
                                         buttonType='warning'
                                         onClick={() => {
-                                            history.push(`/data/prasarana/${location[location.length - 2]}/edit/${prasarana._id}`)
+                                            history.push(`/data/${location[location.length - 2]}/prasarana/edit/${prasarana._id}`)
                                         }}
                                     />
                                 </div>

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 //Material UI
 import { Grid, Typography } from '@material-ui/core'
@@ -12,24 +13,23 @@ import Breadcrumb from '../ReusableComponent/Breadcrumb'
 import ImageIcon from '../../asset/icons/Image';
 
 const ViewSarana = (props) => {
-    const { sarana } = props
-
-    const prasarana = sarana.idPrasarana
+    const saranaId = useParams()
+    const [sarana, setSarana] = useState(null)
 
     return (
         <React.Fragment>
             <Breadcrumb
                 title={'Data Prasarana Pendidikan'}
-                title2={prasarana}
+                title2={saranaId?.location}
                 subtitle={'Sarana'}
-                subsubtitle={sarana.nama}
+                subsubtitle={sarana?.nama}
             />
             <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
                 <Grid item container xs={6} style={{ padding: '2vw 2vw 0vw 2vw' }}>
                     <Typography style={{
                         fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
                     }}>
-                        {sarana.nama}
+                        {sarana?.nama}
                     </Typography>
                 </Grid>
                 <Grid item container xs={6} style={{ padding: '2vw 2vw 0vw 2vw', justifyContent: 'flex-end' }}>
@@ -48,7 +48,7 @@ const ViewSarana = (props) => {
                     }}>
                         <Grid container style={{ padding: '36px' }}>
                             {
-                                sarana.foto === '' ?
+                                sarana?.foto === '' ?
                                     <Grid item container xs={5} style={{ alignContent: 'center', height: '320px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                         <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
                                     </Grid> :
@@ -70,7 +70,7 @@ const ViewSarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {sarana.nama}
+                                                {sarana?.nama}
                                             </Typography>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@ const ViewSarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {sarana.jenis}
+                                                {sarana?.jenis}
                                             </Typography>
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@ const ViewSarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {sarana.idPrasarana}
+                                                {sarana?.idPrasarana}
                                             </Typography>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@ const ViewSarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {sarana.idPrasarana}
+                                                {sarana?.idPrasarana}
                                             </Typography>
                                         </div>
                                     </div>
@@ -134,7 +134,7 @@ const ViewSarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {sarana.jumlah.kuantitas + " " + sarana.jumlah.satuan}
+                                                {sarana?.jumlah.kuantitas + " " + sarana?.jumlah.satuan}
                                             </Typography>
                                         </div>
                                     </div>
@@ -150,7 +150,7 @@ const ViewSarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {sarana.kondisi}
+                                                {sarana?.kondisi}
                                             </Typography>
                                         </div>
                                     </div>
@@ -166,7 +166,7 @@ const ViewSarana = (props) => {
                                             <Typography style={{
                                                 fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                             }}>
-                                                {sarana.deskripsi === "" ? "" : `${sarana.deskripsi}.`}
+                                                {sarana?.deskripsi === "" ? "" : `${sarana?.deskripsi}.`}
                                             </Typography>
                                         </div>
                                     </div>

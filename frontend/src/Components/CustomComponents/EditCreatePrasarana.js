@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 import { Grid, Typography } from '@material-ui/core'
 
@@ -20,18 +20,21 @@ import WarningIcon from '@material-ui/icons/ErrorOutline';
 import moment from 'moment'
 
 const EditCreatePrasarana = (props) => {
-    const { isEditMode, sekolah, prasarana, tipe } = props
+    const { isEditMode, tipe } = props
 
     const history = useHistory()
     const user = JSON.parse(localStorage.getItem('user'))?.payload
+    var fotoPrasarana
 
-    const fotoPrasarana = isEditMode ? (prasarana.foto.fileName != "" ? require(`../../../../backend/public/images/${prasarana.foto.fileName}`) : null) : null
+    const prasaranaId = useParams()
 
-    const [name, setName] = useState(isEditMode ? prasarana.nama : null)
-    const [kondisi, setKondisi] = useState(isEditMode ? prasarana.kondisi : null)
-    const [schools, setSchools] = useState(isEditMode ? sekolah : null)
-    const [file, setFile] = useState(isEditMode ? fotoPrasarana : null)
-    const [url, setUrl] = useState(isEditMode ? prasarana.foto.url : null)
+    const [prasarana, setPrasarana] = useState(null)
+    const [name, setName] = useState(null)
+    const [kondisi, setKondisi] = useState(null)
+    const [schools, setSchools] = useState(null)
+    const [file, setFile] = useState(null)
+    const [jenis, setJenis] = useState(tipe)
+    const [url, setUrl] = useState(null)
     const [openDialog, setOpenDialog] = useState(false)
     const [errors, setError] = useState('')
 
@@ -67,7 +70,7 @@ const EditCreatePrasarana = (props) => {
         if (name != null || kondisi != null) {
             formData.append("file", file)
             formData.append("nama", name)
-            formData.append("jenis", tipe)
+            formData.append("jenis", jenis)
             formData.append("kondisi", kondisi)
             formData.append("idSekolah", schools?._id)
             formData.append("createdBy", user._id)
@@ -92,7 +95,25 @@ const EditCreatePrasarana = (props) => {
 
     useEffect(() => {
         axios.get('http://localhost:5000/sekolah').then(res => { setSchools(res.data.filter((item => item.createdBy === user._id))[0]) })
+
+        if (isEditMode) { axios.get(`http://localhost:5000/prasarana/${prasaranaId.id}`).then(res => { setPrasarana(res.data) }) }
     }, [])
+
+    useEffect(() => {
+        if (prasarana != null && prasarana.foto.fileName != "") {
+            fotoPrasarana = require(`../../../../backend/public/images/${prasarana.foto.fileName}`)
+        } else {
+            fotoPrasarana = null
+        }
+
+        if (prasarana != null && isEditMode) {
+            setName(prasarana.nama)
+            setJenis(prasarana.jenis)
+            setKondisi(prasarana.kondisi)
+        }
+
+        console.log(prasarana)
+    }, [prasarana, setPrasarana])
 
     useEffect(() => {
         console.log(errors)
@@ -191,7 +212,7 @@ const EditCreatePrasarana = (props) => {
                                                 label="Tipe Prasarana"
                                                 type="text"
                                                 page="main"
-                                                value={tipe}
+                                                value={jenis}
                                             />
                                         </Grid>
                                         <Grid style={{ display: 'flex', alignItems: 'center' }}>
@@ -215,7 +236,7 @@ const EditCreatePrasarana = (props) => {
                                         <Grid style={{ display: 'flex', paddingTop: 44, justifyContent: 'flex-end' }}>
                                             <Button
                                                 variant="contained"
-                                                buttonText={"Save"}
+                                                buttonText={isEditMode ? "Save Changes" : "Save"}
                                                 page='main'
                                                 buttonType='primary'
                                                 onClick={handleSubmit}
