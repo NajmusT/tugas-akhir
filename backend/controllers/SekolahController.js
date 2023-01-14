@@ -37,7 +37,7 @@ router.post('/new', (req, res) => {
         updatedBy: req.body.updatedBy
     })
 
-    if (file !== null) {
+    if (req.file != null) {
         if (allowedType.includes(ext.toLowerCase())) {
             file.mv(`./public/images/${fileName}`, async (err) => {
                 if (err) return res.status(500).json({ msg: err.message });

@@ -165,7 +165,7 @@ function Navbar() {
                                         </div>
                                         <div className={classes.navbarItem}>
                                             <div
-                                                onClick={() => { history.push(`pengaduan`) }}
+                                                onClick={() => { history.push(`/pengaduan`) }}
                                                 className={clickPengaduan ? classes.navbarLinksActive : classes.navbarLinks}
                                             >
                                                 {('Pengaduan').toUpperCase()}

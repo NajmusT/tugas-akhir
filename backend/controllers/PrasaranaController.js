@@ -26,11 +26,14 @@ router.route('/new').post((req, res) => {
         updatedAt: moment()
     })
 
-    if (file != null && allowedType.includes(ext.toLowerCase())) {
-        file.mv(`./public/images/${fileName}`, async (err) => {
-            if (err) return res.status(500).json({ msg: err.message });
-        })
-    } else { return res.status(400).json("Tipe file tidak valid") }
+
+    if (req.files != null) {
+        if (allowedType.includes(ext.toLowerCase())) {
+            file.mv(`./public/images/${fileName}`, async (err) => {
+                if (err) return res.status(500).json({ msg: err.message });
+            })
+        } else { return res.status(400).json("Tipe file tidak valid") }
+    }
 
     prasaranaBaru.save()
         .then(prasarana => res.json(prasarana))

@@ -11,6 +11,7 @@ const DaftarSekolah = () => {
 
     const isAdminSekolah = user?.roles === 'admin-sekolah'
     const [jumlahSekolah, setJumlahSekolah] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     const checkJumlahSekolah = async () => {
         await axios.get('http://localhost:5000/sekolah').then((res) => setJumlahSekolah(res.data.filter(item => item.createdBy === user._id).length))
@@ -21,24 +22,27 @@ const DaftarSekolah = () => {
     }, [])
 
     useEffect(() => {
-        console.log(jumlahSekolah)
+        if (isAdminSekolah && jumlahSekolah === 0) { setTimeout(() => setLoading(false), 2000) }
+        else { setLoading(true) }
     }, [jumlahSekolah])
 
     return (
         <React.Fragment>
             {
-                isAdminSekolah && jumlahSekolah === 0 ? <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: '136%',
-                    backgroundImage: `url(${image})`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                }}>
-                    <EditDaftarSekolah isEditMode={false} />
-                </div > : <LoadingScreen />
+                !loading ?
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '136%',
+                        backgroundImage: `url(${image})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                    }}>
+                        <EditDaftarSekolah isEditMode={false} />
+                    </div > :
+                    <LoadingScreen />
             }
         </React.Fragment>
     )

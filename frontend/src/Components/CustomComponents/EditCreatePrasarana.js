@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { Grid, Typography } from '@material-ui/core'
+import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
+import WarningIcon from '@material-ui/icons/ErrorOutline';
 
 import { FontFamily } from '../../Constants/FontFamily'
 import { Color } from '../../Constants/Colors'
@@ -15,12 +17,10 @@ import axios from 'axios'
 import { getCurrentUser } from '../../Utils'
 import ConfirmDialog from '../ReusableComponent/ConfirmationDialog'
 
-import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
-import WarningIcon from '@material-ui/icons/ErrorOutline';
 import moment from 'moment'
 
 const EditCreatePrasarana = (props) => {
-    const { isEditMode, tipe } = props
+    const { isEditMode } = props
 
     const history = useHistory()
     const user = JSON.parse(localStorage.getItem('user'))?.payload
@@ -33,10 +33,35 @@ const EditCreatePrasarana = (props) => {
     const [kondisi, setKondisi] = useState(null)
     const [schools, setSchools] = useState(null)
     const [file, setFile] = useState(null)
-    const [jenis, setJenis] = useState(tipe)
+    const [jenis, setJenis] = useState(null)
     const [url, setUrl] = useState(null)
-    const [openDialog, setOpenDialog] = useState(false)
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const [openFailedDialog, setOpenFailedDialog] = useState(false)
     const [errors, setError] = useState('')
+
+    const SuccessDialog = () => {
+        return (
+            <ConfirmDialog
+                title={isEditMode ? "Edit Prasarana Berhasil" : "Create Prasarana Berhasil"}
+                subtitle={isEditMode ? "Sistem telah memperbarui data prasarana di dalam database" : "Sistem telah memasukkan data prasarana ke dalam database"}
+                open={openSuccessDialog}
+                handleClose={() => { setOpenSuccessDialog(false); history.goBack() }}
+                icon={<SuccessIcon style={{ color: '#45DE0F', fontSize: '8rem' }} />}
+            />
+        )
+    }
+
+    const FailedDialog = () => {
+        return (
+            <ConfirmDialog
+                title={isEditMode ? "Edit Prasarana Gagal" : "Daftar Prasarana Gagal"}
+                subtitle={isEditMode ? "Sistem gagal memperbarui data prasarana di dalam database" : "Sistem gagal memasukkan data prasarana ke dalam database"}
+                open={openFailedDialog}
+                handleClose={() => { setOpenFailedDialog(false); }}
+                icon={<WarningIcon style={{ color: '#EE3F3F', fontSize: '8rem' }} />}
+            />
+        )
+    }
 
     const useInput = () => {
         setError(null)
@@ -80,17 +105,14 @@ const EditCreatePrasarana = (props) => {
 
             try {
                 await axios.post('http://localhost:5000/prasarana/new', formData, { headers: { "Content-Type": "multipart/form-data" } });
-
+                setOpenSuccessDialog(true)
             } catch (error) {
                 setError(error.response.data.errors)
-
-                console.log(error.response.data.errors)
+                setOpenFailedDialog(true)
             }
         } else {
-            setError("Data tidak boleh kosong")
+            setOpenFailedDialog(true)
         }
-
-        setOpenDialog(true)
     }
 
     useEffect(() => {
@@ -100,43 +122,44 @@ const EditCreatePrasarana = (props) => {
     }, [])
 
     useEffect(() => {
-        if (prasarana != null && prasarana.foto.fileName != "") {
-            fotoPrasarana = require(`../../../../backend/public/images/${prasarana.foto.fileName}`)
-        } else {
-            fotoPrasarana = null
-        }
+        if (prasarana != null && prasarana.foto.fileName != "") { fotoPrasarana = require(`../../../../backend/public/images/${prasarana.foto.fileName}`) }
+        else { fotoPrasarana = null }
 
         if (prasarana != null && isEditMode) {
             setName(prasarana.nama)
             setJenis(prasarana.jenis)
             setKondisi(prasarana.kondisi)
         }
-
-        console.log(prasarana)
     }, [prasarana, setPrasarana])
 
     useEffect(() => {
-        console.log(errors)
-    }, [errors, setError])
-
-    const CreateNotifModal = () => {
-        return (
-            <ConfirmDialog
-                title={errors != '' ? 'Create Data Prasarana Gagal' : 'Create Data Prasarana Berhasil'}
-                subtitle={errors != '' ? `${errors}` : `Sistem telah menginput data prasarana ${name} ke dalam database`}
-                open={openDialog}
-                handleClose={() => {
-                    setOpenDialog(false)
-                    if (errors === null) { history.goBack() }
-                }}
-                icon={errors === null ? <SuccessIcon style={{ color: '#45DE0F', fontSize: '8rem' }} /> : <WarningIcon style={{ color: '#EE3F3F', fontSize: '8rem' }} />}
-            />
-        )
-    }
+        if (prasaranaId.location === 'tempat-bermain-dan-berolahraga') {
+            setJenis("Tempat Bermain dan Berolahraga")
+        } else if (prasaranaId.location === 'ruang-kelas') {
+            setJenis("Ruang Kelas")
+        } else if (prasaranaId.location === 'laboratorium-IPA') {
+            setJenis("Laboratorium IPA")
+        } else if (prasaranaId.location === 'ruang-guru') {
+            setJenis("Ruang Guru")
+        } else if (prasaranaId.location === 'ruang-pimpinan') {
+            setJenis("Ruang Pimpinan")
+        } else if (prasaranaId.location === 'toilet') {
+            setJenis("Toilet")
+        } else if (prasaranaId.location === 'UKS') {
+            setJenis("Unit Kesehatan Siswa")
+        } else if (prasaranaId.location === 'tempat-beribadah') {
+            setJenis("Tempat Beribadah")
+        } else if (prasaranaId.location === 'gudang') {
+            setJenis("Gudang")
+        } else if (prasaranaId.location === 'ruang-perpustakaan') {
+            setJenis("Ruang Perpustakaan")
+        }
+    }, [prasaranaId.location])
 
     return (
         <React.Fragment>
-            {openDialog && CreateNotifModal()}
+            {openFailedDialog && FailedDialog()}
+            {openSuccessDialog && SuccessDialog()}
             <React.Fragment>
                 <Breadcrumb
                     title={isEditMode ? 'Edit Prasarana Pendidikan' : 'Create Prasarana Pendidikan'}

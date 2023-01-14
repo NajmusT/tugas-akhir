@@ -10,26 +10,24 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
+import WarningIcon from '@material-ui/icons/ErrorOutline';
 
 //Components
 import TextField from '../Components/ReusableComponent/TextField'
 import Button from '../Components/ReusableComponent/Button'
 import CustomSelect from '../Components/ReusableComponent/Select'
 import ImagesUploader from '../Components/ReusableComponent/ImagesUploader';
+import ConfirmDialog from '../Components/ReusableComponent/ConfirmationDialog';
 
 //Constant
 import { Color } from "../Constants/Colors";
-
-import ImageIcon from '../asset/icons/Image';
-
 import { useAuthStyles } from '../Styles/AuthStyles';
-
-import { getCurrentUser } from '../Utils';
 
 const EditDaftarSekolah = (props) => {
     const { isEditMode, dataSekolah, handleClose } = props
 
-    const fotoSekolah = isEditMode ? require(`../../../backend/public/images/${dataSekolah.fotoSekolah.fileName}`) : null
+    const fotoSekolah = isEditMode ? (dataSekolah.fotoSekolah.fileName != "" ? require(`../../../backend/public/images/${dataSekolah.fotoSekolah.fileName}`) : null) : null
 
     const dapatAPBD = isEditMode ? (dataSekolah.bantuanPengadaan.includes("APBD") ? true : false) : false
     const dapatAPBN = isEditMode ? (dataSekolah.bantuanPengadaan.includes("APBN") ? true : false) : false
@@ -63,8 +61,34 @@ const EditDaftarSekolah = (props) => {
     const [bantuanPengadaan, setBantuanPengadaan] = useState(false)
     const [file, setFile] = useState(isEditMode ? fotoSekolah : null)
     const [url, setUrl] = useState(isEditMode ? null : null)
-    const [openDialog, setOpenDialog] = useState(false)
+
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const [openFailedDialog, setOpenFailedDialog] = useState(false)
     const [error, setError] = useState(null)
+
+    const SuccessDialog = () => {
+        return (
+            <ConfirmDialog
+                title={isEditMode ? "Edit Sekolah Berhasil" : "Daftar Sekolah Berhasil"}
+                subtitle={isEditMode ? "Sistem telah memperbarui data akun di dalam database" : "Sistem telah memasukkan data akun ke dalam database"}
+                open={openSuccessDialog}
+                handleClose={() => { setOpenSuccessDialog(false); history.push('/beranda') }}
+                icon={<SuccessIcon style={{ color: '#45DE0F', fontSize: '8rem' }} />}
+            />
+        )
+    }
+
+    const FailedDialog = () => {
+        return (
+            <ConfirmDialog
+                title={isEditMode ? "Edit Sekolah Gagal" : "Daftar Sekolah Gagal"}
+                subtitle={isEditMode ? "Sistem gagal memperbarui data akun di dalam database" : "Sistem gagal memasukkan data akun ke dalam database"}
+                open={openFailedDialog}
+                handleClose={() => { setOpenFailedDialog(false); }}
+                icon={<WarningIcon style={{ color: '#EE3F3F', fontSize: '8rem' }} />}
+            />
+        )
+    }
 
     const useInput = () => {
         const handleChange = (newUrlValue, newFileValue) => {
@@ -79,73 +103,23 @@ const EditDaftarSekolah = (props) => {
         }
     }
 
-    const handleChangeKepsek = (e) => {
-        setKepsek(e.target.value)
-    }
-
-    const handleChangeNoSuratPendirian = (e) => {
-        setNoSuratPendirian(e.target.value)
-    }
-
-    const handleChangeTanggalPendirian = (e) => {
-        setTanggalPendirian(e.target.value)
-    }
-
-    const handleChangeNoSuratIzin = (e) => {
-        setNoSuratIzin(e.target.value)
-    }
-
-    const handleChangeTanggalIzinOperasional = (e) => {
-        setTanggalIzinOperasional(e.target.value)
-    }
-
-    const handleChangeRombonganBelajar = (e) => {
-        setRombonganBelajar(e.target.value)
-    }
-
-    const handleChangeJumlahGuru = (e) => {
-        setJumlahGuru(e.target.value)
-    }
-
-    const handleChangeKelurahan = (e) => {
-        setKelurahan(e.target.value)
-    }
-
-    const handleChangeLuasLahan = (e) => {
-        setLuasLahan(e.target.value)
-    }
-
-    const handleChangeAlamatJalan = (e) => {
-        setAlamatJalan(e.target.value)
-    }
-
-    const handleChangeKomite = (e) => {
-        setKomite(e.target.value)
-    }
-
-    const handleChangeSkakre = (e) => {
-        setSkakre(e.target.value)
-    }
-
-    const handleChangeNpsn = (e) => {
-        setNpsn(e.target.value)
-    }
-
-    const handleChangeAkreditasi = (e) => {
-        setAkreditasi(e.target.value)
-    }
-
-    const handleChangeTipe = (e) => {
-        setTipe(e.target.value)
-    }
-
-    const handleChangeKepemilikan = (e) => {
-        setKepemilikan(e.target.value)
-    }
-
-    const handleChangeSekolah = (e) => {
-        setSekolah(e.target.value)
-    }
+    const handleChangeKepsek = (e) => { setKepsek(e.target.value) }
+    const handleChangeNoSuratPendirian = (e) => { setNoSuratPendirian(e.target.value) }
+    const handleChangeTanggalPendirian = (e) => { setTanggalPendirian(e.target.value) }
+    const handleChangeNoSuratIzin = (e) => { setNoSuratIzin(e.target.value) }
+    const handleChangeTanggalIzinOperasional = (e) => { setTanggalIzinOperasional(e.target.value) }
+    const handleChangeRombonganBelajar = (e) => { setRombonganBelajar(e.target.value) }
+    const handleChangeJumlahGuru = (e) => { setJumlahGuru(e.target.value) }
+    const handleChangeKelurahan = (e) => { setKelurahan(e.target.value) }
+    const handleChangeLuasLahan = (e) => { setLuasLahan(e.target.value) }
+    const handleChangeAlamatJalan = (e) => { setAlamatJalan(e.target.value) }
+    const handleChangeKomite = (e) => { setKomite(e.target.value) }
+    const handleChangeSkakre = (e) => { setSkakre(e.target.value) }
+    const handleChangeNpsn = (e) => { setNpsn(e.target.value) }
+    const handleChangeAkreditasi = (e) => { setAkreditasi(e.target.value) }
+    const handleChangeTipe = (e) => { setTipe(e.target.value) }
+    const handleChangeKepemilikan = (e) => { setKepemilikan(e.target.value) }
+    const handleChangeSekolah = (e) => { setSekolah(e.target.value) }
 
     const handleChangeBantuan = (e) => {
         if (e.target.name === 'apbn') {
@@ -163,26 +137,11 @@ const EditDaftarSekolah = (props) => {
 
         const data = {
             fotoSekolah: { url: url, fileName: file },
-            alamat: {
-                jalan: alamatJalan,
-                kodePos: (alamat.filter(item => item.desaKelurahan === kelurahan).map(dt => dt.kodePos))[0]
-            },
-            akreditasi: {
-                noSK: skAkre,
-                nilaiHuruf: akreditasi
-            },
-            pendirian: {
-                noSurat: noSuratPendirian,
-                tanggal: tanggalPendirian
-            },
-            izinOperasional: {
-                noSurat: noSuratIzin,
-                tanggal: tanggalIzinOperasional
-            },
-            lahan: {
-                luas: luasLahan,
-                kepemilikan: kepemilikan
-            },
+            alamat: { jalan: alamatJalan, kodePos: (alamat.filter(item => item.desaKelurahan === kelurahan).map(dt => dt.kodePos))[0] },
+            akreditasi: { noSK: skAkre, nilaiHuruf: akreditasi },
+            pendirian: { noSurat: noSuratPendirian, tanggal: tanggalPendirian },
+            izinOperasional: { noSurat: noSuratIzin, tanggal: tanggalIzinOperasional },
+            lahan: { luas: luasLahan, kepemilikan: kepemilikan },
         }
 
         formData.append("file", file)
@@ -207,46 +166,32 @@ const EditDaftarSekolah = (props) => {
 
         try {
             await axios.post('http://localhost:5000/sekolah/new', formData);
-            history.push('/beranda')
+            setOpenSuccessDialog(true)
         } catch (error) {
-            console.log(error);
+            setError(error.response.data.errors)
+            setOpenFailedDialog(true)
         }
     }
 
-    useEffect(() => {
-        axios.get('http://localhost:5000/alamat').then(res => {
-            setAlamat(res.data)
-        })
-    }, [])
+    useEffect(() => { axios.get('http://localhost:5000/alamat').then(res => { setAlamat(res.data) }) }, [])
 
     useEffect(() => {
         let bantuan = 'Tidak ada'
 
         if (apbn) {
             if (apbd) {
-                if (bos) {
-                    bantuan = 'APBN, APBD, Bos Khusus'
-                } else {
-                    bantuan = 'APBN, APBD'
-                }
+                if (bos) { bantuan = 'APBN, APBD, Bos Khusus' }
+                else { bantuan = 'APBN, APBD' }
             } else {
-                if (bos) {
-                    bantuan = 'APBN, Bos Khusus'
-                } else {
-                    bantuan = 'APBN'
-                }
+                if (bos) { bantuan = 'APBN, Bos Khusus' }
+                else { bantuan = 'APBN' }
             }
         } else {
             if (apbd) {
-                if (bos) {
-                    bantuan = 'APBD, Bos Khusus'
-                } else {
-                    bantuan = 'APBD'
-                }
+                if (bos) { bantuan = 'APBD, Bos Khusus' }
+                else { bantuan = 'APBD' }
             } else {
-                if (bos) {
-                    bantuan = 'BOS Khusus'
-                }
+                if (bos) { bantuan = 'BOS Khusus' }
             }
         }
 
@@ -255,6 +200,8 @@ const EditDaftarSekolah = (props) => {
 
     return (
         <React.Fragment>
+            {openSuccessDialog && SuccessDialog()}
+            {openFailedDialog && FailedDialog()}
             <div className={classes.modal}>
                 <div className={classes.paper} style={{ width: 800 }}>
                     <Typography className={classes.title}>
