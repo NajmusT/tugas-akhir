@@ -60,7 +60,7 @@ const ForgetPassword = (props) => {
             }
             handleClick={sendMail}
             message={
-                errors !== null ?
+                errors != null ?
                     <Typography style={{ fontFamily: FontFamily.POPPINS_ITALIC, fontSize: 12, color: '#E76060' }}>
                         {errors}
                     </Typography> : <></>

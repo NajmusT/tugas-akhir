@@ -131,7 +131,7 @@ const ViewListPrasarana = (props) => {
                 createData(
                     prasarana._id,
                     prasarana.nama,
-                    sekolah === null ? sekolah?.nama : sekolah.nama,
+                    sekolah?.nama,
                     prasarana.jenis,
                     prasarana.kondisi,
                     (user.roles === 'admin-sekolah' ?

@@ -27,7 +27,7 @@ const CustomDataTable = (props) => {
     const [data, setData] = useState(null)
 
     useEffect(() => {
-        if (rows !== null) {
+        if (rows != null) {
             setData(rows)
         }
     }, [rows])
@@ -59,7 +59,7 @@ const CustomDataTable = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data !== null && data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                        {data != null && data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id} >
                                     {columns.map((column) => {

@@ -201,7 +201,7 @@ const DecisionSupport = () => {
     const handleChangeJenis = (e) => { setJenis(e.target.value) }
 
     const handleSubmit = () => {
-        if (jenis !== null) {
+        if (jenis != null) {
             setSubmit(true)
         }
     }

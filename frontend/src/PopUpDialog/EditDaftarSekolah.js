@@ -367,7 +367,7 @@ const EditDaftarSekolah = (props) => {
                                     page={"auth"}
                                     value={kelurahan}
                                     onChange={handleChangeKelurahan}
-                                    option={alamat !== null ? alamat.map(kelurahan => kelurahan.desaKelurahan) : []}
+                                    option={alamat != null ? alamat.map(kelurahan => kelurahan.desaKelurahan) : []}
                                 />
                             </Grid>
                             <Grid item container xs={3} style={{ paddingLeft: 12 }}>

@@ -161,7 +161,7 @@ function Navbar() {
                                                     <ExpandMoreIcon />
                                                 </div>
                                             </div>
-                                            {dropdown && <Dropdown sekolah={sekolah._id} />}
+                                            {dropdown && <Dropdown sekolah={sekolah._id} userRole={"admin-sekolah"} />}
                                         </div>
                                         <div className={classes.navbarItem}>
                                             <div
@@ -194,7 +194,7 @@ function Navbar() {
                                                     <ExpandMoreIcon />
                                                 </div>
                                             </div>
-                                            {dropdown && <Dropdown sekolah={sekolah?._id} />}
+                                            {dropdown && <Dropdown userRole={"staff-dinas"} />}
                                         </div>
                                         <div className={classes.navbarItem}>
                                             <div

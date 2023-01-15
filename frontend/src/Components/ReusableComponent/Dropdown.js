@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { MenuItems } from '../../Constants/MenuItems';
 
 import { useDropdownStyles } from '../../Styles/DropdownStyles';
 import '../../Styles/Dropdown.css';
+import { WrapperContext } from '../Wrapper';
 
 const Dropdown = (props) => {
-    const { sekolah } = props
+    const { sekolah, userRole } = props
+    const {
+        setOpenDialogPilihSekolah
+    } = useContext(WrapperContext)
 
     const history = useHistory()
     const classes = useDropdownStyles()
@@ -27,7 +31,9 @@ const Dropdown = (props) => {
                         <div
                             className={classes.dropdownLink}
                             onClick={() => {
-                                history.push(`/data/list-prasarana/${item.path}/${sekolah}`)
+                                if (userRole === 'admin-sekolah') { history.push(`/data/list-prasarana/${item.path}/${sekolah}`) }
+                                else if (userRole === 'staff-dinas') { setOpenDialogPilihSekolah(true) }
+
                                 setClick(false)
                             }}
                         >

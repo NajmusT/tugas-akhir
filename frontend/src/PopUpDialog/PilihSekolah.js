@@ -1,19 +1,25 @@
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import FormDialog from '../Components/CustomComponents/FormDialog'
 import Select from '../Components/ReusableComponent/Select'
 
 const PilihSekolah = (props) => {
     const { open, handleClose } = props
-    const [sekolah, setSekolah] = useState('')
+    const history = useHistory()
 
-    const params = useParams()
+    const [sekolah, setSekolah] = useState(null)
+    const [selectedSekolah, setSelectedSekolah] = useState('')
 
     const handleChangeSekolah = (e) => {
         e.preventDefault()
-        setSekolah(e.target.value)
+        setSelectedSekolah(e.target.value)
     }
+
+    useEffect(() => { axios.get('http://localhost:5000/sekolah').then(res => { setSekolah(res.data) }) }, [])
+
+    useEffect(() => { console.log(selectedSekolah) }, [selectedSekolah])
 
     return (
         <FormDialog
@@ -29,11 +35,16 @@ const PilihSekolah = (props) => {
                     fullWidth
                     variant='standard'
                     page='auth'
-                    value={sekolah}
+                    value={selectedSekolah}
                     onChange={handleChangeSekolah}
-                    option={[]}
+                    option={sekolah != null ? sekolah.map(item => item._id) : []}
                 />
             }
+            handleClick={() => {
+                history.push(`/data/list-prasarana/ruang-kelas/${selectedSekolah}`)
+                handleClose()
+                window.location.reload(false)
+            }}
         />
     )
 }
