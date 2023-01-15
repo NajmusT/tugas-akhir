@@ -14,6 +14,7 @@ const ForgetPassword = (props) => {
     const [success, setSuccess] = useState(false)
 
     const handleChangeMail = (e) => {
+        setError(null)
         setEmail(e.target.value)
     }
 
@@ -30,9 +31,13 @@ const ForgetPassword = (props) => {
                         setSuccess(true)
                     }
                 })
-                .catch(error => { console.log(error) })
+                .catch(error => { setError(error.response.data) })
         }
     }
+
+    useEffect(() => {
+        setError(null)
+    }, [open])
 
 
     return (
@@ -49,6 +54,7 @@ const ForgetPassword = (props) => {
                     fullWidth
                     variant='standard'
                     page='auth'
+                    type='email'
                     label="Alamat Email"
                     onChange={handleChangeMail}
                 />
@@ -61,7 +67,7 @@ const ForgetPassword = (props) => {
             handleClick={sendMail}
             message={
                 errors != null ?
-                    <Typography style={{ fontFamily: FontFamily.POPPINS_ITALIC, fontSize: 12, color: '#E76060' }}>
+                    <Typography style={{ textAlign: 'right', fontFamily: FontFamily.POPPINS_ITALIC, fontSize: 12, color: '#E76060' }}>
                         {errors}
                     </Typography> : <></>
             }

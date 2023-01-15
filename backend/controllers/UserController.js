@@ -175,7 +175,7 @@ router.route("/update/:id").put((req, res) => {
 
 router.route('/forget-password').post((req, res) => {
     if (req.body.email === '') {
-        return res.status(400).send('Email diperlukan')
+        return res.status(400).send('Email tidak boleh kosong')
     }
 
     User.findOne({ email: req.body.email }).then((user) => {

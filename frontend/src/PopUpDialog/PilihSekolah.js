@@ -6,7 +6,7 @@ import FormDialog from '../Components/CustomComponents/FormDialog'
 import Select from '../Components/ReusableComponent/Select'
 
 const PilihSekolah = (props) => {
-    const { open, handleClose } = props
+    const { open, handleClose, location } = props
     const history = useHistory()
 
     const [sekolah, setSekolah] = useState(null)
@@ -41,7 +41,7 @@ const PilihSekolah = (props) => {
                 />
             }
             handleClick={() => {
-                history.push(`/data/list-prasarana/ruang-kelas/${selectedSekolah}`)
+                history.push(`/data/list-prasarana/${location}/${selectedSekolah}`)
                 handleClose()
                 window.location.reload(false)
             }}

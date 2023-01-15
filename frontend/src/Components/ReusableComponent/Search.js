@@ -38,7 +38,7 @@ const Search = () => {
                     page="main"
                 />
             </div>
-            <div style={{ width: '36px', height: '40px', paddingTop: 4 }} onClick={() => { }}>
+            <div style={{ width: '36px', height: '40px', paddingTop: 8 }} onClick={() => { }}>
                 <div className={classes.button}>
                     <SearchIcon style={{ alignSelf: 'center', display: 'flex', padding: 4, fontSize: '1.75rem' }} />
                 </div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import lodash from 'lodash'
 
 //Other components
 import Dropdown from './Dropdown';
@@ -20,7 +19,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
 import { useNavbarStyles } from '../../Styles/NavBarStyles';
-import { getCurrentUser } from '../../Utils';
 
 function Navbar() {
     const classes = useNavbarStyles()
@@ -228,7 +226,7 @@ function Navbar() {
                             {
                                 (user != null && user.fotoProfil.fileName != "") &&
                                 <div ref={anchorRef} onClick={handleToggle} style={{ justifyContent: 'center', alignContent: 'center', paddingLeft: 56 }}>
-                                    <img src={require(`../../../../backend/public/images/${user.fotoProfil.fileName}`)} alt={'foto-profil'} style={{ width: '40%', height: '40%', borderRadius: '50%' }} />
+                                    <img src={require(`../../../../backend/public/images/${user.fotoProfil.fileName}`)} alt={'foto-profil'} style={{ width: 32, height: 32, borderRadius: '50%' }} />
                                 </div>
                             }
                             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>

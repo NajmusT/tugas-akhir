@@ -10,7 +10,8 @@ import { WrapperContext } from '../Wrapper';
 const Dropdown = (props) => {
     const { sekolah, userRole } = props
     const {
-        setOpenDialogPilihSekolah
+        setOpenDialogPilihSekolah,
+        setLocation
     } = useContext(WrapperContext)
 
     const history = useHistory()
@@ -31,6 +32,8 @@ const Dropdown = (props) => {
                         <div
                             className={classes.dropdownLink}
                             onClick={() => {
+                                setLocation(item.path)
+
                                 if (userRole === 'admin-sekolah') { history.push(`/data/list-prasarana/${item.path}/${sekolah}`) }
                                 else if (userRole === 'staff-dinas') { setOpenDialogPilihSekolah(true) }
 

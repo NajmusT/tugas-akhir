@@ -12,12 +12,15 @@ const Wrapper = (props) => {
 
     const [isLoading, setIsLoading] = useState(true)
     const [openDialogPilihSekolah, setOpenDialogPilihSekolah] = useState(false)
+    const [location, setLocation] = useState(null)
 
     useEffect(() => { setTimeout(() => setIsLoading(false), 2000) }, [])
 
     const WrapperValue = {
         openDialogPilihSekolah,
-        setOpenDialogPilihSekolah
+        setOpenDialogPilihSekolah,
+        location,
+        setLocation
     }
 
     return (
@@ -26,7 +29,7 @@ const Wrapper = (props) => {
                 {!isLoading ?
                     <React.Fragment>
                         <React.Fragment>
-                            {openDialogPilihSekolah && <PilihSekolah open={openDialogPilihSekolah} handleClose={() => setOpenDialogPilihSekolah(false)} />}
+                            {openDialogPilihSekolah && <PilihSekolah open={openDialogPilihSekolah} handleClose={() => setOpenDialogPilihSekolah(false)} location={location} />}
                             <Navbar />
                             {children}
                             <BottomBar />
