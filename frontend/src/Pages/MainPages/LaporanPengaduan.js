@@ -8,8 +8,13 @@ import { Color } from '../../Constants/Colors'
 import Breadcrumb from '../../Components/ReusableComponent/Breadcrumb'
 import CustomDataTable from '../../Components/ReusableComponent/DataTable'
 import Search from '../../Components/ReusableComponent/Search'
+import LoadingScreen from '../LoadingScreen'
+import Wrapper from '../../Components/Wrapper'
 
 const LaporanPengaduan = () => {
+    const user = JSON.parse(localStorage.getItem('user'))?.payload
+    const isStaff = user.roles === 'staff-dinas'
+
     const columns = [
         { id: 'id', label: 'ID', minWidth: 32 },
         { id: 'nama-sd', label: 'Nama Sekolah Dasar', minWidth: 120 },
@@ -23,24 +28,29 @@ const LaporanPengaduan = () => {
 
     return (
         <React.Fragment>
-            <Breadcrumb
-                subsubtitle={'Laporan Pengaduan'}
-            />
-            <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
-                <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
-                    <Typography style={{
-                        fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
-                    }}>
-                        {'Kabupaten Karawang'}
-                    </Typography>
-                </Grid>
-                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>
-                    <Search />
-                </Grid>
-                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
-                    <CustomDataTable columns={columns} rows={rows} />
-                </Grid>
-            </Grid>
+            {isStaff ?
+                <Wrapper children={
+                    <React.Fragment>
+                        <Breadcrumb
+                            subsubtitle={'Laporan Pengaduan'}
+                        />
+                        <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
+                            <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
+                                <Typography style={{
+                                    fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
+                                }}>
+                                    {'Kabupaten Karawang'}
+                                </Typography>
+                            </Grid>
+                            <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>
+                                <Search />
+                            </Grid>
+                            <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
+                                <CustomDataTable columns={columns} rows={rows} />
+                            </Grid>
+                        </Grid>
+                    </React.Fragment>} /> : <LoadingScreen />
+            }
         </React.Fragment>
     )
 }

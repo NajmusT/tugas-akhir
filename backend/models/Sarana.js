@@ -8,9 +8,8 @@ const saranaSchema = new Schema(
             required: true
         },
         idPrasarana: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'Prasarana'
+            type: String,
+            required: true
         },
         nama: {
             type: String,
@@ -43,15 +42,7 @@ const saranaSchema = new Schema(
             required: true
         },
         deskripsi: {
-            bahan: {
-                type: String
-            },
-            ukuran: {
-                type: String
-            },
-            keteranganLain: {
-                type: String
-            }
+            type: String
         },
         createdBy: {
             type: String,

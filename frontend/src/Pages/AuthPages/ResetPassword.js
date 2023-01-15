@@ -71,10 +71,6 @@ const ResetPassword = (props) => {
             })
     }, [])
 
-    useEffect(() => {
-        console.log(email)
-    }, [email])
-
     return (
         <React.Fragment>
             <div className={classes.root}>

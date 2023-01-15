@@ -22,7 +22,7 @@ import TerimaAkun from '../../PopUpDialog/TerimaAkun'
 import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
 import WarningIcon from '@material-ui/icons/ErrorOutline';
 import LoadingScreen from '../LoadingScreen'
-
+import Wrapper from '../../Components/Wrapper'
 
 const ManajemenUser = () => {
     const isOperator = JSON.parse(localStorage.getItem('user'))?.payload.roles === 'operator'
@@ -231,27 +231,28 @@ const ManajemenUser = () => {
     return (
         <React.Fragment>
             {isOperator ?
-                <React.Fragment>
-                    {openTerimaModalNotif && TerimaModalNotif()}
-                    {openTolakModalNotif && TolakModalNotif()}
-                    {openTolakModal && TolakModal()}
-                    {openTerimaModal && TerimaModal()}
+                <Wrapper children={
+                    <React.Fragment>
+                        {openTerimaModalNotif && TerimaModalNotif()}
+                        {openTolakModalNotif && TolakModalNotif()}
+                        {openTolakModal && TolakModal()}
+                        {openTerimaModal && TerimaModal()}
 
-                    <Breadcrumb subsubtitle={'Manajemen User'} />
-                    <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
-                        <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
-                            <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
-                                {'Pengajuan Daftar Akun'}
-                            </Typography>
+                        <Breadcrumb subsubtitle={'Manajemen User'} />
+                        <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
+                            <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
+                                <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
+                                    {'Pengajuan Daftar Akun'}
+                                </Typography>
+                            </Grid>
+                            <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
+                                <Search />
+                            </Grid>
+                            <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
+                                <CustomDataTable columns={columns} rows={rows} />
+                            </Grid>
                         </Grid>
-                        <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
-                            <Search />
-                        </Grid>
-                        <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
-                            <CustomDataTable columns={columns} rows={rows} />
-                        </Grid>
-                    </Grid>
-                </React.Fragment> : <LoadingScreen />
+                    </React.Fragment>} /> : <LoadingScreen />
             }
         </React.Fragment>
     )

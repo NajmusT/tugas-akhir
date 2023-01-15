@@ -47,7 +47,6 @@ const App = () => {
       {loading ?
         <LoadingScreen /> :
         <Router>
-          <Navbar />
           <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/sign-up" exact component={Register} />
@@ -59,8 +58,8 @@ const App = () => {
             <Route path='/data/sarana/:location/:id' component={ViewSarana} />
             <Route path='/data/:location/prasarana/create' component={CreatePrasarana} />
             <Route path='/data/:location/prasarana/edit/:id' component={EditPrasarana} />
-            <Route path='/data/:location/sarana/edit/:id' component={EditSarana} />
-            <Route path='/data/:location/sarana/create' component={CreateSarana} />
+            <Route path='/data/:location/:prasaranaId/sarana/edit/:id' component={EditSarana} />
+            <Route path='/data/:location/:prasaranaId/sarana/create' component={CreateSarana} />
 
             <Route path='/data/list-prasarana/laboratorium-IPA/:id' component={ViewListLabIPA} />
             <Route path='/data/list-prasarana/ruang-kelas/:id' component={ViewListRuangKelas} />
@@ -78,7 +77,6 @@ const App = () => {
             <Route path='/laporan-pengaduan' component={LaporanPengaduan} />
             <Route path='/manajemen-user' exact component={ManajemenUser} />
           </Switch>
-          <BottomBar />
         </Router>
       }
     </React.Fragment>

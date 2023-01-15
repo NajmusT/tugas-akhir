@@ -70,14 +70,6 @@ const Register = () => {
         }
     }
 
-    // const validateForm = (errors) => {
-    //     let valid = true;
-    //     Object.entries(errors).forEach(item => {
-    //         item && item[1].length > 0 && (valid = false)
-    //     })
-    //     return valid;
-    // }
-
     const resetErrorMsg = () => {
         let error = {};
 
@@ -120,7 +112,6 @@ const Register = () => {
         formData.append("createdAt", moment())
         formData.append("lastActive", moment())
 
-        // if (validateForm(errors)) {
         try {
             await axios.post('http://localhost:5000/user/register', formData, { headers: { "Content-Type": "multipart/form-data" } });
 
@@ -128,7 +119,6 @@ const Register = () => {
         } catch (error) {
             setError(error.response.data.errors)
         }
-        // }
     }
 
     return (

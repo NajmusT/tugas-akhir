@@ -3,6 +3,7 @@ const router = require('express').Router()
 const path = require("path")
 const fs = require("fs")
 const { v1: uuidv1 } = require('uuid');
+const moment = require("moment")
 
 //create
 router.route('/new').post((req, res) => {
@@ -20,14 +21,14 @@ router.route('/new').post((req, res) => {
         jumlah: JSON.parse(req.body.jumlah),
         kondisi: req.body.kondisi,
         jenis: req.body.jenis,
-        deskripsi: JSON.parse(req.body.deskripsi),
+        deskripsi: req.body.deskripsi,
         createdBy: req.body.createdBy,
         updatedBy: req.body.updatedBy,
         createdAt: moment(),
         updatedBy: moment()
     })
 
-    if (req.file !== null) {
+    if (req.file != null) {
         if (allowedType.includes(ext.toLowerCase())) {
             file.mv(`./public/images/${fileName}`, async (err) => {
                 if (err) return res.status(500).json({ msg: err.message });

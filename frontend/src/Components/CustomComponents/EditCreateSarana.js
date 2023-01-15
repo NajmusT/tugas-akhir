@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import axios from 'axios';
 
 import { Grid, Typography } from '@material-ui/core'
 import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
@@ -14,11 +15,18 @@ import CustomSelect from '../ReusableComponent/Select'
 import Button from '../ReusableComponent/Button'
 import ImagesUploader from '../ReusableComponent/ImagesUploader'
 import ConfirmDialog from '../ReusableComponent/ConfirmationDialog'
+import LoadingScreen from '../../Pages/LoadingScreen';
+import Wrapper from '../Wrapper';
 
 const EditCreateSarana = (props) => {
-    const { isEditMode, sekolah, ruangan } = props
+    const { isEditMode } = props
 
+    const user = JSON.parse(localStorage.getItem('user'))?.payload
+    const isAdminSekolah = user.roles === 'admin-sekolah'
     const history = useHistory()
+    var fotoSarana
+
+    const saranaId = useParams()
 
     const [name, setName] = useState(null)
     const [kondisi, setKondisi] = useState(null)
@@ -27,7 +35,8 @@ const EditCreateSarana = (props) => {
     const [tipe, setTipe] = useState(null)
     const [deskripsi, setDeskripsi] = useState(null)
     const [prasarana, setPrasarana] = useState(null)
-    const [school, setSchool] = useState(null)
+    const [schools, setSchools] = useState(null)
+    const [sarana, setSarana] = useState(null)
     const [file, setFile] = useState(null)
     const [url, setUrl] = useState(null)
 
@@ -78,213 +87,260 @@ const EditCreateSarana = (props) => {
     const handleChangeTipe = (e) => { setTipe(e.target.value) }
     const handleChangeDeskripsi = (e) => { setDeskripsi(e.target.value) }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        const formData = new FormData()
 
+        if (name != null || kondisi != null || jumlah != null || satuan != null || tipe != null) {
+            formData.append("file", file)
+            formData.append("idPrasarana", prasarana?._id)
+            formData.append("nama", name)
+            formData.append("jumlah", JSON.stringify({ kuantitas: jumlah, satuan: satuan }))
+            formData.append("kondisi", kondisi)
+            formData.append("jenis", tipe)
+            formData.append("deskripsi", deskripsi === null ? "" : deskripsi)
+            formData.append("createdBy", user._id)
+            formData.append("updatedBy", user._id)
+
+            try {
+                await axios.post('http://localhost:5000/sarana/new', formData, { headers: { "Content-Type": "multipart/form-data" } });
+                setOpenSuccessDialog(true)
+            } catch (error) {
+                setOpenFailedDialog(true)
+            }
+        } else {
+            setOpenFailedDialog(true)
+        }
     }
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/sekolah').then(res => { setSchools(res.data.filter((item => item.createdBy === user._id))[0]) })
+        axios.get(`http://localhost:5000/prasarana/${saranaId.prasaranaId}`).then(res => { setPrasarana(res.data) })
+
+        if (isEditMode) { axios.get(`http://localhost:5000/sarana/${saranaId.id}`).then(res => { setSarana(res.data) }) }
+    }, [])
+
+    useEffect(() => {
+        if (sarana != null && sarana.foto.fileName != "") { fotoSarana = require(`../../../../backend/public/images/${sarana.foto.fileName}`) }
+        else { fotoSarana = null }
+
+        if (sarana != null && isEditMode) {
+            setName(sarana.nama)
+            setTipe(sarana.jenis)
+            setKondisi(sarana.kondisi)
+            setJumlah(sarana.jumlah.kuantitas)
+            setSatuan(sarana.jumlah.satuan)
+            setDeskripsi(sarana.deskripsi)
+        }
+    }, [sarana, setSarana])
 
     return (
         <React.Fragment>
-            {openFailedDialog && FailedDialog()}
-            {openSuccessDialog && SuccessDialog()}
-            <React.Fragment>
-                <Breadcrumb
-                    title={'Create Sarana Pendidikan'}
-                    subsubtitle={ruangan}
-                />
-                <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
-                    <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
-                        <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
-                            {sekolah}
-                        </Typography>
-                    </Grid>
-                    <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
-                        <div style={{
-                            width: '100vw',
-                            backgroundColor: Color.neutral[0],
-                            borderRadius: 12
-                        }}>
-                            <Grid container style={{ padding: '36px' }}>
-                                <Grid item container xs={6} style={{ borderRadius: 12 }}>
-                                    <ImagesUploader useInput={useInput} width={'46vw'} height={'472px'} />
+            {isAdminSekolah ?
+                <Wrapper children={
+                    <React.Fragment>
+                        {openFailedDialog && FailedDialog()}
+                        {openSuccessDialog && SuccessDialog()}
+                        <React.Fragment>
+                            <Breadcrumb
+                                title={isEditMode ? 'Edit Sarana Pendidikan' : 'Create Sarana Pendidikan'}
+                                subsubtitle={prasarana?.nama}
+                            />
+                            <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
+                                <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
+                                    <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
+                                        {prasarana?.nama}
+                                    </Typography>
                                 </Grid>
-                                <Grid item container xs={6} style={{ paddingLeft: 32 }}>
-                                    <Grid item xs={12}>
-                                        <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                                            <div style={{ width: '172px', alignSelf: 'center' }}>
-                                                <Typography style={{
-                                                    fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                                }}>
-                                                    Nama Benda
-                                                </Typography>
-                                            </div>
-                                            <CustomTextField
-                                                id="nama-benda"
-                                                fullWidth
-                                                variant="outlined"
-                                                margin="dense"
-                                                label="Nama Benda"
-                                                type="text"
-                                                page="main"
-                                                value={name}
-                                                onChange={handleChangeName}
-                                            />
+                                <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
+                                    <div style={{
+                                        width: '100vw',
+                                        backgroundColor: Color.neutral[0],
+                                        borderRadius: 12
+                                    }}>
+                                        <Grid container style={{ padding: '36px' }}>
+                                            <Grid item container xs={6} style={{ borderRadius: 12 }}>
+                                                <ImagesUploader useInput={useInput} width={'46vw'} height={'472px'} />
+                                            </Grid>
+                                            <Grid item container xs={6} style={{ paddingLeft: 32 }}>
+                                                <Grid item xs={12}>
+                                                    <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <div style={{ width: '172px', alignSelf: 'center' }}>
+                                                            <Typography style={{
+                                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
+                                                            }}>
+                                                                Nama Benda
+                                                            </Typography>
+                                                        </div>
+                                                        <CustomTextField
+                                                            id="nama-benda"
+                                                            fullWidth
+                                                            variant="outlined"
+                                                            margin="dense"
+                                                            label="Nama Benda"
+                                                            type="text"
+                                                            page="main"
+                                                            value={name}
+                                                            onChange={handleChangeName}
+                                                        />
+                                                    </Grid>
+                                                    <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <div style={{ width: '172px' }}>
+                                                            <Typography style={{
+                                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
+                                                            }}>
+                                                                Nama Sekolah
+                                                            </Typography>
+                                                        </div>
+                                                        <CustomTextField
+                                                            id="nama-sekolah"
+                                                            fullWidth
+                                                            disable={true}
+                                                            variant="outlined"
+                                                            margin="dense"
+                                                            label="Nama Sekolah"
+                                                            type="text"
+                                                            page="main"
+                                                            value={schools?.nama}
+                                                        />
+                                                    </Grid>
+                                                    <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <div style={{ width: '172px' }}>
+                                                            <Typography style={{
+                                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
+                                                            }}>
+                                                                Ruangan
+                                                            </Typography>
+                                                        </div>
+                                                        <CustomTextField
+                                                            id="ruangan"
+                                                            fullWidth
+                                                            disable={true}
+                                                            variant="outlined"
+                                                            margin="dense"
+                                                            label="Ruangan"
+                                                            type="text"
+                                                            page="main"
+                                                            value={prasarana?.nama}
+                                                        />
+                                                    </Grid>
+                                                    <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <div style={{ width: '172px' }}>
+                                                            <Typography style={{
+                                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
+                                                            }}>
+                                                                Kondisi
+                                                            </Typography>
+                                                        </div>
+                                                        <CustomSelect
+                                                            id={"kondisi"}
+                                                            margin={"dense"}
+                                                            fullWidth
+                                                            label={"Kondisi"}
+                                                            variant={"outlined"}
+                                                            page={"main"}
+                                                            value={kondisi}
+                                                            onChange={handleChangeKondisi}
+                                                            option={['Baik', 'Rusak Ringan', 'Rusak Sedang', 'Rusak Berat']}
+                                                        />
+                                                    </Grid>
+                                                    <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <div style={{ width: '400px' }}>
+                                                            <Typography style={{
+                                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
+                                                            }}>
+                                                                Jumlah Barang
+                                                            </Typography>
+                                                        </div>
+                                                        <CustomTextField
+                                                            id="jumlah-barang"
+                                                            fullWidth
+                                                            variant="outlined"
+                                                            margin="dense"
+                                                            label="Jumlah Barang"
+                                                            type="number"
+                                                            page="main"
+                                                            value={jumlah}
+                                                            onChange={handleChangeJumlah}
+                                                        />
+                                                        <Typography style={{
+                                                            fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, paddingLeft: 20, paddingRight: 16, color: Color.neutral[400]
+                                                        }}>
+                                                            Satuan
+                                                        </Typography>
+                                                        <CustomSelect
+                                                            id={"satuan"}
+                                                            margin={"dense"}
+                                                            fullWidth
+                                                            label={"Satuan"}
+                                                            variant={"outlined"}
+                                                            page={"main"}
+                                                            value={satuan}
+                                                            onChange={handleChangeSatuan}
+                                                            option={['Buah', 'Liter', 'Mililiter', 'Pasang']}
+                                                        />
+                                                    </Grid>
+                                                    <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <div style={{ width: '172px' }}>
+                                                            <Typography style={{
+                                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
+                                                            }}>
+                                                                Jenis Sarana
+                                                            </Typography>
+                                                        </div>
+                                                        <CustomSelect
+                                                            id={"jenis"}
+                                                            margin={"dense"}
+                                                            fullWidth
+                                                            label={"Jenis"}
+                                                            variant={"outlined"}
+                                                            page={"main"}
+                                                            value={tipe}
+                                                            onChange={handleChangeTipe}
+                                                            option={['Perabot', 'Peralatan Pendidikan', 'Sumber dan Buku Ajar', 'Perlengkapan Lainnya', 'Media Pendidikan']}
+                                                        />
+                                                    </Grid>
+                                                    <Grid style={{ display: 'flex', alignItems: 'center', paddingTop: 4, paddingBottom: 4 }}>
+                                                        <div style={{ alignSelf: 'center' }}>
+                                                            <Typography style={{
+                                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
+                                                            }}>
+                                                                Deskripsi
+                                                            </Typography>
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <CustomTextField
+                                                            id="deskripsi"
+                                                            fullWidth
+                                                            row={3}
+                                                            variant="outlined"
+                                                            margin="dense"
+                                                            label="Deskripsi"
+                                                            type="text"
+                                                            page="main"
+                                                            value={deskripsi}
+                                                            onChange={handleChangeDeskripsi}
+                                                        />
+                                                    </Grid>
+                                                    <Grid style={{ display: 'flex', paddingTop: 44, justifyContent: 'flex-end' }}>
+                                                        <Button
+                                                            variant="contained"
+                                                            buttonText={"Save"}
+                                                            page='main'
+                                                            buttonType='primary'
+                                                            onClick={handleSubmit}
+                                                        />
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
-                                        <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                                            <div style={{ width: '172px' }}>
-                                                <Typography style={{
-                                                    fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                                }}>
-                                                    Nama Sekolah
-                                                </Typography>
-                                            </div>
-                                            <CustomTextField
-                                                id="nama-sekolah"
-                                                fullWidth
-                                                disable={true}
-                                                variant="outlined"
-                                                margin="dense"
-                                                label="Nama Sekolah"
-                                                type="text"
-                                                page="main"
-                                                value={sekolah}
-                                            />
-                                        </Grid>
-                                        <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                                            <div style={{ width: '172px' }}>
-                                                <Typography style={{
-                                                    fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                                }}>
-                                                    Ruangan
-                                                </Typography>
-                                            </div>
-                                            <CustomTextField
-                                                id="ruangan"
-                                                fullWidth
-                                                disable={true}
-                                                variant="outlined"
-                                                margin="dense"
-                                                label="Ruangan"
-                                                type="text"
-                                                page="main"
-                                                value={ruangan}
-                                            />
-                                        </Grid>
-                                        <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                                            <div style={{ width: '172px' }}>
-                                                <Typography style={{
-                                                    fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                                }}>
-                                                    Kondisi
-                                                </Typography>
-                                            </div>
-                                            <CustomSelect
-                                                id={"kondisi"}
-                                                margin={"dense"}
-                                                fullWidth
-                                                label={"Kondisi"}
-                                                variant={"outlined"}
-                                                page={"main"}
-                                                value={kondisi}
-                                                onChange={handleChangeKondisi}
-                                                option={['Baik', 'Rusak Ringan', 'Rusak Sedang', 'Rusak Berat']}
-                                            />
-                                        </Grid>
-                                        <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                                            <div style={{ width: '400px' }}>
-                                                <Typography style={{
-                                                    fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                                }}>
-                                                    Jumlah Barang
-                                                </Typography>
-                                            </div>
-                                            <CustomTextField
-                                                id="jumlah-barang"
-                                                fullWidth
-                                                variant="outlined"
-                                                margin="dense"
-                                                label="Jumlah Barang"
-                                                type="text"
-                                                page="main"
-                                                value={jumlah}
-                                                onChange={handleChangeJumlah}
-                                            />
-                                            <Typography style={{
-                                                fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, paddingLeft: 20, paddingRight: 16, color: Color.neutral[400]
-                                            }}>
-                                                Satuan
-                                            </Typography>
-                                            <CustomSelect
-                                                id={"satuan"}
-                                                margin={"dense"}
-                                                fullWidth
-                                                label={"Satuan"}
-                                                variant={"outlined"}
-                                                page={"main"}
-                                                value={satuan}
-                                                onChange={handleChangeSatuan}
-                                                option={['Buah', 'Liter', 'Mililiter', 'Pasang']}
-                                            />
-                                        </Grid>
-                                        <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                                            <div style={{ width: '172px' }}>
-                                                <Typography style={{
-                                                    fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                                }}>
-                                                    Jenis Sarana
-                                                </Typography>
-                                            </div>
-                                            <CustomSelect
-                                                id={"jenis"}
-                                                margin={"dense"}
-                                                fullWidth
-                                                label={"Jenis"}
-                                                variant={"outlined"}
-                                                page={"main"}
-                                                value={tipe}
-                                                onChange={handleChangeTipe}
-                                                option={['Perabot', 'Peralatan Pendidikan', 'Sumber dan Buku Ajar', 'Perlengkapan Lainnya', 'Media Pendidikan']}
-                                            />
-                                        </Grid>
-                                        <Grid style={{ display: 'flex', alignItems: 'center', paddingTop: 4, paddingBottom: 4 }}>
-                                            <div style={{ alignSelf: 'center' }}>
-                                                <Typography style={{
-                                                    fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400]
-                                                }}>
-                                                    Deskripsi
-                                                </Typography>
-                                            </div>
-                                        </Grid>
-                                        <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                                            <CustomTextField
-                                                id="deskripsi"
-                                                fullWidth
-                                                row={3}
-                                                variant="outlined"
-                                                margin="dense"
-                                                label="Deskripsi"
-                                                type="text"
-                                                page="main"
-                                                value={deskripsi}
-                                                onChange={handleChangeDeskripsi}
-                                            />
-                                        </Grid>
-                                        <Grid style={{ display: 'flex', paddingTop: 44, justifyContent: 'flex-end' }}>
-                                            <Button
-                                                variant="contained"
-                                                buttonText={"Save"}
-                                                page='main'
-                                                buttonType='primary'
-                                                onClick={handleSubmit}
-                                            />
-                                        </Grid>
-                                    </Grid>
+                                    </div>
                                 </Grid>
-                            </Grid>
-                        </div>
-                    </Grid>
-                </Grid >
-            </React.Fragment>
+                            </Grid >
+                        </React.Fragment>
+                    </React.Fragment>} />
+                : <LoadingScreen />}
         </React.Fragment>
     )
 }

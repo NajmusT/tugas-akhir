@@ -90,7 +90,7 @@ router.post("/register", (req, res, next) => {
                 logs: req.body.logs,
             })
 
-            if (file !== null) {
+            if (file != null) {
                 if (allowedType.includes(ext.toLowerCase())) {
                     file.mv(`./public/images/${fileName}`, async (err) => {
                         if (err) return res.status(500).json({ msg: err.message });
@@ -237,7 +237,7 @@ router.get('/reset', (req, res, next) => {
 
 router.put('/updatePassword', (req, res, next) => {
     User.findOne({ email: req.body.email, resetPasswordToken: req.body.resetPasswordToken, resetPasswordExpires: { [Op.gt]: Date.now() } }).then(user => {
-        if (user !== null) {
+        if (user != null) {
             bcrypt.hash(req.body.password, 10).then(hashedPassword => {
                 user.update({ password: hashedPassword, resetPasswordToken: null, resetPasswordExpires: null })
             })
