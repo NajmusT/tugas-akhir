@@ -141,7 +141,7 @@ const ViewPrasarana = () => {
                                         page='main'
                                         buttonType='success'
                                         onClick={() => {
-                                            history.push(`/data/sarana/${prasaranaId.location}/${sarana._id}`)
+                                            history.push(`/data/sarana/${prasaranaId.location}/${prasaranaId.id}/${sarana._id}`)
                                         }}
                                     />
                                 </div>
@@ -179,7 +179,7 @@ const ViewPrasarana = () => {
                                         page='main'
                                         buttonType='success'
                                         onClick={() => {
-                                            history.push(`/data/sarana/${prasaranaId.location}/${sarana._id}`)
+                                            history.push(`/data/sarana/${prasaranaId.location}/${prasaranaId.id}/${sarana._id}`)
                                         }}
                                     />
                                 </div>

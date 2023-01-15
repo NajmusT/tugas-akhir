@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 
 //Material UI
 import { Grid, Typography } from '@material-ui/core'
@@ -13,13 +13,27 @@ import Breadcrumb from '../ReusableComponent/Breadcrumb'
 import ImageIcon from '../../asset/icons/Image';
 import LoadingScreen from '../../Pages/LoadingScreen'
 import Wrapper from '../Wrapper'
+import axios from 'axios'
 
-const ViewSarana = (props) => {
+const ViewSarana = () => {
     const saranaId = useParams()
+    const history = useHistory()
+
     const [sarana, setSarana] = useState(null)
+    const [sekolah, setSekolah] = useState(null)
+    const [prasarana, setPrasarana] = useState(null)
 
     const user = JSON.parse(localStorage.getItem('user'))?.payload
     const isAllowed = user.roles === 'admin-sekolah' || user.roles === 'staff-dinas'
+
+    useEffect(() => {
+        axios.get(`http://localhost:5000/sarana/${saranaId.id}`).then(res => { setSarana(res.data) })
+    }, [])
+
+    useEffect(() => {
+        axios.get(`http://localhost:5000/prasarana/${saranaId.prasaranaId}`).then(res => setPrasarana(res.data))
+        axios.get(`http://localhost:5000/sekolah`).then(res => setSekolah(res.data.filter((item => item.createdBy === user._id))[0]))
+    }, [saranaId])
 
     return (
         <React.Fragment>
@@ -28,7 +42,7 @@ const ViewSarana = (props) => {
                     <React.Fragment>
                         <Breadcrumb
                             title={'Data Prasarana Pendidikan'}
-                            title2={saranaId?.location}
+                            title2={saranaId?.location.replaceAll("-", " ")}
                             subtitle={'Sarana'}
                             subsubtitle={sarana?.nama}
                         />
@@ -41,12 +55,15 @@ const ViewSarana = (props) => {
                                 </Typography>
                             </Grid>
                             <Grid item container xs={6} style={{ padding: '2vw 2vw 0vw 2vw', justifyContent: 'flex-end' }}>
-                                <Button
-                                    variant="contained"
-                                    buttonText={"EDIT"}
-                                    page='main'
-                                    buttonType='primary'
-                                />
+                                {user?.roles === 'admin-sekolah' &&
+                                    <Button
+                                        variant="contained"
+                                        buttonText={"EDIT"}
+                                        page='main'
+                                        buttonType='primary'
+                                        onClick={() => { history.push(`/data/${saranaId.location}/${saranaId.prasaranaId}/sarana/edit/${saranaId.id}`) }}
+                                    />
+                                }
                             </Grid>
                             <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
                                 <div style={{
@@ -110,7 +127,7 @@ const ViewSarana = (props) => {
                                                         <Typography style={{
                                                             fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                                         }}>
-                                                            {sarana?.idPrasarana}
+                                                            {sekolah?.nama}
                                                         </Typography>
                                                     </div>
                                                 </div>
@@ -126,7 +143,7 @@ const ViewSarana = (props) => {
                                                         <Typography style={{
                                                             fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                                         }}>
-                                                            {sarana?.idPrasarana}
+                                                            {prasarana?.nama}
                                                         </Typography>
                                                     </div>
                                                 </div>
@@ -174,7 +191,7 @@ const ViewSarana = (props) => {
                                                         <Typography style={{
                                                             fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                                         }}>
-                                                            {sarana?.deskripsi === "" ? "" : `${sarana?.deskripsi}.`}
+                                                            {sarana?.deskripsi === "null" ? "" : `${sarana?.deskripsi}`}
                                                         </Typography>
                                                     </div>
                                                 </div>

@@ -55,7 +55,7 @@ const App = () => {
             <Route path='/daftar-sekolah' component={DaftarSekolah} />
 
             <Route path='/data/prasarana/:location/:id' component={ViewPrasarana} />
-            <Route path='/data/sarana/:location/:id' component={ViewSarana} />
+            <Route path='/data/sarana/:location/:prasaranaId/:id' component={ViewSarana} />
             <Route path='/data/:location/prasarana/create' component={CreatePrasarana} />
             <Route path='/data/:location/prasarana/edit/:id' component={EditPrasarana} />
             <Route path='/data/:location/:prasaranaId/sarana/edit/:id' component={EditSarana} />
