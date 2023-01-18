@@ -246,8 +246,8 @@ const ViewListPrasarana = (props) => {
                                             {fotoSekolah === null ?
                                                 <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                                     <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
-                                                </Grid> : <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
-                                                    <img src={fotoSekolah} alt={'email'} style={{ width: '100%', height: '100%' }} />
+                                                </Grid> : <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', borderRadius: 12 }}>
+                                                    <img src={fotoSekolah} alt={'email'} style={{ width: '100%', height: 400 }} />
                                                 </Grid>
                                             }
                                             <Grid item container xs={6} style={{ paddingLeft: 64 }}>

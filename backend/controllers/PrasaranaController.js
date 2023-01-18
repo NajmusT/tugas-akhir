@@ -79,7 +79,7 @@ router.route('/update/:id').put((req, res) => {
     let fileName = ""
     let url = ""
 
-    if (req.file === null) {
+    if (req.files === null) {
         fileName = prasarana.foto.fileName
         url = prasarana.foto.url
     } else {

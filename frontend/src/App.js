@@ -50,7 +50,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/sign-up" exact component={Register} />
-            <Route path="/reset-password" component={ResetPassword} />
+            <Route path="/reset-password/:userId/:token" component={ResetPassword} />
             <Route path="/beranda" exact component={Dashboard} />
             <Route path='/daftar-sekolah' component={DaftarSekolah} />
 

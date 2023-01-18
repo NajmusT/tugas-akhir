@@ -6,9 +6,9 @@ const { v1: uuidv1 } = require('uuid');
 
 //create
 router.route('/new').post((req, res) => {
-    const file = req.files === null ? null : req.files.file
-    const ext = file != null ? path.extname(file.name) : ''
-    const fileName = file != null ? (file.md5 + ext) : ''
+    const file = req.files != null ? req.files.file : null
+    const ext = file != null ? path.extname(file.name) : null
+    const fileName = file != null ? (file.md5 + ext) : null
     const url = `${req.protocol}`
     const allowedType = ['.png', '.jpg', '.jpeg'];
 
@@ -25,7 +25,7 @@ router.route('/new').post((req, res) => {
         updatedAt: moment()
     })
 
-    if (req.file != null) {
+    if (req.files != null) {
         if (allowedType.includes(ext.toLowerCase())) {
             file.mv(`./public/images/${fileName}`, async (err) => {
                 if (err) return res.status(500).json({ msg: err.message });

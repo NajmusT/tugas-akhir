@@ -38,7 +38,36 @@ const EditCreatePrasarana = (props) => {
     const [url, setUrl] = useState(null)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [openFailedDialog, setOpenFailedDialog] = useState(false)
+    const [openEditDialog, setOpenEditDialog] = useState(false)
     const [errors, setError] = useState('')
+
+    const handleEdit = async (e) => {
+        e.preventDefault()
+
+        const formData = new FormData()
+
+        if (name != null || kondisi != null) {
+            formData.append("file", file)
+            formData.append("nama", name)
+            formData.append("jenis", jenis)
+            formData.append("kondisi", kondisi)
+            formData.append("idSekolah", schools?._id)
+            formData.append("createdBy", user._id)
+            formData.append("createdAt", moment())
+            formData.append("updatedBy", user._id)
+            formData.append("updatedAt", moment())
+
+            try {
+                await axios.put(`http://localhost:5000/prasarana/update/${prasaranaId.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
+                setOpenSuccessDialog(true)
+            } catch (error) {
+                setError(error.response.data.errors)
+                setOpenFailedDialog(true)
+            }
+        } else {
+            setOpenEditDialog(true)
+        }
+    }
 
     const SuccessDialog = () => {
         return (
@@ -60,6 +89,40 @@ const EditCreatePrasarana = (props) => {
                 open={openFailedDialog}
                 handleClose={() => { setOpenFailedDialog(false); }}
                 icon={<WarningIcon style={{ color: '#EE3F3F', fontSize: '8rem' }} />}
+            />
+        )
+    }
+
+    const EditModal = () => {
+        return (
+            <ConfirmDialog
+                title={'Dialog Konfirmasi Edit'}
+                subtitle={`Apakah anda yakin ingin mengedit data ${name} ini?`}
+                open={openEditDialog}
+                handleClose={() => { setOpenEditDialog(false) }}
+                icon={<WarningIcon style={{ color: '#FD7716', fontSize: '8rem' }} />}
+                dialogAction={
+                    <div style={{ display: 'flex' }}>
+                        <div >
+                            <Button
+                                variant="contained"
+                                buttonText={"Ya"}
+                                page='main'
+                                buttonType='primary'
+                                onClick={handleEdit}
+                            />
+                        </div>
+                        <div style={{ paddingLeft: 16 }}>
+                            <Button
+                                variant="contained"
+                                buttonText={"Tidak"}
+                                page='main'
+                                buttonType='danger'
+                                onClick={() => { setOpenEditDialog(false) }}
+                            />
+                        </div>
+                    </div>
+                }
             />
         )
     }
@@ -104,12 +167,16 @@ const EditCreatePrasarana = (props) => {
             formData.append("updatedBy", user._id)
             formData.append("updatedAt", moment())
 
-            try {
-                await axios.post('http://localhost:5000/prasarana/new', formData, { headers: { "Content-Type": "multipart/form-data" } });
-                setOpenSuccessDialog(true)
-            } catch (error) {
-                setError(error.response.data.errors)
-                setOpenFailedDialog(true)
+            if (!isEditMode) {
+                try {
+                    await axios.post('http://localhost:5000/prasarana/new', formData, { headers: { "Content-Type": "multipart/form-data" } });
+                    setOpenSuccessDialog(true)
+                } catch (error) {
+                    setError(error.response.data.errors)
+                    setOpenFailedDialog(true)
+                }
+            } else {
+                setOpenEditDialog(true)
             }
         } else {
             setOpenFailedDialog(true)
@@ -164,6 +231,7 @@ const EditCreatePrasarana = (props) => {
                     <React.Fragment>
                         {openFailedDialog && FailedDialog()}
                         {openSuccessDialog && SuccessDialog()}
+                        {openEditDialog && EditModal()}
                         <React.Fragment>
                             <Breadcrumb
                                 title={isEditMode ? 'Edit Prasarana Pendidikan' : 'Create Prasarana Pendidikan'}

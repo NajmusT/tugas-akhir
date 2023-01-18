@@ -112,11 +112,11 @@ const ViewPrasarana = () => {
 
     useEffect(() => {
         axios.get(`http://localhost:5000/prasarana/${prasaranaId.id}`).then(res => { setPrasarana(res.data) })
-        axios.get(`http://localhost:5000/sarana`).then(res => { setAllSarana(res.data) })
     }, [])
 
     useEffect(() => {
         if (prasarana != null) {
+            axios.get(`http://localhost:5000/sarana`).then(res => { setAllSarana(res.data.filter(item => item.idPrasarana === prasaranaId.id)) })
             axios.get(`http://localhost:5000/sekolah/${prasarana.idSekolah}`).then(res => { setSekolah(res.data) })
 
             let location = history.location.pathname
@@ -232,7 +232,7 @@ const ViewPrasarana = () => {
                                         <Grid container style={{ padding: '36px' }}>
                                             {fotoPrasarana != null ?
                                                 <Grid item container xs={5} style={{ alignContent: 'center', height: '240px', borderRadius: 12 }}>
-                                                    <img src={fotoPrasarana} alt={'fotoPrasarana'} style={{ width: '100%', height: '100%' }} />
+                                                    <img src={fotoPrasarana} alt={'fotoPrasarana'} style={{ width: '100%', height: 240 }} />
                                                 </Grid> : <Grid item container xs={5} style={{ alignContent: 'center', height: '240px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                                     <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
                                                 </Grid>

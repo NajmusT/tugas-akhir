@@ -16,6 +16,7 @@ import ConfirmDialog from '../ReusableComponent/ConfirmationDialog'
 import ImagesUploader from '../ReusableComponent/ImagesUploader'
 import LoadingScreen from '../../Pages/LoadingScreen';
 import Wrapper from '../Wrapper';
+import axios from 'axios';
 
 const BuatPengaduan = () => {
     const history = useHistory()
@@ -83,6 +84,15 @@ const BuatPengaduan = () => {
 
         history.push('/beranda')
     }
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/sekolah').then(res => { setSchools(res.data.filter((item => item.createdBy === user._id))[0]) })
+    }, [])
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/prasarana').then(res => { setPrasaranas(res.data.filter((item => item.createdBy === user._id))) })
+        axios.get(`http://localhost:5000/sarana`).then(res => { setSaranas(res.data.filter((item => item.createdBy === user._id))) })
+    }, [schools, setSchools])
 
     return (
         <React.Fragment>
@@ -163,7 +173,7 @@ const BuatPengaduan = () => {
                                                                 page={"main"}
                                                                 value={ruangan}
                                                                 onChange={handleChangeRuangan}
-                                                                option={['Kerusakan Sarana', 'Kerusakan Prasarana']}
+                                                                option={prasaranas?.map(item => item._id)}
                                                             />
                                                         </Grid>
                                                         {jenisPengaduan === "Kerusakan Sarana" &&
@@ -182,7 +192,7 @@ const BuatPengaduan = () => {
                                                                     page={"main"}
                                                                     value={sarana}
                                                                     onChange={handleChangeSarana}
-                                                                    option={['Kerusakan Sarana', 'Kerusakan Prasarana']}
+                                                                    option={saranas?.filter(i => i.idPrasarana === ruangan).map(item => item.nama)}
                                                                 />
                                                             </Grid>
                                                         }

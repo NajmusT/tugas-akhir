@@ -28,7 +28,7 @@ router.route('/new').post((req, res) => {
         updatedBy: moment()
     })
 
-    if (req.file != null) {
+    if (req.files != null) {
         if (allowedType.includes(ext.toLowerCase())) {
             file.mv(`./public/images/${fileName}`, async (err) => {
                 if (err) return res.status(500).json({ msg: err.message });
@@ -80,7 +80,7 @@ router.route('/update/:id').put((req, res) => {
     let fileName = ""
     let url = ""
 
-    if (req.file === null) {
+    if (req.files === null) {
         fileName = sarana.foto.fileName
         url = sarana.foto.url
     } else {

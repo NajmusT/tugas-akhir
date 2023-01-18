@@ -37,7 +37,7 @@ router.post('/new', (req, res) => {
         updatedBy: req.body.updatedBy
     })
 
-    if (req.file != null) {
+    if (req.files != null) {
         if (allowedType.includes(ext.toLowerCase())) {
             file.mv(`./public/images/${fileName}`, async (err) => {
                 if (err) return res.status(500).json({ msg: err.message });
@@ -91,7 +91,7 @@ router.route('/update/:id').put((req, res) => {
     let fileName = ""
     let url = ""
 
-    if (req.file === null) {
+    if (req.files === null) {
         fileName = sekolah.fotoSekolah.fileName
         url = sekolah.fotoSekolah.url
     } else {
@@ -104,9 +104,6 @@ router.route('/update/:id').put((req, res) => {
         if (allowedType.includes(ext.toLowerCase())) {
             const filepath = `./public/images/${sekolah.fotoSekolah.fileName}`;
             fs.unlinkSync(filepath);
-
-            req.body.fotoSekolah.url = url
-            req.body.fotoSekolah.fileName = fileName
 
             file.mv(`./public/images/${fileName}`, (err) => {
                 if (err) return res.status(500).json({ msg: err.message });

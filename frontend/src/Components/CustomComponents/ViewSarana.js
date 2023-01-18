@@ -22,6 +22,7 @@ const ViewSarana = () => {
     const [sarana, setSarana] = useState(null)
     const [sekolah, setSekolah] = useState(null)
     const [prasarana, setPrasarana] = useState(null)
+    const [fotoSarana, setFotoSarana] = useState(sarana != null ? (sarana.foto.fileName != '' ? require(`../../../../backend/public/images/${sarana.foto.fileName}`) : null) : null)
 
     const user = JSON.parse(localStorage.getItem('user'))?.payload
     const isAllowed = user.roles === 'admin-sekolah' || user.roles === 'staff-dinas'
@@ -34,6 +35,13 @@ const ViewSarana = () => {
         axios.get(`http://localhost:5000/prasarana/${saranaId.prasaranaId}`).then(res => setPrasarana(res.data))
         axios.get(`http://localhost:5000/sekolah`).then(res => setSekolah(res.data.filter((item => item.createdBy === user._id))[0]))
     }, [saranaId])
+
+    useEffect(() => {
+        if (sarana != null) {
+            if (sarana.foto.fileName != "") { setFotoSarana(require(`../../../../backend/public/images/${sarana.foto.fileName}`)) }
+            else { setFotoSarana(null) }
+        }
+    }, [sarana, setSarana])
 
     return (
         <React.Fragment>
@@ -73,9 +81,9 @@ const ViewSarana = () => {
                                 }}>
                                     <Grid container style={{ padding: '36px' }}>
                                         {
-                                            sarana?.foto === '' ?
-                                                <Grid item container xs={5} style={{ alignContent: 'center', height: '320px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
-                                                    <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />
+                                            fotoSarana != null ?
+                                                <Grid item container xs={5} style={{ alignContent: 'center', height: '320px', borderRadius: 12 }}>
+                                                    <img src={fotoSarana} alt={'fotoSarana'} style={{ width: '100%', height: 320 }} />
                                                 </Grid> :
                                                 <Grid item container xs={5} style={{ alignContent: 'center', height: '320px', justifyContent: 'center', backgroundColor: "#D3D1D1", borderRadius: 12 }}>
                                                     <ImageIcon fill={'#EFEFEF'} style={{ width: '7vw', height: '7vw', padding: "0px 32px" }} />

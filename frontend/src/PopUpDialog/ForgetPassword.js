@@ -1,17 +1,21 @@
 import { Typography } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 
 import FormDialog from '../Components/CustomComponents/FormDialog'
 import TextField from '../Components/ReusableComponent/TextField'
 
 import { FontFamily } from '../Constants/FontFamily'
+import ConfirmDialog from '../Components/ReusableComponent/ConfirmationDialog'
+import { LoginContext } from '../Pages/AuthPages/Login'
+
 
 const ForgetPassword = (props) => {
     const { open, handleClose } = props
     const [email, setEmail] = useState(null)
     const [errors, setError] = useState(null)
-    const [success, setSuccess] = useState(false)
+
+    const { setOpenSuccessModal } = useContext(LoginContext)
 
     const handleChangeMail = (e) => {
         setError(null)
@@ -28,10 +32,14 @@ const ForgetPassword = (props) => {
                     if (response.data === 'Email tidak terdaftar didalam sistem') {
                         setError(response.data)
                     } else if (response.data === 'Email telah terkirim') {
-                        setSuccess(true)
+                        setError(null)
+                        setOpenSuccessModal(true)
+                        handleClose()
                     }
                 })
-                .catch(error => { setError(error.response.data) })
+                .catch(error => {
+                    setError(error.response.data)
+                })
         }
     }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import moment from 'moment'
 import { v1 } from 'uuid'
 
@@ -25,6 +25,7 @@ const ResetPassword = (props) => {
     const [email, setEmail] = useState(null)
     const [errors, setError] = useState(null)
     const [success, setSuccess] = useState(false)
+    const tokenId = useParams()
 
     const classes = useAuthStyles()
     const history = useHistory();
@@ -36,12 +37,11 @@ const ResetPassword = (props) => {
         e.preventDefault();
 
         const newPassword = {
-            email: email,
             password: password,
             password2: confPassword
         }
 
-        axios.put('http://localhost:5000/user/updatePassword', newPassword)
+        axios.post(`http://localhost:5000/user/reset-password/${tokenId.userId}/${tokenId.token}`, newPassword)
             .then(response => {
                 if (response.data.message === 'Password telah terupdate') {
                     setSuccess(true)
@@ -53,22 +53,7 @@ const ResetPassword = (props) => {
     }
 
     useEffect(() => {
-        console.log(location[location.length - 1])
-
-        axios.get('http://localhost:5000/user/reset', {
-            params: { resetPasswordToken: location[location.length - 1] }
-        })
-            .then(response => {
-                console.log(response)
-                if (response.data.message === 'Link reset password OK') {
-                    setEmail(response.data.email)
-                } else {
-                    setError('Link reset password telah expired')
-                }
-            })
-            .catch(error => {
-                console.log()
-            })
+        console.log(tokenId)
     }, [])
 
     return (

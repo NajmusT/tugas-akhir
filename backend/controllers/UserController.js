@@ -1,8 +1,9 @@
 //models
 const User = require('../models/User')
+const Token = require('../models/Token')
+
 
 //depedencies
-const express = require("express")
 const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
 const passport = require("passport")
@@ -17,6 +18,7 @@ const fs = require("fs")
 //validation
 const validateRegister = require("../validations/register")
 const validateLogin = require("../validations/login")
+const validateResetPassword = require("../validations/resetPassword")
 
 const { v1: uuidv1 } = require('uuid');
 const { protect } = require("../middlewares/authMiddlewares")
@@ -68,7 +70,7 @@ router.post("/register", (req, res, next) => {
             errors.email = "Email telah digunakan"
             return res.status(400).json({ errors: errors })
         } else {
-            const file = req.files === null ? null : req.files.file
+            const file = req.files != null ? req.files.file : null
             const ext = file != null ? path.extname(file.name) : ''
             const fileName = file != null ? (file.md5 + ext) : ''
             const url = `${req.protocol}`
@@ -185,70 +187,83 @@ router.route('/forget-password').post((req, res) => {
             if (user.isActive === false) {
                 res.status(400).send("Akun belum diaktifkan")
             } else {
-                const token = crypto.randomBytes(20).toString('hex');
-                user.update({
-                    ...user,
-                    resetPasswordToken: token,
-                    resetPasswordExpires: Date.now() + 3600000
-                })
+                Token.findOne({ userId: user._id }).then((token) => {
+                    let tkn
 
-                const transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: process.env.EMAIL_ADDRESS,
-                        pass: process.env.EMAIL_PASSWORD
+                    if (!token) {
+                        tkn = new Token({
+                            userId: user._id,
+                            _id: crypto.randomBytes(32).toString('hex')
+                        })
+
+                        tkn.save()
                     }
-                })
-
-                const mailOptions = {
-                    from: process.env.EMAIL_ADDRESS,
-                    to: user.email,
-                    subject: 'Link untuk Reset Password',
-                    text: `Anda menerima email ini karena anda ataupun orang lain mengajukan reset password untuk akun anda\n\nTolong click link dibawah ini untuk mengubah password anda.\n\nhttp://localhost:3000/reset-password/${token}\n\nJika anda tidak mengajukan reset password, abaikan pesan ini agar password tidak berubah\n`
-                }
-
-                transporter.sendMail(mailOptions, (err, response) => {
-                    if (err) {
-                        console.error('Error: ', err)
-                    } else {
-                        return res.status(200).json('Email telah terkirim')
+                    else {
+                        tkn = token
                     }
-                })
+
+                    const transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: process.env.EMAIL_ADDRESS,
+                            pass: process.env.EMAIL_PASSWORD
+                        }
+                    })
+
+                    const mailOptions = {
+                        from: process.env.EMAIL_ADDRESS,
+                        to: user.email,
+                        subject: 'Link untuk Reset Password',
+                        text: `Anda menerima email ini karena anda ataupun orang lain mengajukan reset password untuk akun anda\n\nTolong click link dibawah ini untuk mengubah password anda.\n\nhttp://localhost:3000/reset-password/${user._id}/${tkn._id}\n\nJika anda tidak mengajukan reset password, abaikan pesan ini agar password tidak berubah\n`
+                    }
+
+                    transporter.sendMail(mailOptions, (err, response) => {
+                        if (err) {
+                            console.error('Error: ', err)
+                        } else {
+                            return res.status(200).json('Email telah terkirim')
+                        }
+                    })
+                });
             }
         }
     })
 })
 
-router.get('/reset', (req, res, next) => {
-    User.findOne({
-        resetPasswordToken: req.body.resetPasswordToken,
-        resetPasswordExpires: { [Op.gt]: Date.now() }
-    }).then(user => {
-        if (user === null) {
-            return res.json('Link reset password telah expired. Harap kirim ulang')
-        } else {
-            const payload = {
-                email: req.user.email
-            }
-            return res.json({ payload })
-        }
-    })
-})
+router.post("reset-password/:userId/:token", async (req, res) => {
+    try {
+        // const { errors, isValid } = validateResetPassword(req.body);
 
-router.put('/updatePassword', (req, res, next) => {
-    User.findOne({ email: req.body.email, resetPasswordToken: req.body.resetPasswordToken, resetPasswordExpires: { [Op.gt]: Date.now() } }).then(user => {
-        if (user != null) {
-            bcrypt.hash(req.body.password, 10).then(hashedPassword => {
-                user.update({ password: hashedPassword, resetPasswordToken: null, resetPasswordExpires: null })
-            })
-                .then(() => {
-                    return res.status(200).send({ message: 'Password telah terupdate' })
-                })
-        } else {
-            return res.status(404).json("User tidak terdaftar didalam sistem")
-        }
-    })
-})
+        // if (!isValid) { return res.status(400).json({ errors: errors }) }
+
+        const user = User.findById(req.params.userId);
+
+        if (!user) return res.status(400).send("invalid link or expired");
+
+        Token.findOne({ userId: user._id, _id: req.params.token }).then((token) => {
+            if (!token) return res.status(400).send("Invalid link or expired");
+
+            user.password = req.body.password;
+
+            bcrypt.genSalt(10, (err, salt) => {
+                if (err) return next(err);
+                bcrypt.hash(user.password, salt, (err, hash) => {
+                    if (err) return next(err)
+
+                    user.password = hash
+                    user.save()
+                        .then(user => res.status(200).json("Reset password berhasil"))
+                        .catch(err => res.status(400).json({ err }))
+
+                    token.delete();
+                });
+            });
+        });
+    } catch (error) {
+        res.send("An error occured");
+        console.log(error);
+    }
+});
 
 router.post('/sendKonfirmasi', (req, res, next) => {
     const email = req.body.email

@@ -9,8 +9,9 @@ import { TextFieldStyles } from '../../Styles/TextFieldStyles'
 
 class CustomSelect extends Component {
     render() {
-
         const { classes, page, value, margin, option, variant, fullWidth, id, label, onChange } = this.props
+
+        console.log(option)
 
         return (
             <React.Fragment>
@@ -41,8 +42,8 @@ class CustomSelect extends Component {
                         onChange={onChange}
                     >
                         {option.map((opt) => (
-                            <MenuItem value={opt} className={classes.option}>
-                                {opt}
+                            <MenuItem value={opt.id} className={classes.option}>
+                                {opt.label}
                             </MenuItem>
                         ))}
                     </TextField>

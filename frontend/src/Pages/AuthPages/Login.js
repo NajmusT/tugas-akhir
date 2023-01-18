@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -6,20 +6,22 @@ import { useHistory } from "react-router-dom";
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
 
 //Components
 import TextField from '../../Components/ReusableComponent/TextField'
 import Button from '../../Components/ReusableComponent/Button'
-import FormDialog from '../../Components/CustomComponents/FormDialog';
 
 //Constant
 import { Color } from "../../Constants/Colors";
 
-import { getCurrentUser, isValidEmail } from '../../Utils';
+import { isValidEmail } from '../../Utils';
 import { useAuthStyles } from '../../Styles/AuthStyles';
 import ForgetPassword from '../../PopUpDialog/ForgetPassword';
-import lodash from 'lodash'
 import LoadingScreen from '../LoadingScreen';
+import ConfirmDialog from '../../Components/ReusableComponent/ConfirmationDialog';
+
+export const LoginContext = createContext({})
 
 const Login = () => {
     const classes = useAuthStyles()
@@ -28,10 +30,30 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setError] = useState({})
-    const [msg, setMsg] = useState('')
     const [openDialog, setOpenDialog] = useState(false);
+    const [openSuccessModal, setOpenSuccessModal] = useState(false)
 
     const isAuthenticated = JSON.parse(localStorage.getItem('user'))?.payload != null
+
+    const LoginValue = {
+        openSuccessModal,
+        setOpenSuccessModal
+    }
+
+    const SuccessNotifModal = () => {
+        return (
+            <ConfirmDialog
+                title={'Kirim Link Reset Password Berhasil'}
+                subtitle={'Kami telah mengirimkan link untuk mereset password ke alamat email anda.Harap cek email anda'}
+                open={openSuccessModal}
+                handleClose={() => {
+                    setOpenSuccessModal(false)
+                    history.push('/')
+                }}
+                icon={<SuccessIcon style={{ color: '#45DE0F', fontSize: '8rem' }} />}
+            />
+        )
+    }
 
     const handleCloseDialog = () => {
         setOpenDialog(false)
@@ -124,89 +146,92 @@ const Login = () => {
     }
 
     return (
-        <React.Fragment>
-            <div className={classes.root}>
-                {isAuthenticated ? <LoadingScreen /> :
-                    <div className={classes.modal}>
-                        <div className={classes.paper} style={{ width: 320 }}>
-                            <Typography className={classes.title}>
-                                Sign In
-                            </Typography>
-                            <form className={classes.form} onSubmit={handleSubmit}>
-                                <Grid container style={{ paddingBottom: 8 }}>
-                                    <Typography className={classes.textBody}>
-                                        Email
-                                    </Typography>
-                                    <TextField
-                                        id="email"
-                                        variant="standard"
-                                        margin="normal"
+        <LoginContext.Provider value={LoginValue}>
+            {isAuthenticated ? <LoadingScreen /> :
+                <React.Fragment>
+                    {openSuccessModal && SuccessNotifModal()}
+                    <div className={classes.root}>
+                        <div className={classes.modal}>
+                            <div className={classes.paper} style={{ width: 320 }}>
+                                <Typography className={classes.title}>
+                                    Sign In
+                                </Typography>
+                                <form className={classes.form} onSubmit={handleSubmit}>
+                                    <Grid container style={{ paddingBottom: 8 }}>
+                                        <Typography className={classes.textBody}>
+                                            Email
+                                        </Typography>
+                                        <TextField
+                                            id="email"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Email Address"
+                                            type="email"
+                                            page="auth"
+                                            onChange={handleEmailChange}
+                                        />
+                                        {errors.email &&
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.textBodyError} >
+                                                    {errors.email}
+                                                </Typography>
+                                            </Grid>
+                                        }
+                                    </Grid>
+                                    <Grid container >
+                                        <Typography className={classes.textBody} style={{ paddingTop: 16 }}>
+                                            Password
+                                        </Typography>
+                                        <TextField
+                                            id="password"
+                                            variant="standard"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Password"
+                                            type="password"
+                                            page="auth"
+                                            onChange={handlePasswordChange}
+                                        />
+                                        {errors.password &&
+                                            <Grid item xs={12}>
+                                                <Typography className={classes.textBodyError} >
+                                                    {errors.password}
+                                                </Typography>
+                                            </Grid>
+                                        }
+                                    </Grid>
+                                    <Button
+                                        type="submit"
                                         fullWidth
-                                        label="Email Address"
-                                        type="email"
-                                        page="auth"
-                                        onChange={handleEmailChange}
+                                        variant="contained"
+                                        className={classes.submit}
+                                        buttonText={"Sign In"}
                                     />
-                                    {errors.email &&
-                                        <Grid item xs={12}>
-                                            <Typography className={classes.textBodyError} >
-                                                {errors.email}
+                                    <Grid container style={{ display: "flex", paddingTop: 8 }} >
+                                        <Grid item xs style={{ paddingRight: 16 }}>
+                                            <Typography className={classes.link}>
+                                                {"Tidak mempunyai akun? "}
+                                                <Link href="/sign-up" className={classes.link} style={{ color: Color.primary[300] }}>
+                                                    {"Daftar"}
+                                                </Link>
                                             </Typography>
                                         </Grid>
-                                    }
-                                </Grid>
-                                <Grid container >
-                                    <Typography className={classes.textBody} style={{ paddingTop: 16 }}>
-                                        Password
-                                    </Typography>
-                                    <TextField
-                                        id="password"
-                                        variant="standard"
-                                        margin="normal"
-                                        fullWidth
-                                        label="Password"
-                                        type="password"
-                                        page="auth"
-                                        onChange={handlePasswordChange}
-                                    />
-                                    {errors.password &&
-                                        <Grid item xs={12}>
-                                            <Typography className={classes.textBodyError} >
-                                                {errors.password}
+                                        <Grid item>
+                                            <Typography className={classes.link} onClick={() => { setOpenDialog(true) }}>
+                                                {"Forget Password?"}
                                             </Typography>
                                         </Grid>
-                                    }
-                                </Grid>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    className={classes.submit}
-                                    buttonText={"Sign In"}
-                                />
-                                <Grid container style={{ display: "flex", paddingTop: 8 }} >
-                                    <Grid item xs style={{ paddingRight: 16 }}>
-                                        <Typography className={classes.link}>
-                                            {"Tidak mempunyai akun? "}
-                                            <Link href="/sign-up" className={classes.link} style={{ color: Color.primary[300] }}>
-                                                {"Daftar"}
-                                            </Link>
-                                        </Typography>
                                     </Grid>
-                                    <Grid item>
-                                        <Typography className={classes.link} onClick={() => { setOpenDialog(true) }}>
-                                            {"Forget Password?"}
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
 
-                                <ForgetPassword open={openDialog} handleClose={handleCloseDialog} />
-                            </form>
-                        </div>
-                    </div >
-                }
-            </div>
-        </React.Fragment>
+                                    <ForgetPassword open={openDialog} handleClose={handleCloseDialog} />
+                                </form>
+                            </div>
+                        </div >
+                    </div>
+                </React.Fragment>
+            }
+        </LoginContext.Provider>
     )
 }
 

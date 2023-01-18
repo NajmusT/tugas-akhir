@@ -326,7 +326,7 @@ const EditCreateSarana = (props) => {
                                                     <Grid style={{ display: 'flex', paddingTop: 44, justifyContent: 'flex-end' }}>
                                                         <Button
                                                             variant="contained"
-                                                            buttonText={"Save"}
+                                                            buttonText={isEditMode ? "Save Changes" : "Save"}
                                                             page='main'
                                                             buttonType='primary'
                                                             onClick={handleSubmit}

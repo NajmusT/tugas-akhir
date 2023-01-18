@@ -11,6 +11,7 @@ const PilihSekolah = (props) => {
 
     const [sekolah, setSekolah] = useState(null)
     const [selectedSekolah, setSelectedSekolah] = useState('')
+    const [test, setTest] = useState([])
 
     const handleChangeSekolah = (e) => {
         e.preventDefault()
@@ -20,6 +21,16 @@ const PilihSekolah = (props) => {
     useEffect(() => { axios.get('http://localhost:5000/sekolah').then(res => { setSekolah(res.data) }) }, [])
 
     useEffect(() => { console.log(selectedSekolah) }, [selectedSekolah])
+
+    useEffect(() => {
+        if (sekolah != null) {
+            setTest(sekolah.map(item => ({ id: item._id, label: item.nama })))
+        }
+    }, [sekolah, setSekolah])
+
+    useEffect(() => {
+        console.log("Test: ", test)
+    }, [test, setTest])
 
     return (
         <FormDialog
@@ -37,7 +48,7 @@ const PilihSekolah = (props) => {
                     page='auth'
                     value={selectedSekolah}
                     onChange={handleChangeSekolah}
-                    option={sekolah != null ? sekolah.map(item => item._id) : []}
+                    option={test != null ? test : { id: '', label: '' }}
                 />
             }
             handleClick={() => {
