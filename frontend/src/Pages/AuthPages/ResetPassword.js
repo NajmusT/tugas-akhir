@@ -8,30 +8,30 @@ import { v1 } from 'uuid'
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import SuccessIcon from '@material-ui/icons/CheckCircleOutline';
+import WarningIcon from '@material-ui/icons/ErrorOutline';
 
 //Components
 import TextField from '../../Components/ReusableComponent/TextField'
 import Button from '../../Components/ReusableComponent/Button'
+import LoadingScreen from '../LoadingScreen';
+import ConfirmDialog from '../../Components/ReusableComponent/ConfirmationDialog';
 
 //Constant
-import { Color } from "../../Constants/Colors";
 import { useAuthStyles } from '../../Styles/AuthStyles';
-import { getCurrentUser } from '../../Utils';
-import LoadingScreen from '../LoadingScreen';
 
 const ResetPassword = (props) => {
     const [password, setPassword] = useState('')
     const [confPassword, setConfPassword] = useState('')
-    const [email, setEmail] = useState(null)
     const [errors, setError] = useState(null)
-    const [success, setSuccess] = useState(false)
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const [openFailedDialog, setOpenFailedDialog] = useState(false)
     const tokenId = useParams()
 
     const classes = useAuthStyles()
     const history = useHistory();
 
     const isAuthenticated = JSON.parse(localStorage.getItem('user'))?.payload != null
-    const location = history.location.pathname.split('/')
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,25 +41,57 @@ const ResetPassword = (props) => {
             password2: confPassword
         }
 
-        axios.post(`http://localhost:5000/user/reset-password/${tokenId.userId}/${tokenId.token}`, newPassword)
-            .then(response => {
-                if (response.data.message === 'Password telah terupdate') {
-                    setSuccess(true)
-                } else {
-                    setError("Password gagal diupdate")
-                }
-            })
-            .catch(error => { console.log(error.data) })
+        if (confPassword != password) {
+            setOpenFailedDialog(true)
+        } else {
+            axios.post(`http://localhost:5000/user/reset-password/${tokenId.userId}/${tokenId.token}`, newPassword)
+                .then(response => {
+                    if (response.data.message === 'Password telah terupdate') {
+                        setOpenSuccessDialog(true)
+                    } else {
+                        setOpenFailedDialog(true)
+                    }
+                })
+                .catch(error => { setOpenFailedDialog(true) })
+        }
+
     }
 
-    useEffect(() => {
-        console.log(tokenId)
-    }, [])
+    const SuccessDialog = () => {
+        return (
+            <ConfirmDialog
+                title={'Reset Password Berhasil'}
+                subtitle={'Sistem akan membuka halaman login'}
+                open={openSuccessDialog}
+                handleClose={() => {
+                    setOpenSuccessDialog(false)
+                    history.push("/")
+                }}
+                icon={<SuccessIcon style={{ color: '#45DE0F', fontSize: '8rem' }} />}
+            />
+        )
+    }
+
+    const FailedDialog = () => {
+        return (
+            <ConfirmDialog
+                title={'Reset Password Gagal'}
+                subtitle={'Gagal merubah password, harap coba lagi'}
+                open={openFailedDialog}
+                handleClose={() => {
+                    setOpenFailedDialog(false)
+                }}
+                icon={<WarningIcon style={{ color: '#EE3F3F', fontSize: '8rem' }} />}
+            />
+        )
+    }
 
     return (
         <React.Fragment>
-            <div className={classes.root}>
-                {!isAuthenticated ?
+            {!isAuthenticated ?
+                <div className={classes.root}>
+                    {openSuccessDialog && SuccessDialog()}
+                    {openFailedDialog && FailedDialog()}
                     <div className={classes.modal}>
                         <div className={classes.paper}>
                             <Typography className={classes.title}>
@@ -105,8 +137,9 @@ const ResetPassword = (props) => {
                                 />
                             </form>
                         </div>
-                    </div > : <LoadingScreen />}
-            </div>
+                    </div >
+                </div>
+                : <LoadingScreen />}
         </React.Fragment>
     )
 }

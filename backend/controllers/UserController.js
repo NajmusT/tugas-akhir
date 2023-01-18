@@ -230,35 +230,32 @@ router.route('/forget-password').post((req, res) => {
     })
 })
 
-router.post("reset-password/:userId/:token", async (req, res) => {
+router.post("/reset-password/:userId/:token", async (req, res) => {
     try {
-        // const { errors, isValid } = validateResetPassword(req.body);
-
-        // if (!isValid) { return res.status(400).json({ errors: errors }) }
-
-        const user = User.findById(req.params.userId);
+        const user = await User.findById(req.params.userId);
 
         if (!user) return res.status(400).send("invalid link or expired");
 
-        Token.findOne({ userId: user._id, _id: req.params.token }).then((token) => {
-            if (!token) return res.status(400).send("Invalid link or expired");
+        const token = Token.findOne({
+            userId: user._id,
+            _id: req.params.token,
+        });
 
-            user.password = req.body.password;
+        if (!token) return res.status(400).send({ message: `Invalid link` });
 
-            bcrypt.genSalt(10, (err, salt) => {
-                if (err) return next(err);
-                bcrypt.hash(user.password, salt, (err, hash) => {
-                    if (err) return next(err)
+        bcrypt.genSalt(10, (err, salt) => {
+            if (err) return next(err);
+            bcrypt.hash(req.body.password, salt, (err, hash) => {
+                if (err) return next(err)
 
-                    user.password = hash
-                    user.save()
-                        .then(user => res.status(200).json("Reset password berhasil"))
-                        .catch(err => res.status(400).json({ err }))
+                user.password = hash
+                user.save()
 
-                    token.delete();
-                });
+                res.status(200).send({ message: "Password telah terupdate" });
             });
         });
+
+        Token.deleteOne({ _id: req.params.token })
     } catch (error) {
         res.send("An error occured");
         console.log(error);
