@@ -3,9 +3,6 @@ import moment from 'moment'
 import CloseIcon from '@material-ui/icons/Close';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, makeStyles, IconButton, Grid } from '@material-ui/core'
 
-import Button from '../Components/ReusableComponent/Button';
-import Select from '../Components/ReusableComponent/Select';
-
 import ImageIcon from '../asset/icons/Image';
 
 import { FontFamily } from '../Constants/FontFamily';

@@ -152,7 +152,7 @@ const ManajemenUser = () => {
                         page={"main"}
                         value={role}
                         onChange={handleChangeRole}
-                        option={['admin-sekolah', 'staff-dinas']}
+                        option={[{ id: 'admin-sekolah', label: 'Admin Sekolah' }, { id: 'staff-dinas', label: 'Staff Dinas' }]}
                     />
                 }
             />

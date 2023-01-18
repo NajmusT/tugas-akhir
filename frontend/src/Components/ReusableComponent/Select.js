@@ -11,8 +11,6 @@ class CustomSelect extends Component {
     render() {
         const { classes, page, value, margin, option, variant, fullWidth, id, label, onChange } = this.props
 
-        console.log(option)
-
         return (
             <React.Fragment>
                 {fullWidth ?
@@ -26,9 +24,9 @@ class CustomSelect extends Component {
                         className={page === "main" ? classes.main : classes.begin}
                         onChange={onChange}
                     >
-                        {option.map((opt) => (
-                            <MenuItem value={opt} className={classes.option}>
-                                {opt}
+                        {option.map((opt, index) => (
+                            <MenuItem key={opt.id} value={opt.id} className={classes.option}>
+                                {opt.label}
                             </MenuItem>
                         ))}
                     </TextField> :
@@ -41,9 +39,9 @@ class CustomSelect extends Component {
                         className={page === "main" ? classes.main : classes.begin}
                         onChange={onChange}
                     >
-                        {option.map((opt) => (
-                            <MenuItem value={opt.id} className={classes.option}>
-                                {opt.label}
+                        {option.map((opt, index) => (
+                            <MenuItem key={opt[index].id} value={opt[index].id} className={classes.option}>
+                                {opt[index].label}
                             </MenuItem>
                         ))}
                     </TextField>

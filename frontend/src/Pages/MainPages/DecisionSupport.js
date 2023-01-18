@@ -214,6 +214,18 @@ const DecisionSupport = () => {
         { id: 'bobot', label: 'Bobot', minWidth: 120 }
     ]
 
+    const options = [
+        { id: 'ruang-kelas', label: 'Ruang Kelas' },
+        { id: 'perpustakaan', label: 'Perpustakaan' },
+        { id: 'ruang-guru', label: 'Ruang Guru' },
+        { id: 'laboratorium-IPA', label: 'Laboratorium IPA' },
+        { id: 'ruang-pimpinan', label: 'Ruang Pimpinan' },
+        { id: 'UKS', label: 'Unit Kesehatan Siswa' },
+        { id: 'toilet', label: 'Toilet' },
+        { id: 'ruang-beribadah', label: 'Ruang Beribadah' },
+        { id: 'tempat-bermain-dan-berolahraga', label: 'Tempat Bermain dan Berolahraga' },
+    ]
+
     const rows = []
 
     return (
@@ -272,7 +284,7 @@ const DecisionSupport = () => {
                                                         page={"main"}
                                                         value={jenis}
                                                         onChange={handleChangeJenis}
-                                                        option={['Ruang Kelas', 'Perpustakaan', 'Ruang Guru', 'Laboratorium IPA', 'Ruang Pimpinan', 'UKS', 'Toilet', 'Ruang Beribadah', 'Tempat Bermain dan Berolahraga']}
+                                                        option={options}
                                                     />
                                                 </Grid>
                                             </Grid>

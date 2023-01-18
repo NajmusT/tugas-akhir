@@ -32,8 +32,8 @@ const sekolahSchema = new Schema(
                 type: String,
                 required: true
             },
-            kodePos: {
-                type: Number,
+            _id: {
+                type: String,
                 required: true
             }
         },

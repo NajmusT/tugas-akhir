@@ -41,6 +41,13 @@ const EditCreatePrasarana = (props) => {
     const [openEditDialog, setOpenEditDialog] = useState(false)
     const [errors, setError] = useState('')
 
+    const kategori = [
+        { id: "baik", label: 'Baik' },
+        { id: "ringan", label: 'Rusak Ringan' },
+        { id: "sedang", label: 'Rusak Sedang' },
+        { id: "berat", label: 'Rusak Berat' }
+    ]
+
     const handleEdit = async (e) => {
         e.preventDefault()
 
@@ -325,7 +332,7 @@ const EditCreatePrasarana = (props) => {
                                                             page={"main"}
                                                             value={kondisi}
                                                             onChange={handleChangeKondisi}
-                                                            option={['Baik', 'Rusak Ringan', 'Rusak Sedang', 'Rusak Berat']}
+                                                            option={kategori}
                                                         />
                                                     </Grid>
                                                     <Grid style={{ display: 'flex', paddingTop: 44, justifyContent: 'flex-end' }}>

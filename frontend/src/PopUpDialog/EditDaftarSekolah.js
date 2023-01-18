@@ -137,7 +137,7 @@ const EditDaftarSekolah = (props) => {
 
         const data = {
             fotoSekolah: { url: url, fileName: file },
-            alamat: { jalan: alamatJalan, kodePos: (alamat.filter(item => item.desaKelurahan === kelurahan).map(dt => dt.kodePos))[0] },
+            alamat: { jalan: alamatJalan, _id: (alamat.filter(item => item._id === kelurahan).map(i => i._id))[0] },
             akreditasi: { noSK: skAkre, nilaiHuruf: akreditasi },
             pendirian: { noSurat: noSuratPendirian, tanggal: tanggalPendirian },
             izinOperasional: { noSurat: noSuratIzin, tanggal: tanggalIzinOperasional },
@@ -245,7 +245,7 @@ const EditDaftarSekolah = (props) => {
                                             page={"auth"}
                                             value={tipe}
                                             onChange={handleChangeTipe}
-                                            option={['Negeri', 'Swasta']}
+                                            option={[{ id: 'Negeri', label: 'Negeri' }, { id: 'Swasta', label: 'Swasta' }]}
                                         />
                                     </Grid>
                                     <Grid item container xs={6} style={{ paddingLeft: 16 }}>
@@ -279,7 +279,7 @@ const EditDaftarSekolah = (props) => {
                                             page={"auth"}
                                             value={akreditasi}
                                             onChange={handleChangeAkreditasi}
-                                            option={['A', 'B', 'C', 'D', 'E']}
+                                            option={[{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }, { id: 'C', label: 'C' }, { id: 'D', label: 'D' }, { id: 'E', label: 'E' }]}
                                         />
                                     </Grid>
                                     <Grid item container xs={6} style={{ paddingLeft: 16 }}>
@@ -367,7 +367,7 @@ const EditDaftarSekolah = (props) => {
                                     page={"auth"}
                                     value={kelurahan}
                                     onChange={handleChangeKelurahan}
-                                    option={alamat != null ? alamat.map(kelurahan => kelurahan.desaKelurahan) : []}
+                                    option={alamat != null ? alamat.map(kelurahan => ({ id: kelurahan._id, label: kelurahan.desaKelurahan })) : []}
                                 />
                             </Grid>
                             <Grid item container xs={3} style={{ paddingLeft: 12 }}>
@@ -383,7 +383,7 @@ const EditDaftarSekolah = (props) => {
                                     page={"auth"}
                                     value={kepemilikan}
                                     onChange={handleChangeKepemilikan}
-                                    option={['Milik Sendiri', 'Milik Pemerintah', 'Tidak diketahui']}
+                                    option={[{ id: 'Milik Sendiri', label: 'Milik Sendiri' }, { id: 'Milik Pemerintah', label: 'Milik Pemerintah' }, { id: 'Tidak diketahui', label: 'Tidak diketahui' }]}
                                 />
                             </Grid>
                             <Grid item container xs={3} style={{ paddingLeft: 12 }}>

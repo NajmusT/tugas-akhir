@@ -43,6 +43,31 @@ const EditCreateSarana = (props) => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [openFailedDialog, setOpenFailedDialog] = useState(false)
 
+    const satuanUkur = [
+        { id: "buah", label: "Buah" },
+        { id: "liter", label: "Liter" },
+        { id: "eksemplar", label: "Eksemplar" },
+        { id: "judul", label: "Judul" },
+        { id: "mililiter", label: "Mililiter" },
+        { id: "pasang", label: "Pasang" },
+        { id: "set", label: "Set" }
+    ]
+
+    const kategori = [
+        { id: "perabot", label: "Perabot" },
+        { id: "peralatan", label: "Peralatan Pendidikan" },
+        { id: "sumber", label: "Sumber dan Buku Ajar" },
+        { id: "lainnya", label: "Perlengkapan Lainnya" },
+        { id: "media", label: "Media Pendidikan" }
+    ]
+
+    const rusak = [
+        { id: "baik", label: 'Baik' },
+        { id: "ringan", label: 'Rusak Ringan' },
+        { id: "sedang", label: 'Rusak Sedang' },
+        { id: "berat", label: 'Rusak Berat' }
+    ]
+
     const SuccessDialog = () => {
         return (
             <ConfirmDialog
@@ -241,7 +266,7 @@ const EditCreateSarana = (props) => {
                                                             page={"main"}
                                                             value={kondisi}
                                                             onChange={handleChangeKondisi}
-                                                            option={['Baik', 'Rusak Ringan', 'Rusak Sedang', 'Rusak Berat']}
+                                                            option={rusak}
                                                         />
                                                     </Grid>
                                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
@@ -277,7 +302,7 @@ const EditCreateSarana = (props) => {
                                                             page={"main"}
                                                             value={satuan}
                                                             onChange={handleChangeSatuan}
-                                                            option={['Buah', 'Liter', 'Mililiter', 'Pasang']}
+                                                            option={satuanUkur}
                                                         />
                                                     </Grid>
                                                     <Grid style={{ display: 'flex', alignItems: 'center' }}>
@@ -297,7 +322,7 @@ const EditCreateSarana = (props) => {
                                                             page={"main"}
                                                             value={tipe}
                                                             onChange={handleChangeTipe}
-                                                            option={['Perabot', 'Peralatan Pendidikan', 'Sumber dan Buku Ajar', 'Perlengkapan Lainnya', 'Media Pendidikan']}
+                                                            option={kategori}
                                                         />
                                                     </Grid>
                                                     <Grid style={{ display: 'flex', alignItems: 'center', paddingTop: 4, paddingBottom: 4 }}>

@@ -37,6 +37,12 @@ const BuatPengaduan = () => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [openFailedDialog, setOpenFailedDialog] = useState(false)
 
+    const kategori = [
+        { id: "ringan", label: 'Rusak Ringan' },
+        { id: "sedang", label: 'Rusak Sedang' },
+        { id: "berat", label: 'Rusak Berat' }
+    ]
+
     const SuccessDialog = () => {
         return (
             <ConfirmDialog
@@ -137,7 +143,10 @@ const BuatPengaduan = () => {
                                                                 page={"main"}
                                                                 value={jenisPengaduan}
                                                                 onChange={handleChangeJenisPengaduan}
-                                                                option={['Kerusakan Sarana', 'Kerusakan Prasarana']}
+                                                                option={[
+                                                                    { id: 'kerusakan-sarana', label: "Kerusakan Sarana" },
+                                                                    { id: 'kerusakan-prasarana', label: "Kerusakan Praarana" }
+                                                                ]}
                                                             />
                                                         </Grid>
                                                         <Grid style={{ display: 'flex', alignItems: 'center' }}>
@@ -173,10 +182,10 @@ const BuatPengaduan = () => {
                                                                 page={"main"}
                                                                 value={ruangan}
                                                                 onChange={handleChangeRuangan}
-                                                                option={prasaranas?.map(item => item._id)}
+                                                                option={prasaranas?.map(item => ({ id: item._id, label: item.nama }))}
                                                             />
                                                         </Grid>
-                                                        {jenisPengaduan === "Kerusakan Sarana" &&
+                                                        {jenisPengaduan === "kerusakan-sarana" &&
                                                             <Grid style={{ display: 'flex', alignItems: 'center' }}>
                                                                 <div style={{ width: '172px' }}>
                                                                     <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 14, color: Color.neutral[400] }}>
@@ -192,7 +201,7 @@ const BuatPengaduan = () => {
                                                                     page={"main"}
                                                                     value={sarana}
                                                                     onChange={handleChangeSarana}
-                                                                    option={saranas?.filter(i => i.idPrasarana === ruangan).map(item => item.nama)}
+                                                                    option={saranas?.filter(i => i.idPrasarana === ruangan).map(item => ({ id: item._id, label: item.nama }))}
                                                                 />
                                                             </Grid>
                                                         }
@@ -211,7 +220,7 @@ const BuatPengaduan = () => {
                                                                 page={"main"}
                                                                 value={kategoriRusak}
                                                                 onChange={handleChangeKategoriRusak}
-                                                                option={['Rusak Ringan', 'Rusak Sedang', 'Rusak Berat']}
+                                                                option={kategori}
                                                             />
                                                         </Grid>
                                                         <Grid style={{ display: 'flex', alignItems: 'center', paddingTop: 4, paddingBottom: 4 }}>
