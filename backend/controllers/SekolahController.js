@@ -83,35 +83,45 @@ router.route('/delete/:id').delete((req, res) => {
 })
 
 //update
-router.route('/update/:id').put((req, res) => {
-    const sekolah = Sekolah.findOne({ id: req.params.id })
+router.route('/update/:id').post(async (req, res) => {
+    const sekolah = await Sekolah.findById(req.params.id)
 
     if (!sekolah) { return res.status(400).json("No data found") }
 
-    let fileName = ""
-    let url = ""
-
     if (req.files === null) {
-        fileName = sekolah.fotoSekolah.fileName
-        url = sekolah.fotoSekolah.url
+        sekolah.fotoSekolah = sekolah.fotoSekolah
     } else {
         const file = req.files.file;
         const ext = path.extname(file.name);
-        url = `${req.protocol}`
-        fileName = file.md5 + ext;
+        const url = `${req.protocol}`
+        const fileName = file.md5 + ext;
         const allowedType = ['.png', '.jpg', '.jpeg'];
 
         if (allowedType.includes(ext.toLowerCase())) {
-            const filepath = `./public/images/${sekolah.fotoSekolah.fileName}`;
-            fs.unlinkSync(filepath);
-
             file.mv(`./public/images/${fileName}`, (err) => {
                 if (err) return res.status(500).json({ msg: err.message });
             });
+
+            sekolah.fotoSekolah = { url: url, fileName: fileName }
         } else { return res.status(400).json("Tipe file tidak valid") }
     }
 
-    Sekolah.findOneAndUpdate(req.params.id, req.body)
+    sekolah.nama = req.body.nama
+    sekolah.npsn = req.body.npsn
+    sekolah.jenis = req.body.jenis
+    sekolah.alamat = JSON.parse(req.body.alamat)
+    sekolah.kepalaSekolah = req.body.kepalaSekolah
+    sekolah.ketuaKomite = req.body.ketuaKomite
+    sekolah.akreditasi = JSON.parse(req.body.akreditasi)
+    sekolah.pendirian = JSON.parse(req.body.pendirian)
+    sekolah.izinOperasional = JSON.parse(req.body.izinOperasional)
+    sekolah.lahan = JSON.parse(req.body.lahan)
+    sekolah.bantuanPengadaan = req.body.bantuanPengadaan
+    sekolah.rombonganBelajar = req.body.rombonganBelajar
+    sekolah.jumlahGuru = req.body.jumlahGuru
+    sekolah.updatedAt = moment()
+
+    sekolah.save()
         .then(sekolah => res.json(`Sukses! Data sekolah ${sekolah.nama} telah terupdate.`))
         .catch(err => res.status(400).json('Error! ' + err))
 })

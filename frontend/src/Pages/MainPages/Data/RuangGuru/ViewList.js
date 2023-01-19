@@ -3,7 +3,7 @@ import ViewListPrasarana from '../../../../Components/CustomComponents/ViewListP
 
 const ViewListRuangGuru = () => {
     return (
-        <ViewListPrasarana jenis={'RuangGuru'} />
+        <ViewListPrasarana jenis={'Ruang Guru'} />
     )
 }
 

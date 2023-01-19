@@ -71,40 +71,38 @@ router.route('/delete/:id').delete((req, res) => {
 })
 
 //update
-router.route('/update/:id').put((req, res) => {
-    const prasarana = Prasarana.findOne({ id: req.params.id })
+router.route('/update/:id').post(async (req, res) => {
+    const prasarana = await Prasarana.findById(req.params.id)
 
     if (!prasarana) { return res.status(400).json("No data found") }
 
-    let fileName = ""
-    let url = ""
-
     if (req.files === null) {
-        fileName = prasarana.foto.fileName
-        url = prasarana.foto.url
+        prasarana.foto = prasarana.foto
     } else {
         const file = req.files.file;
         const ext = path.extname(file.name);
-        url = `${req.protocol}`
-        fileName = file.md5 + ext;
+        const url = `${req.protocol}`
+        const fileName = file.md5 + ext;
         const allowedType = ['.png', '.jpg', '.jpeg'];
 
         if (allowedType.includes(ext.toLowerCase())) {
-            const filepath = `./public/images/${prasarana.foto.fileName}`;
-            fs.unlinkSync(filepath);
-
-            req.body.foto.url = url
-            req.body.foto.fileName = fileName
-
             file.mv(`./public/images/${fileName}`, (err) => {
                 if (err) return res.status(500).json({ msg: err.message });
             });
+
+            prasarana.foto = { url: url, fileName: fileName }
         } else {
             return res.status(400).json("Tipe file tidak valid")
         }
     }
 
-    Prasarana.findByIdAndUpdate(req.params.id, req.body)
+    prasarana.nama = req.body.nama
+    prasarana.jenis = req.body.jenis
+    prasarana.kondisi = req.body.kondisi
+    prasarana.idSekolah = req.body.idSekolah
+    prasarana.updatedAt = moment()
+
+    prasarana.save()
         .then(prasarana => res.json(`Sukses! Data prasarana ${prasarana.nama} telah terupdate.`))
         .catch(err => res.status(400).json('Error! ' + err))
 })

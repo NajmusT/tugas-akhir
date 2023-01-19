@@ -72,40 +72,39 @@ router.route('/delete/:id').delete((req, res) => {
 })
 
 //update
-router.route('/update/:id').put((req, res) => {
-    const sarana = Sarana.findOne({ id: req.params.id })
+router.route('/update/:id').post(async (req, res) => {
+    const sarana = await Sarana.findById(req.params.id)
 
     if (!sarana) { return res.status(400).json("No data found") }
 
-    let fileName = ""
-    let url = ""
-
     if (req.files === null) {
-        fileName = sarana.foto.fileName
-        url = sarana.foto.url
+        sarana.foto = sarana.foto
     } else {
         const file = req.files.file;
         const ext = path.extname(file.name);
-        url = `${req.protocol}`
-        fileName = file.md5 + ext;
+        const url = `${req.protocol}`
+        const fileName = file.md5 + ext;
         const allowedType = ['.png', '.jpg', '.jpeg'];
 
         if (allowedType.includes(ext.toLowerCase())) {
-            const filepath = `./public/images/${sarana.foto.fileName}`;
-            fs.unlinkSync(filepath);
-
-            req.body.foto.url = url
-            req.body.foto.fileName = fileName
-
             file.mv(`./public/images/${fileName}`, (err) => {
                 if (err) return res.status(500).json({ msg: err.message });
             });
+
+            sarana.foto = { url: url, fileName: fileName }
         } else {
             return res.status(400).json("Tipe file tidak valid")
         }
     }
 
-    Sarana.findByIdAndUpdate(req.params.id, req.body)
+    sarana.nama = req.body.nama
+    sarana.idPrasarana = req.body.idPrasarana
+    sarana.kondisi = req.body.kondisi
+    sarana.jumlah = JSON.parse(req.body.jumlah)
+    sarana.jenis = req.body.jenis
+    sarana.updatedAt = moment()
+
+    sarana.save()
         .then(sarana => res.json(`Sukses! Data sarana ${sarana.nama} telah terupdate.`))
         .catch(err => res.status(400).json('Error! ' + err))
 })

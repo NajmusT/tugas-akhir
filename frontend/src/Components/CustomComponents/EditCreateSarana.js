@@ -112,7 +112,7 @@ const EditCreateSarana = (props) => {
     const handleChangeTipe = (e) => { setTipe(e.target.value) }
     const handleChangeDeskripsi = (e) => { setDeskripsi(e.target.value) }
 
-    const handleSubmit = async (e) => {
+    const handleCreate = async (e) => {
         e.preventDefault()
         const formData = new FormData()
 
@@ -129,6 +129,32 @@ const EditCreateSarana = (props) => {
 
             try {
                 await axios.post('http://localhost:5000/sarana/new', formData, { headers: { "Content-Type": "multipart/form-data" } });
+                setOpenSuccessDialog(true)
+            } catch (error) {
+                setOpenFailedDialog(true)
+            }
+        } else {
+            setOpenFailedDialog(true)
+        }
+    }
+
+    const handleEdit = async (e) => {
+        e.preventDefault()
+        const formData = new FormData()
+
+        if (name != null || kondisi != null || jumlah != null || satuan != null || tipe != null) {
+            formData.append("file", file)
+            formData.append("idPrasarana", prasarana?._id)
+            formData.append("nama", name)
+            formData.append("jumlah", JSON.stringify({ kuantitas: jumlah, satuan: satuan }))
+            formData.append("kondisi", kondisi)
+            formData.append("jenis", tipe)
+            formData.append("deskripsi", deskripsi === null ? "" : deskripsi)
+            formData.append("createdBy", user._id)
+            formData.append("updatedBy", user._id)
+
+            try {
+                await axios.post(`http://localhost:5000/sarana/update/${saranaId.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
                 setOpenSuccessDialog(true)
             } catch (error) {
                 setOpenFailedDialog(true)
@@ -354,7 +380,7 @@ const EditCreateSarana = (props) => {
                                                             buttonText={isEditMode ? "Save Changes" : "Save"}
                                                             page='main'
                                                             buttonType='primary'
-                                                            onClick={handleSubmit}
+                                                            onClick={isEditMode ? handleEdit : handleCreate}
                                                         />
                                                     </Grid>
                                                 </Grid>

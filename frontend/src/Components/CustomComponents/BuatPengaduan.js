@@ -26,7 +26,6 @@ const BuatPengaduan = () => {
     const [jenisPengaduan, setJenisPengaduan] = useState(null)
     const [ruangan, setRuangan] = useState(null)
     const [sarana, setSarana] = useState(null)
-    const [sekolah, setSekolah] = useState('')
     const [kategoriRusak, setKategoriRusak] = useState(null)
     const [deskripsi, setDeskripsi] = useState('')
     const [schools, setSchools] = useState(null)
@@ -93,6 +92,7 @@ const BuatPengaduan = () => {
         if (jenisPengaduan === 'kerusakan-sarana') {
             if (ruangan != null || sarana != null || kategoriRusak != null) {
                 formData.append("file", file)
+                formData.append("idSekolah", schools._id)
                 formData.append("idSarana", sarana)
                 formData.append("idPrasarana", ruangan)
                 formData.append("kondisi", kategoriRusak)
@@ -111,6 +111,7 @@ const BuatPengaduan = () => {
         } else if (jenisPengaduan === 'kerusakan-prasarana') {
             if (ruangan != null || kategoriRusak != null) {
                 formData.append("file", file)
+                formData.append("idSekolah", schools._id)
                 formData.append("idSarana", null)
                 formData.append("idPrasarana", ruangan)
                 formData.append("kondisi", kategoriRusak)

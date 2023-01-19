@@ -18,6 +18,7 @@ router.route('/new').post(async (req, res) => {
 
     const kerusakanBaru = new Kerusakan({
         _id: uuidv1(),
+        idSekolah: req.body.idSekolah,
         idSarana: req.body.idSarana,
         idPrasarana: req.body.idPrasarana,
         kondisi: req.body.kondisi,
@@ -64,7 +65,6 @@ router.route('/new').post(async (req, res) => {
 
 //retrieve all
 router.route('/').get((req, res) => {
-    // using .find() without a parameter will match on all Schools instances
     Kerusakan.find()
         .then(semuaKerusakan => res.json(semuaKerusakan))
         .catch(err => res.status(400).json('Error! ' + err))

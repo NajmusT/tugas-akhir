@@ -48,34 +48,6 @@ const EditCreatePrasarana = (props) => {
         { id: "Rusak Berat", label: 'Rusak Berat' }
     ]
 
-    const handleEdit = async (e) => {
-        e.preventDefault()
-
-        const formData = new FormData()
-
-        if (name != null || kondisi != null) {
-            formData.append("file", file)
-            formData.append("nama", name)
-            formData.append("jenis", jenis)
-            formData.append("kondisi", kondisi)
-            formData.append("idSekolah", schools?._id)
-            formData.append("createdBy", user._id)
-            formData.append("createdAt", moment())
-            formData.append("updatedBy", user._id)
-            formData.append("updatedAt", moment())
-
-            try {
-                await axios.put(`http://localhost:5000/prasarana/update/${prasaranaId.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
-                setOpenSuccessDialog(true)
-            } catch (error) {
-                setError(error.response.data.errors)
-                setOpenFailedDialog(true)
-            }
-        } else {
-            setOpenEditDialog(true)
-        }
-    }
-
     const SuccessDialog = () => {
         return (
             <ConfirmDialog
@@ -159,7 +131,7 @@ const EditCreatePrasarana = (props) => {
         setKondisi(e.target.value)
     }
 
-    const handleSubmit = async (e) => {
+    const handleCreate = async (e) => {
         e.preventDefault()
         const formData = new FormData()
 
@@ -187,6 +159,30 @@ const EditCreatePrasarana = (props) => {
             }
         } else {
             setOpenFailedDialog(true)
+        }
+    }
+
+    const handleEdit = async (e) => {
+        e.preventDefault()
+
+        const formData = new FormData()
+
+        if (name != null || kondisi != null) {
+            formData.append("file", file)
+            formData.append("nama", name)
+            formData.append("jenis", jenis)
+            formData.append("kondisi", kondisi)
+            formData.append("idSekolah", schools?._id)
+
+            try {
+                await axios.post(`http://localhost:5000/prasarana/update/${prasaranaId.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
+                setOpenSuccessDialog(true)
+            } catch (error) {
+                setError(error.response.data.errors)
+                setOpenFailedDialog(true)
+            }
+        } else {
+            setOpenEditDialog(true)
         }
     }
 
@@ -341,7 +337,7 @@ const EditCreatePrasarana = (props) => {
                                                             buttonText={isEditMode ? "Save Changes" : "Save"}
                                                             page='main'
                                                             buttonType='primary'
-                                                            onClick={handleSubmit}
+                                                            onClick={isEditMode ? handleEdit : handleCreate}
                                                         />
                                                     </Grid>
                                                 </Grid>

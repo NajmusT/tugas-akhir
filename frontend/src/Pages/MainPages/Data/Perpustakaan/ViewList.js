@@ -4,7 +4,7 @@ import ViewListPrasarana from '../../../../Components/CustomComponents/ViewListP
 const ViewListPerpustakaan = () => {
     return (
         <ViewListPrasarana
-            jenis={'Perpustakaan'}
+            jenis={'Ruang Perpustakaan'}
         />
     )
 }

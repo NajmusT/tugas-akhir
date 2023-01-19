@@ -41,7 +41,7 @@ const EditDaftarSekolah = (props) => {
     const [kepsek, setKepsek] = useState(isEditMode ? dataSekolah.kepalaSekolah : null)
     const [alamatJalan, setAlamatJalan] = useState(isEditMode ? dataSekolah.alamat.jalan : null)
     const [luasLahan, setLuasLahan] = useState(isEditMode ? dataSekolah.lahan.luas : null)
-    const [kelurahan, setKelurahan] = useState(null)
+    const [kelurahan, setKelurahan] = useState(isEditMode ? dataSekolah.alamat._id : null)
     const [komite, setKomite] = useState(isEditMode ? dataSekolah.ketuaKomite : null)
     const [sekolah, setSekolah] = useState(isEditMode ? dataSekolah.nama : null)
     const [skAkre, setSkakre] = useState(isEditMode ? dataSekolah.akreditasi.noSK : null)

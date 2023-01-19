@@ -7,6 +7,10 @@ const kerusakanSchema = new Schema(
             type: String,
             required: true
         },
+        idSekolah: {
+            type: String,
+            required: true
+        },
         idSarana: {
             type: String
         },
