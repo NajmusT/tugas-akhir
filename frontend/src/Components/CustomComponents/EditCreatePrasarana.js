@@ -42,10 +42,10 @@ const EditCreatePrasarana = (props) => {
     const [errors, setError] = useState('')
 
     const kategori = [
-        { id: "baik", label: 'Baik' },
-        { id: "ringan", label: 'Rusak Ringan' },
-        { id: "sedang", label: 'Rusak Sedang' },
-        { id: "berat", label: 'Rusak Berat' }
+        { id: "Baik", label: 'Baik' },
+        { id: "Rusak Ringan", label: 'Rusak Ringan' },
+        { id: "Rusak Sedang", label: 'Rusak Sedang' },
+        { id: "Rusak Berat", label: 'Rusak Berat' }
     ]
 
     const handleEdit = async (e) => {

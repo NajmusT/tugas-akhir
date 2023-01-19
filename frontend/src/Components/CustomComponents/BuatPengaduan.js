@@ -28,7 +28,7 @@ const BuatPengaduan = () => {
     const [sarana, setSarana] = useState(null)
     const [sekolah, setSekolah] = useState('')
     const [kategoriRusak, setKategoriRusak] = useState(null)
-    const [deskripsi, setDeskripsi] = useState(null)
+    const [deskripsi, setDeskripsi] = useState('')
     const [schools, setSchools] = useState(null)
     const [prasaranas, setPrasaranas] = useState(null)
     const [saranas, setSaranas] = useState(null)
@@ -38,9 +38,9 @@ const BuatPengaduan = () => {
     const [openFailedDialog, setOpenFailedDialog] = useState(false)
 
     const kategori = [
-        { id: "ringan", label: 'Rusak Ringan' },
-        { id: "sedang", label: 'Rusak Sedang' },
-        { id: "berat", label: 'Rusak Berat' }
+        { id: "Rusak Ringan", label: 'Rusak Ringan' },
+        { id: "Rusak Sedang", label: 'Rusak Sedang' },
+        { id: "Rusak Berat", label: 'Rusak Berat' }
     ]
 
     const SuccessDialog = () => {
@@ -49,7 +49,7 @@ const BuatPengaduan = () => {
                 title={"Create Pengaduan Berhasil"}
                 subtitle={"Sistem telah memasukkan data pengaduan ke dalam database"}
                 open={openSuccessDialog}
-                handleClose={() => { setOpenSuccessDialog(false); history.goBack() }}
+                handleClose={() => { setOpenSuccessDialog(false); history.push('/beranda') }}
                 icon={<SuccessIcon style={{ color: '#45DE0F', fontSize: '8rem' }} />}
             />
         )
@@ -88,7 +88,45 @@ const BuatPengaduan = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        history.push('/beranda')
+        const formData = new FormData()
+
+        if (jenisPengaduan === 'kerusakan-sarana') {
+            if (ruangan != null || sarana != null || kategoriRusak != null) {
+                formData.append("file", file)
+                formData.append("idSarana", sarana)
+                formData.append("idPrasarana", ruangan)
+                formData.append("kondisi", kategoriRusak)
+                formData.append("deskripsi", deskripsi)
+                formData.append("createdBy", user._id)
+
+                try {
+                    await axios.post('http://localhost:5000/kerusakan/new', formData, { headers: { "Content-Type": "multipart/form-data" } });
+                    setOpenSuccessDialog(true)
+                } catch (error) {
+                    setOpenFailedDialog(true)
+                }
+            } else {
+                setOpenFailedDialog(true)
+            }
+        } else if (jenisPengaduan === 'kerusakan-prasarana') {
+            if (ruangan != null || kategoriRusak != null) {
+                formData.append("file", file)
+                formData.append("idSarana", null)
+                formData.append("idPrasarana", ruangan)
+                formData.append("kondisi", kategoriRusak)
+                formData.append("deskripsi", deskripsi)
+                formData.append("createdBy", user._id)
+
+                try {
+                    await axios.post('http://localhost:5000/kerusakan/new', formData, { headers: { "Content-Type": "multipart/form-data" } });
+                    setOpenSuccessDialog(true)
+                } catch (error) {
+                    setOpenFailedDialog(true)
+                }
+            } else {
+                setOpenFailedDialog(true)
+            }
+        }
     }
 
     useEffect(() => {
@@ -113,7 +151,7 @@ const BuatPengaduan = () => {
                                 <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
                                     <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
                                         <Typography style={{ fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400] }}>
-                                            {sekolah}
+                                            {schools?.nama}
                                         </Typography>
                                     </Grid>
                                     <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
@@ -164,7 +202,7 @@ const BuatPengaduan = () => {
                                                                 label="Nama Sekolah"
                                                                 type="text"
                                                                 page="main"
-                                                                value={sekolah}
+                                                                value={schools?.nama}
                                                             />
                                                         </Grid>
                                                         <Grid style={{ display: 'flex', alignItems: 'center' }}>
