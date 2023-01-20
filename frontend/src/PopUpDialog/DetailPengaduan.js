@@ -16,13 +16,13 @@ const useStyles = makeStyles(theme => ({
         borderRadius: 15,
         padding: 12,
         transform: 'translate(-50%, -50%)',
-        width: '480px'
+        width: '540px'
     },
     dialogTitle: {
         textAlign: 'left',
         paddingBottom: 0
     },
-    dialogContent: { textAlign: 'center', paddingBottom: 24 },
+    dialogContent: { paddingBottom: 24 },
     closeButton: {
         position: 'absolute',
         right: theme.spacing(2),
@@ -76,7 +76,7 @@ const DetailPengaduan = (props) => {
                                     </Typography>
                                 </div>
                                 <Typography style={{ fontFamily: FontFamily.OPEN_SANS_SEMI_BOLD, fontSize: 12, color: '#A1A1A1' }}>
-                                    {kerusakan.idSekolah}
+                                    {kerusakan.namaSekolah}
                                 </Typography>
                             </Grid>
                             <Grid style={{ display: 'flex', alignItems: 'center', paddingTop: 12 }}>
@@ -86,7 +86,7 @@ const DetailPengaduan = (props) => {
                                     </Typography>
                                 </div>
                                 <Typography style={{ fontFamily: FontFamily.OPEN_SANS_SEMI_BOLD, fontSize: 12, color: '#A1A1A1' }}>
-                                    {kerusakan.idPrasarana}
+                                    {kerusakan.namaPrasarana}
                                 </Typography>
                             </Grid>
                             <Grid style={{ display: 'flex', alignItems: 'center', paddingTop: 12 }}>
@@ -96,7 +96,7 @@ const DetailPengaduan = (props) => {
                                     </Typography>
                                 </div>
                                 <Typography style={{ fontFamily: FontFamily.OPEN_SANS_SEMI_BOLD, fontSize: 12, color: '#A1A1A1' }}>
-                                    {kerusakan.idSarana != 'null' ? kerusakan.idSarana : '-'}
+                                    {kerusakan.namaSarana != '' ? kerusakan.namaSarana : '-'}
                                 </Typography>
                             </Grid>
                             <Grid style={{ display: 'flex', alignItems: 'center', paddingTop: 12 }}>

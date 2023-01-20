@@ -184,7 +184,7 @@ const BuatPengaduan = () => {
                                                                 onChange={handleChangeJenisPengaduan}
                                                                 option={[
                                                                     { id: 'kerusakan-sarana', label: "Kerusakan Sarana" },
-                                                                    { id: 'kerusakan-prasarana', label: "Kerusakan Praarana" }
+                                                                    { id: 'kerusakan-prasarana', label: "Kerusakan Prasarana" }
                                                                 ]}
                                                             />
                                                         </Grid>

@@ -22,37 +22,12 @@ const LaporanPengaduan = () => {
     const [rows, setRows] = useState(null)
     const [openDialog, setOpenDialog] = useState(false)
     const [data, setData] = useState(null)
+    const [sekolah, setSekolah] = useState(null)
+    const [sarana, setSarana] = useState(null)
+    const [prasarana, setPrasarana] = useState(null)
 
     const createData = (id, namaSD, namaRuangan, namaBarang, deskripsi, aksi) => {
         return { id, namaSD, namaRuangan, namaBarang, deskripsi, aksi }
-    }
-
-    const getNamaSekolah = async (sekolahId) => {
-        var namaSekolah;
-
-        axios.get(`http://localhost:5000/sekolah/${sekolahId}`).then(res => namaSekolah = res.da)
-
-        return namaSekolah
-    }
-
-    const getNamaRuangan = async (ruanganId) => {
-        let namaRuangan = null;
-
-        await axios.get(`http://localhost:5000/prasarana/${ruanganId}`.then(res => {
-            console.log(res.data)
-        }))
-
-        return namaRuangan
-    }
-
-    const getNamaBarang = async (saranaId) => {
-        let namaSarana = null;
-
-        await axios.get(`http://localhost:5000/sarana/${saranaId}`.then(res => {
-            console.log(res.data)
-        }))
-
-        return namaSarana
     }
 
     const DetailModal = () => {
@@ -77,12 +52,15 @@ const LaporanPengaduan = () => {
 
     useEffect(() => {
         axios.get('http://localhost:5000/kerusakan').then(res => { setLaporan(res.data) })
+        axios.get('http://localhost:5000/sekolah').then(res => { setSekolah(res.data) })
+        axios.get('http://localhost:5000/prasarana').then(res => { setPrasarana(res.data) })
+        axios.get('http://localhost:5000/sarana').then(res => { setSarana(res.data) })
     }, [])
 
     useEffect(() => {
         if (laporan != null) {
             setRows(laporan?.map(item =>
-                createData(item._id, item.idSekolah, item.idPrasarana, item.idSarana === 'null' ? '' : item.idSarana, item.deskripsi,
+                createData(item._id, sekolah?.filter(s => s._id === item.idSekolah).map(i => i.nama), prasarana.filter(p => p._id === item.idPrasarana).map(i => i.nama), item.idSarana === 'null' ? '' : sarana.filter(s => s._id === item.idSarana).map(i => i.nama), item.deskripsi,
                     <>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <div >
@@ -92,7 +70,12 @@ const LaporanPengaduan = () => {
                                     page='main'
                                     buttonType='success'
                                     onClick={() => {
-                                        setData(item)
+                                        setData({
+                                            ...item,
+                                            namaSekolah: sekolah?.filter(s => s._id === item.idSekolah).map(i => i.nama),
+                                            namaPrasarana: prasarana.filter(p => p._id === item.idPrasarana).map(i => i.nama),
+                                            namaSarana: item.idSarana === 'null' ? '' : sarana.filter(s => s._id === item.idSarana).map(i => i.nama)
+                                        })
                                         setOpenDialog(true)
                                     }}
                                 />

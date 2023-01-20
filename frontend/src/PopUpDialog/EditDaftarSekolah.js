@@ -131,7 +131,7 @@ const EditDaftarSekolah = (props) => {
         }
     }
 
-    const handleSubmit = async (e) => {
+    const handleCreate = async (e) => {
         e.preventDefault();
         const formData = new FormData()
 
@@ -173,6 +173,44 @@ const EditDaftarSekolah = (props) => {
         }
     }
 
+    const handleEdit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData()
+
+        const data = {
+            fotoSekolah: { url: url, fileName: file },
+            alamat: { jalan: alamatJalan, _id: (alamat.filter(item => item._id === kelurahan).map(i => i._id))[0] },
+            akreditasi: { noSK: skAkre, nilaiHuruf: akreditasi },
+            pendirian: { noSurat: noSuratPendirian, tanggal: tanggalPendirian },
+            izinOperasional: { noSurat: noSuratIzin, tanggal: tanggalIzinOperasional },
+            lahan: { luas: luasLahan, kepemilikan: kepemilikan },
+        }
+
+        formData.append("file", file)
+        formData.append("nama", sekolah)
+        formData.append("npsn", npsn)
+        formData.append("jenis", tipe)
+        formData.append("fotoSekolah", JSON.stringify(data.fotoSekolah))
+        formData.append("alamat", JSON.stringify(data.alamat))
+        formData.append("kepalaSekolah", kepsek)
+        formData.append("ketuaKomite", komite)
+        formData.append("akreditasi", JSON.stringify(data.akreditasi))
+        formData.append("pendirian", JSON.stringify(data.pendirian))
+        formData.append("izinOperasional", JSON.stringify(data.izinOperasional))
+        formData.append("lahan", JSON.stringify(data.lahan))
+        formData.append("bantuanPengadaan", bantuanPengadaan)
+        formData.append("rombonganBelajar", rombonganBelajar)
+        formData.append("jumlahGuru", jumlahGuru)
+
+        try {
+            await axios.post(`http://localhost:5000/sekolah/update/${dataSekolah._id}`, formData);
+            setOpenSuccessDialog(true)
+        } catch (error) {
+            setError(error.response.data.errors)
+            setOpenFailedDialog(true)
+        }
+    }
+
     useEffect(() => { axios.get('http://localhost:5000/alamat').then(res => { setAlamat(res.data) }) }, [])
 
     useEffect(() => {
@@ -207,7 +245,7 @@ const EditDaftarSekolah = (props) => {
                     <Typography className={classes.title}>
                         {isEditMode ? 'Edit Sekolah' : 'Daftar Sekolah'}
                     </Typography>
-                    <form className={classes.form} onSubmit={handleSubmit}>
+                    <form className={classes.form} onSubmit={isEditMode ? handleEdit : handleCreate}>
                         <Grid container>
                             <Grid item container xs={6} style={{ alignContent: 'center', justifyContent: 'center', borderRadius: 12 }}>
                                 <ImagesUploader useInput={useInput} width={400} height={460} />

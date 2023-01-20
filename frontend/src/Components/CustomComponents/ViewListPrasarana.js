@@ -296,7 +296,7 @@ const ViewListPrasarana = (props) => {
                                                         </div>
                                                         <div style={{ width: '32vw' }}>
                                                             <Typography style={{ fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2' }}>
-                                                                {sekolah?.alamat.jalan + ' ,' + sekolah?.alamat.kodePos}
+                                                                {sekolah?.alamat.jalan}
                                                             </Typography>
                                                         </div>
                                                     </div>
