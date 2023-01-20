@@ -557,7 +557,7 @@ class FuzzyAHP {
     }
 
     getBobotSubKriteriaC3 = () => {
-        console.log('-------- Perhitungan Bobot Subkriteria Kriteria 3 --------\n')
+        // console.log('-------- Perhitungan Bobot Subkriteria Kriteria 3 --------\n')
 
         var criteria = []
 
@@ -566,7 +566,7 @@ class FuzzyAHP {
         criteria.push([0.143, 0.2, 1, 3])
         criteria.push([0.143, 0.2, 0.333, 1])
 
-        console.log("Matriks AHP:\n", criteria, "\n\n")
+        // console.log("Matriks AHP:\n", criteria, "\n\n")
 
         //ahp
         const sumColumn = (c) => {
@@ -603,8 +603,7 @@ class FuzzyAHP {
         }
 
         var matrixNorm = normMatrix(criteria, totalColumnC31, totalColumnC32, totalColumnC33, totalColumnC34)
-        console.log("Normalisasi matrix\n", matrixNorm, "\n\n")
-
+        // console.log("Normalisasi matrix\n", matrixNorm, "\n\n")
 
         const AHP_Weights = (c) => {
             var C1 = 0
@@ -623,7 +622,7 @@ class FuzzyAHP {
         }
 
         var AHP_Weights_result = AHP_Weights(matrixNorm)
-        console.log("Bobot AHP\n", AHP_Weights_result, "\n\n")
+        // console.log("Bobot AHP\n", AHP_Weights_result, "\n\n")
 
         var C31_AHP = AHP_Weights_result[0]
         var C32_AHP = AHP_Weights_result[1]
@@ -641,16 +640,16 @@ class FuzzyAHP {
         }
 
         var cm_result = consistencyMeasure(criteria, C31_AHP, C32_AHP, C33_AHP, C34_AHP)
-        console.log("Consistency Measure\n", cm_result, "\n\n")
+        // console.log("Consistency Measure\n", cm_result, "\n\n")
 
         var lamda_maks = (cm_result[0] + cm_result[1] + cm_result[2] + cm_result[3]) / 4
-        console.log("Lamda maks\n", lamda_maks, "\n\n")
+        // console.log("Lamda maks\n", lamda_maks, "\n\n")
 
         var CI = (lamda_maks - 4) / (4 - 1)
-        console.log("Consistency Index\n", CI, "\n\n")
+        // console.log("Consistency Index\n", CI, "\n\n")
 
         var CR = CI / this.RCI[4 - 1]
-        console.log("Consistency Ratio\n", CR, "\n\n")
+        // console.log("Consistency Ratio\n", CR, "\n\n")
 
         //Fuzzy AHP
         if (CR < 0.1) {
@@ -661,7 +660,7 @@ class FuzzyAHP {
             fuzzycriteria.push([{ l: 0.111, m: 0.143, u: 0.2 }, { l: 0.143, m: 0.2, u: 0.333 }, { l: 1, m: 1, u: 1 }, { l: 1, m: 3, u: 5 }])
             fuzzycriteria.push([{ l: 0.111, m: 0.143, u: 0.2 }, { l: 0.143, m: 0.2, u: 0.333 }, { l: 0.2, m: 0.333, u: 1 }, { l: 1, m: 1, u: 1 }])
 
-            console.log("Matriks Fuzzy AHP\n", fuzzycriteria, "\n\n")
+            // console.log("Matriks Fuzzy AHP\n", fuzzycriteria, "\n\n")
 
             //sintesis fuzzy
             const sintesisFuzzy = (c) => {
@@ -680,7 +679,7 @@ class FuzzyAHP {
 
             var sintesisFuzzyResult = sintesisFuzzy(fuzzycriteria)
 
-            console.log("Sintesis Fuzzy\n", sintesisFuzzyResult, "\n\n")
+            // console.log("Sintesis Fuzzy\n", sintesisFuzzyResult, "\n\n")
 
             var totalLower = sintesisFuzzyResult[0].l + sintesisFuzzyResult[1].l + sintesisFuzzyResult[2].l + sintesisFuzzyResult[3].l
             var totalMedium = sintesisFuzzyResult[0].m + sintesisFuzzyResult[1].m + sintesisFuzzyResult[2].m + sintesisFuzzyResult[3].m
@@ -702,7 +701,7 @@ class FuzzyAHP {
 
             var sintesisFuzzyDividedResult = sintesisFuzzyDivided(sintesisFuzzyResult, totalLower, totalMedium, totalUpper)
 
-            console.log("Sintesis Fuzzy dibagi total\n", sintesisFuzzyDividedResult, "\n\n")
+            // console.log("Sintesis Fuzzy dibagi total\n", sintesisFuzzyDividedResult, "\n\n")
 
             //priority vector
             const vector = (c) => {
@@ -739,7 +738,7 @@ class FuzzyAHP {
 
             const vectorPriorityResult = vector(sintesisFuzzyDividedResult)
 
-            console.log("Vektor Prioritas\n", vectorPriorityResult, "\n\n")
+            // console.log("Vektor Prioritas\n", vectorPriorityResult, "\n\n")
 
             //defuzifikasi
             var defuzifikasiC1 = Math.min.apply(null, vectorPriorityResult[0])
@@ -747,7 +746,7 @@ class FuzzyAHP {
             var defuzifikasiC3 = Math.min.apply(null, vectorPriorityResult[2])
             var defuzifikasiC4 = Math.min.apply(null, vectorPriorityResult[3])
 
-            console.log("Ordinat defuzifikasi: \n", defuzifikasiC1, defuzifikasiC2, defuzifikasiC3, defuzifikasiC4, '\n\n')
+            // console.log("Ordinat defuzifikasi: \n", defuzifikasiC1, defuzifikasiC2, defuzifikasiC3, defuzifikasiC4, '\n\n')
 
             //bobot Fuzzy kriteria
             var totaldefuzzifikasi = defuzifikasiC1 + defuzifikasiC2 + defuzifikasiC3 + defuzifikasiC4
@@ -759,7 +758,7 @@ class FuzzyAHP {
                 C34: defuzifikasiC4 / totaldefuzzifikasi,
             }
 
-            console.log("Bobot Fuzzy:\n", bobotFuzzy)
+            // console.log("Bobot Fuzzy:\n", bobotFuzzy)
 
             return bobotFuzzy
         }
@@ -1106,3 +1105,5 @@ class FuzzyAHP {
         return bobot
     }
 }
+
+export default FuzzyAHP
