@@ -22,17 +22,22 @@ const DecisionSupport = () => {
 
     const [jenis, setJenis] = useState(null)
     const [submit, setSubmit] = useState(false)
-    const [DSSWeight, setDSSWeight] = useState(null)
     const [sekolah, setSekolah] = useState(null)
     const [prasarana, setPrasarana] = useState(null)
     const [sarana, setSarana] = useState(null)
     const [alamat, setAlamat] = useState(null)
     const [data, setData] = useState(null)
+    const [output, setOutput] = useState(null)
+    const [rows, setRows] = useState(null)
 
     const handleChangeJenis = (e) => { setJenis(e.target.value) }
 
-    const createData = (id, C11, C12, C21, C22, C31, C32, C33, C34, C41, C42, C51, C52) => {
-        return { id, C11, C12, C21, C22, C31, C32, C33, C34, C41, C42, C51, C52 }
+    const createData = (namaSekolah, jenis, C11, C12, C21, C22, C31, C32, C33, C34, C41, C42, C51, C52) => {
+        return { namaSekolah, jenis, C11, C12, C21, C22, C31, C32, C33, C34, C41, C42, C51, C52 }
+    }
+
+    const createDataTabel = (rank, namaSD, jenis, bobot) => {
+        return { rank, namaSD, jenis, bobot }
     }
 
     const handleCheckAddress = (alamat) => {
@@ -113,7 +118,7 @@ const DecisionSupport = () => {
         var tapeRecorder = 0;
         var output = 0;
 
-        if (prasarana != null) {
+        if (prasarana != null && sarana != null) {
             prasarana.map((item) => {
                 if (jenis === 'Ruang Kelas') {
                     meja += sarana.filter(i => i.idPrasarana === item._id && i.nama.toLowerCase().includes("meja")).length
@@ -290,21 +295,37 @@ const DecisionSupport = () => {
         return output
     }
 
+    const handleCheckRusakSarana = (prasarana) => {
+        var jumlahRusak = 0
+
+        if (sarana != null && prasarana != null) {
+            prasarana.map(item =>
+                jumlahRusak += sarana.filter(i => i.idPrasarana === item._id && (i.kondisi === "Rusak Berat" || i.kondisi === "Rusak Sedang")).length
+            )
+        }
+
+        return jumlahRusak
+    }
+
     const handleSubmit = () => {
         if (jenis != null) {
             setSubmit(true)
+
+            setOutput(fuzzy.decisionMaking(data))
         }
     }
 
     useEffect(() => {
-        console.log(data)
-    }, [data, setData])
+        if (output != null) {
+            setRows(output.map((item, index) => createDataTabel(index + 1, item.namaSekolah, item.jenis, item.bobot)))
+        }
+    }, [output, setOutput])
 
     const columns = [
-        { id: 'rank', label: 'Rank', minWidth: 32 },
-        { id: 'namaSD', label: 'Nama Sekolah Dasar', minWidth: 120 },
-        { id: 'jenis', label: 'Jenis Infrastruktur', minWidth: 120 },
-        { id: 'bobot', label: 'Bobot', minWidth: 120 }
+        { id: 'rank', label: 'Rank', minWidth: 32, align: 'center' },
+        { id: 'namaSD', label: 'Nama Sekolah Dasar', minWidth: 120, align: 'center' },
+        { id: 'jenis', label: 'Jenis Infrastruktur', minWidth: 120, align: 'center' },
+        { id: 'bobot', label: 'Bobot', minWidth: 120, align: 'center' }
     ]
 
     const options = [
@@ -320,11 +341,7 @@ const DecisionSupport = () => {
         { id: 'Tempat Bermain dan Berolahraga', label: 'Tempat Bermain dan Berolahraga' },
     ]
 
-    const rows = []
-
     useEffect(() => {
-        setDSSWeight(fuzzy.decisionMaking)
-
         axios.get('http://localhost:5000/sekolah').then(res => { setSekolah(res.data) })
         axios.get('http://localhost:5000/prasarana').then(res => { setPrasarana(res.data) })
         axios.get('http://localhost:5000/sarana').then(res => { setSarana(res.data) })
@@ -336,10 +353,11 @@ const DecisionSupport = () => {
             setData(
                 sekolah.map((item) =>
                     createData(
-                        item._id,
+                        item.nama,
+                        jenis,
                         handleCheckSarana(jenis, prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id), item.jumlahGuru),
                         (prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id).length === 0 ? 1 : (jenis === "Ruang Kelas" ? (prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id).length < item.rombonganBelajar ? 2 : 3) : 3)),
-                        0,
+                        handleCheckRusakSarana(prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id)),
                         prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id && (i.kondisi === "Rusak Berat" || i.kondisi === "Rusak Sedang")).length,
                         item.npsn === null || item.npsn === '' ? 1 : 3,
                         item.kepalaSekolah === null || item.kepalaSekolah === '' ? 1 : 3,
@@ -347,19 +365,13 @@ const DecisionSupport = () => {
                         item.rombonganBelajar >= 6 ? 3 : item.rombonganBelajar > 0 && item.rombonganBelajar < 6 ? 2 : 1,
                         item.bantuanPengadaan.includes("BOS") ? 3 : 1,
                         item.bantuanPengadaan.includes("APBD") || item.bantuanPengadaan.includes("APBN") ? 1 : 3,
-                        item.lahan.kepemilikan === 'Tidak diketahui' ? 1 : 2,
+                        item.lahan.kepemilikan === 'Tidak diketahui' ? 1 : 3,
                         handleCheckAddress(alamat.filter(a => a._id === item.alamat._id).map(i => i.desaKelurahan))
                     )
                 )
             )
         }
     }, [jenis])
-
-    // useEffect(() => {
-    //     if (DSSWeight != null) {
-    //         console.log(DSSWeight)
-    //     }
-    // }, [DSSWeight, setDSSWeight])
 
     return (
         <React.Fragment>
