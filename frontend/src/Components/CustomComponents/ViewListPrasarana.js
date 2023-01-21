@@ -122,10 +122,6 @@ const ViewListPrasarana = (props) => {
     }, [])
 
     useEffect(() => {
-
-    }, [sekolah, setSekolah])
-
-    useEffect(() => {
         if (allPrasarana != null) {
             setRows(allPrasarana?.filter(item => item.idSekolah === sekolahId.id && item.jenis === jenis)?.map(prasarana =>
                 createData(
@@ -197,7 +193,9 @@ const ViewListPrasarana = (props) => {
     const EditDataSekolah = () => {
         return (
             <Modal open={openDialog}>
-                <EditDaftarSekolah isEditMode={true} dataSekolah={sekolah} handleClose={() => setOpenDialog(false)} />
+                <div style={{ height: '120%' }}>
+                    <EditDaftarSekolah isEditMode={true} dataSekolah={sekolah} handleClose={() => setOpenDialog(false)} />
+                </div>
             </Modal>
         )
     }
@@ -356,7 +354,7 @@ const ViewListPrasarana = (props) => {
                                                         </div>
                                                         <div style={{ width: '32vw' }}>
                                                             <Typography style={{ fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2' }}>
-                                                                {sekolah?.akreditasi.nilaiHuruf + ' (' + sekolah?.akreditasi.noSK + ') '}
+                                                                {sekolah?.akreditasi.nilaiHuruf + (sekolah?.akreditasi.noSK === null || sekolah?.akreditasi.noSK === "" ? "" : ` ( ${sekolah?.akreditasi.noSK} )`)}
                                                             </Typography>
                                                         </div>
                                                     </div>
@@ -407,7 +405,7 @@ const ViewListPrasarana = (props) => {
                                                         </div>
                                                         <div style={{ width: '32vw' }}>
                                                             <Typography style={{ fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2' }}>
-                                                                {sekolah?.bantuanPendanaan ? sekolah?.bantuanPendanaan : 'Tidak Ada'}
+                                                                {sekolah?.bantuanPengadaan === null || sekolah?.bantuanPengadaan === "null" || sekolah?.bantuanPengadaan === "" ? "" : sekolah?.bantuanPengadaan}
                                                             </Typography>
                                                         </div>
                                                     </div>

@@ -72,7 +72,7 @@ router.route('/delete/:id').delete((req, res) => {
 })
 
 //update
-router.route('/update/:id').post(async (req, res) => {
+router.route('/update/:id').put(async (req, res) => {
     const sarana = await Sarana.findById(req.params.id)
 
     if (!sarana) { return res.status(400).json("No data found") }

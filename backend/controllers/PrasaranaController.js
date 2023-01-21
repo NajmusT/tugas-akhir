@@ -71,7 +71,7 @@ router.route('/delete/:id').delete((req, res) => {
 })
 
 //update
-router.route('/update/:id').post(async (req, res) => {
+router.route('/update/:id').put(async (req, res) => {
     const prasarana = await Prasarana.findById(req.params.id)
 
     if (!prasarana) { return res.status(400).json("No data found") }

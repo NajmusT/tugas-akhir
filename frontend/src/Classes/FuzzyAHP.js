@@ -1104,6 +1104,10 @@ class FuzzyAHP {
 
         return bobot
     }
+
+    convertDataSarana = (jenis, sarana) => {
+
+    }
 }
 
 export default FuzzyAHP

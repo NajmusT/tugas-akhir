@@ -175,7 +175,7 @@ const EditCreatePrasarana = (props) => {
             formData.append("idSekolah", schools?._id)
 
             try {
-                await axios.post(`http://localhost:5000/prasarana/update/${prasaranaId.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
+                await axios.put(`http://localhost:5000/prasarana/update/${prasaranaId.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
                 setOpenSuccessDialog(true)
             } catch (error) {
                 setError(error.response.data.errors)

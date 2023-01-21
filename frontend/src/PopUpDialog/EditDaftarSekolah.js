@@ -138,9 +138,9 @@ const EditDaftarSekolah = (props) => {
         const data = {
             fotoSekolah: { url: url, fileName: file },
             alamat: { jalan: alamatJalan, _id: (alamat.filter(item => item._id === kelurahan).map(i => i._id))[0] },
-            akreditasi: { noSK: skAkre, nilaiHuruf: akreditasi },
-            pendirian: { noSurat: noSuratPendirian, tanggal: tanggalPendirian },
-            izinOperasional: { noSurat: noSuratIzin, tanggal: tanggalIzinOperasional },
+            akreditasi: { noSK: skAkre === null ? "" : skAkre, nilaiHuruf: akreditasi },
+            pendirian: { noSurat: noSuratPendirian === null ? "" : noSuratPendirian, tanggal: tanggalPendirian },
+            izinOperasional: { noSurat: noSuratIzin === null ? "" : noSuratIzin, tanggal: tanggalIzinOperasional },
             lahan: { luas: luasLahan, kepemilikan: kepemilikan },
         }
 
@@ -193,7 +193,7 @@ const EditDaftarSekolah = (props) => {
         formData.append("fotoSekolah", JSON.stringify(data.fotoSekolah))
         formData.append("alamat", JSON.stringify(data.alamat))
         formData.append("kepalaSekolah", kepsek)
-        formData.append("ketuaKomite", komite)
+        formData.append("ketuaKomite", komite === null ? "" : komite)
         formData.append("akreditasi", JSON.stringify(data.akreditasi))
         formData.append("pendirian", JSON.stringify(data.pendirian))
         formData.append("izinOperasional", JSON.stringify(data.izinOperasional))
@@ -470,6 +470,7 @@ const EditDaftarSekolah = (props) => {
                                     label="Tanggal Berdiri"
                                     type="date"
                                     page="auth"
+                                    defaultValue={tanggalPendirian}
                                     value={tanggalPendirian}
                                     onChange={handleChangeTanggalPendirian}
                                 />
@@ -502,6 +503,7 @@ const EditDaftarSekolah = (props) => {
                                     label="Tanggal Ijin Operasional"
                                     type="date"
                                     page="auth"
+                                    defaultValue={tanggalIzinOperasional}
                                     value={tanggalIzinOperasional}
                                     onChange={handleChangeTanggalIzinOperasional}
                                 />

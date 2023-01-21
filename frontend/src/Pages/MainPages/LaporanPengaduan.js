@@ -13,6 +13,7 @@ import Wrapper from '../../Components/Wrapper'
 import axios from 'axios'
 import Button from '../../Components/ReusableComponent/Button'
 import DetailPengaduan from '../../PopUpDialog/DetailPengaduan'
+import { isNull } from 'lodash'
 
 const LaporanPengaduan = () => {
     const user = JSON.parse(localStorage.getItem('user'))?.payload
@@ -58,8 +59,9 @@ const LaporanPengaduan = () => {
     }, [])
 
     useEffect(() => {
+        console.log(laporan != null)
         if (laporan != null) {
-            setRows(laporan?.map(item =>
+            setRows(laporan.map(item =>
                 createData(item._id, sekolah?.filter(s => s._id === item.idSekolah).map(i => i.nama), prasarana.filter(p => p._id === item.idPrasarana).map(i => i.nama), item.idSarana === 'null' ? '' : sarana.filter(s => s._id === item.idSarana).map(i => i.nama), item.deskripsi,
                     <>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -89,7 +91,7 @@ const LaporanPengaduan = () => {
 
     return (
         <React.Fragment>
-            {isStaff ?
+            {isStaff && laporan != null ?
                 <Wrapper children={
                     <React.Fragment>
                         {openDialog && DetailModal()}

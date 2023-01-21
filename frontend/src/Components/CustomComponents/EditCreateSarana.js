@@ -154,7 +154,7 @@ const EditCreateSarana = (props) => {
             formData.append("updatedBy", user._id)
 
             try {
-                await axios.post(`http://localhost:5000/sarana/update/${saranaId.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
+                await axios.put(`http://localhost:5000/sarana/update/${saranaId.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
                 setOpenSuccessDialog(true)
             } catch (error) {
                 setOpenFailedDialog(true)
@@ -211,7 +211,7 @@ const EditCreateSarana = (props) => {
                                     }}>
                                         <Grid container style={{ padding: '36px' }}>
                                             <Grid item container xs={6} style={{ borderRadius: 12 }}>
-                                                <ImagesUploader useInput={useInput} width={'46vw'} height={'472px'} />
+                                                <ImagesUploader useInput={useInput} width={'46vw'} height={'472px'} foto={fotoSarana} />
                                             </Grid>
                                             <Grid item container xs={6} style={{ paddingLeft: 32 }}>
                                                 <Grid item xs={12}>
