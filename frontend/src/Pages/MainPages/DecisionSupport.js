@@ -12,7 +12,32 @@ import CustomDataTable from '../../Components/ReusableComponent/DataTable'
 import LoadingScreen from '../LoadingScreen'
 import Wrapper from '../../Components/Wrapper'
 import FuzzyAHP from '../../Classes/FuzzyAHP'
+
 import axios from 'axios'
+import Chart from "chart.js/auto";
+import { Bar } from "react-chartjs-2";
+
+const BarChart = (props) => {
+    const { label, bobot } = props
+
+    console.log(label, bobot)
+
+    const data = {
+        labels: label,
+        datasets: [{
+            label: 'Bobot Prioritas',
+            backgroundColor: "#0088cc",
+            borderColor: "#0088cc",
+            data: bobot
+        }]
+    }
+
+    return (
+        <div style={{ width: '100%', height: '100%' }}>
+            <Bar data={data} />
+        </div>
+    )
+}
 
 const DecisionSupport = () => {
     const fuzzy = new FuzzyAHP()
@@ -447,7 +472,7 @@ const DecisionSupport = () => {
                                             </Grid>
                                         </Grid>
                                         <Grid item container xs={4}>
-
+                                            <BarChart label={rows != null ? rows.map(item => item.namaSD) : []} bobot={rows != null ? rows.map(item => item.bobot) : []} />
                                         </Grid>
                                     </Grid>
                                 </div>
