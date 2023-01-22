@@ -239,81 +239,81 @@ const DecisionSupport = () => {
 
         if (jenis === 'Ruang Kelas') {
             if ((meja >= (14 * prasarana.length + 1)) && (kursi >= (28 * prasarana.length + 1) && (lemari >= (1 * prasarana.length)) && (rak >= (1 * prasarana.length)) && (papan >= (2 * prasarana.length)) && (tempatSampah >= (1 * prasarana.length)) && (tempatCuciTangan >= (1 * prasarana.length)) && (jamDinding >= (1 * prasarana.length)) && (stopKontak >= (1 * prasarana.length)))) {
-                output = 3
-            } else if (meja === 0 && kursi === 0 && lemari === 0 && rak === 0 && papan === 0 && peraga === 0 && tempatSampah === 0 && tempatCuciTangan === 0 && jamDinding === 0 && stopKontak === 0) {
                 output = 1
+            } else if (meja === 0 && kursi === 0 && lemari === 0 && rak === 0 && papan === 0 && peraga === 0 && tempatSampah === 0 && tempatCuciTangan === 0 && jamDinding === 0 && stopKontak === 0) {
+                output = 3
             } else {
                 output = 2
             }
         } else if (jenis === 'Gudang') {
             if ((lemari >= 1 * prasarana.length) && (rak >= 1 * prasarana.length)) {
-                return 3
+                output = 1
             } else if (lemari === 0 && rak === 0) {
-                return 1
+                output = 3
             } else {
-                return 2
+                output = 2
             }
         } else if (jenis === 'Ruang Perpustakaan') {
             if ((meja >= (12 * prasarana.length)) && (kursi >= (11 * prasarana.length) && (lemari >= (2 * prasarana.length)) && (rak >= (2 * prasarana.length)) && (papan >= (1 * prasarana.length)) && (tempatSampah >= (1 * prasarana.length)) && (buku >= (866 * prasarana.length)) && (peralatanMulmed >= (1 * prasarana.length)) && (jamDinding >= (1 * prasarana.length)) && (stopKontak >= (1 * prasarana.length)))) {
-                output = 3
-            } else if (meja === 0 && kursi === 0 && lemari === 0 && rak === 0 && papan === 0 && peraga === 0 && tempatSampah === 0 && buku === 0 && peralatanMulmed === 0 && jamDinding === 0 && stopKontak === 0) {
                 output = 1
+            } else if (meja === 0 && kursi === 0 && lemari === 0 && rak === 0 && papan === 0 && peraga === 0 && tempatSampah === 0 && buku === 0 && peralatanMulmed === 0 && jamDinding === 0 && stopKontak === 0) {
+                output = 3
             } else {
                 output = 2
             }
         } else if (jenis === 'Ruang Guru') {
             if ((meja >= (1 * jumlahGuru * prasarana.length)) && (kursi >= (1 * jumlahGuru * prasarana.length) && (lemari >= (1 * prasarana.length)) && (papan >= (2 * prasarana.length)) && (tempatSampah >= (1 * prasarana.length)) && (tempatCuciTangan >= (1 * prasarana.length)) && (jamDinding >= (1 * prasarana.length)) && (penandaWaktu >= (1 * prasarana.length)))) {
-                output = 3
-            } else if (meja === 0 && kursi === 0 && lemari === 0 && papan === 0 && tempatSampah === 0 && tempatCuciTangan === 0 && jamDinding === 0 && penandaWaktu === 0) {
                 output = 1
+            } else if (meja === 0 && kursi === 0 && lemari === 0 && papan === 0 && tempatSampah === 0 && tempatCuciTangan === 0 && jamDinding === 0 && penandaWaktu === 0) {
+                output = 3
             } else {
                 output = 2
             }
         } else if (jenis === 'Laboratorium IPA') {
             if ((lemari >= (1 * prasarana.length)) && (kerangkaManusia >= (1 * prasarana.length) && (tubuhManusia >= (1 * prasarana.length)) && (globe >= (1 * prasarana.length)) && (tataSurya >= (1 * prasarana.length)) && (kacaPembesar >= (6 * prasarana.length)) && (cermin >= (18 * prasarana.length)) && (lensa >= (18 * prasarana.length)) && (magnet >= (6 * prasarana.length)) && (poster >= (1 * prasarana.length)))) {
-                output = 3
-            } else if (lemari === 0 && kerangkaManusia === 0 && tubuhManusia === 0 && globe === 0 && tataSurya === 0 && kacaPembesar === 0 && cermin === 0 && lensa === 0 && magnet === 0 && poster === 0) {
                 output = 1
+            } else if (lemari === 0 && kerangkaManusia === 0 && tubuhManusia === 0 && globe === 0 && tataSurya === 0 && kacaPembesar === 0 && cermin === 0 && lensa === 0 && magnet === 0 && poster === 0) {
+                output = 3
             } else {
                 output = 2
             }
         } else if (jenis === 'Ruang Pimpinan') {
             if ((meja >= (2 * prasarana.length)) && (kursi >= (2 * prasarana.length) && (lemari >= (1 * prasarana.length)) && (papan >= (1 * prasarana.length)) && (tempatSampah >= (1 * prasarana.length)) && (simbolNegara >= (1 * prasarana.length)) && (komputer >= (1 * prasarana.length)) && (jamDinding >= (1 * prasarana.length)) && (fillingCabinet >= (1 * prasarana.length)) && (simbolNegara >= (1 * prasarana.length)) && (brankas >= (1 * prasarana.length)))) {
-                output = 3
-            } else if (meja === 0 && kursi === 0 && lemari === 0 && papan === 0 && komputer === 0 && tempatSampah === 0 && simbolNegara === 0 && brankas === 0 && jamDinding === 0 && fillingCabinet === 0) {
                 output = 1
+            } else if (meja === 0 && kursi === 0 && lemari === 0 && papan === 0 && komputer === 0 && tempatSampah === 0 && simbolNegara === 0 && brankas === 0 && jamDinding === 0 && fillingCabinet === 0) {
+                output = 3
             } else {
                 output = 2
             }
         } else if (jenis === 'Unit Kesehatan Siswa') {
             if ((meja >= (1 * prasarana.length)) && (kursi >= (2 * prasarana.length) && (lemari >= (1 * prasarana.length)) && (catatanKesehatan >= (1 * prasarana.length)) && (tempatSampah >= (1 * prasarana.length)) && (jamDinding >= (1 * prasarana.length)) && (tempatCuciTangan >= (1 * prasarana.length)) && (tempatTidur >= (1 * prasarana.length)) && (tandu >= (1 * prasarana.length)) && (selimut >= (1 * prasarana.length)) && (tensimeter >= (1 * prasarana.length)) && (termometerBadan >= (1 * prasarana.length)) && (timbangan >= (1 * prasarana.length)) && (p3k >= (1 * prasarana.length)) && (pengukurTinggi >= (1 * prasarana.length)))) {
-                output = 3
-            } else if (meja === 0 && kursi === 0 && lemari === 0 && catatanKesehatan === 0 && tempatSampah === 0 && tempatCuciTangan === 0 && tempatTidur === 0 && tandu === 0 && selimut === 0 && tensimeter === 0 && termometerBadan === 0 && timbangan === 0 && p3k === 0 && pengukurTinggi === 0) {
                 output = 1
+            } else if (meja === 0 && kursi === 0 && lemari === 0 && catatanKesehatan === 0 && tempatSampah === 0 && tempatCuciTangan === 0 && tempatTidur === 0 && tandu === 0 && selimut === 0 && tensimeter === 0 && termometerBadan === 0 && timbangan === 0 && p3k === 0 && pengukurTinggi === 0) {
+                output = 3
             } else {
                 output = 2
             }
         } else if (jenis === 'Toilet') {
             if (kloset >= (1 * prasarana.length) && bak >= (1 * prasarana.length) && gayung >= (1 * prasarana.length) && gantunganPakaian >= (1 * prasarana.length) && tempatSampah >= (1 * prasarana.length)) {
-                output = 3
-            } else if (kloset === 0 && bak === 0 && gayung === 0 && gantunganPakaian === 0 && tempatSampah === 0) {
                 output = 1
+            } else if (kloset === 0 && bak === 0 && gayung === 0 && gantunganPakaian === 0 && tempatSampah === 0) {
+                output = 3
             } else {
                 output = 2
             }
         } else if (jenis === 'Tempat Beribadah') {
             if (lemari >= (1 * prasarana.length) && jamDinding >= (1 * prasarana.length)) {
-                output = 3
-            } else if (lemari === 0 && jamDinding === 0) {
                 output = 1
+            } else if (lemari === 0 && jamDinding === 0) {
+                output = 3
             } else {
                 output = 2
             }
         } else {
             if (tiangBendera >= 1 && bendera >= 1 && peralatan >= 6 && pengerasSuara >= 1 && tapeRecorder >= 1) {
-                output = 3
-            } else if (tiangBendera === 0 && bendera === 0 && peralatan === 0 && pengerasSuara === 0 && tapeRecorder === 0) {
                 output = 1
+            } else if (tiangBendera === 0 && bendera === 0 && peralatan === 0 && pengerasSuara === 0 && tapeRecorder === 0) {
+                output = 3
             } else { output = 2 }
         }
 
@@ -322,6 +322,7 @@ const DecisionSupport = () => {
 
     const handleCheckRusakSarana = (prasarana) => {
         var jumlahRusak = 0
+        var output = 0
 
         if (sarana != null && prasarana != null) {
             prasarana.map(item =>
@@ -329,7 +330,13 @@ const DecisionSupport = () => {
             )
         }
 
-        return jumlahRusak
+        if (jumlahRusak != 0) {
+            output = 3
+        } else {
+            output = 1
+        }
+
+        return output
     }
 
     const handleSubmit = () => {
@@ -381,9 +388,9 @@ const DecisionSupport = () => {
                         item.nama,
                         jenis,
                         handleCheckSarana(jenis, prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id), item.jumlahGuru),
-                        (prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id).length === 0 ? 1 : (jenis === "Ruang Kelas" ? (prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id).length < item.rombonganBelajar ? 2 : 3) : 3)),
+                        prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id).length === 0 ? 3 : (jenis === "Ruang Kelas" ? (prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id).length < item.rombonganBelajar ? 2 : 1) : 1),
                         handleCheckRusakSarana(prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id)),
-                        prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id && (i.kondisi === "Rusak Berat" || i.kondisi === "Rusak Sedang")).length,
+                        prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id && (i.kondisi === "Rusak Berat" || i.kondisi === "Rusak Sedang")).length === 0 ? 1 : 3,
                         item.npsn === null || item.npsn === '' ? 1 : 3,
                         item.kepalaSekolah === null || item.kepalaSekolah === '' ? 1 : 3,
                         item.ketuaKomite === null || item.ketuaKomite === "" ? 1 : 3,
@@ -471,9 +478,12 @@ const DecisionSupport = () => {
                                                 </Grid>
                                             </Grid>
                                         </Grid>
-                                        <Grid item container xs={4}>
-                                            <BarChart label={rows != null ? rows.map(item => item.namaSD) : []} bobot={rows != null ? rows.map(item => item.bobot) : []} />
-                                        </Grid>
+                                        {submit &&
+                                            <Grid item container xs={4}>
+                                                <BarChart label={rows != null ? rows.map(item => item.namaSD) : []} bobot={rows != null ? rows.map(item => item.bobot) : []} />
+                                            </Grid>
+                                        }
+
                                     </Grid>
                                 </div>
                             </Grid>
