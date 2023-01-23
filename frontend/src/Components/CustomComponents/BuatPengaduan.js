@@ -90,7 +90,7 @@ const BuatPengaduan = () => {
         const formData = new FormData()
 
         if (jenisPengaduan === 'kerusakan-sarana') {
-            if (ruangan != null || sarana != null || kategoriRusak != null) {
+            if (ruangan != null && sarana != null && kategoriRusak != null) {
                 formData.append("file", file)
                 formData.append("idSekolah", schools._id)
                 formData.append("idSarana", sarana)
@@ -109,7 +109,7 @@ const BuatPengaduan = () => {
                 setOpenFailedDialog(true)
             }
         } else if (jenisPengaduan === 'kerusakan-prasarana') {
-            if (ruangan != null || kategoriRusak != null) {
+            if (ruangan != null && kategoriRusak != null) {
                 formData.append("file", file)
                 formData.append("idSekolah", schools._id)
                 formData.append("idSarana", null)

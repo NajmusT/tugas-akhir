@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import moment from 'moment'
 import axios from 'axios'
+import SearchBar from "material-ui-search-bar"
 
 //Material UI
 import { Grid, Modal, Typography } from '@material-ui/core'
@@ -35,9 +36,10 @@ const ViewListPrasarana = (props) => {
     const [data, setData] = useState(null)
     const [openHapusData, setOpenHapusData] = useState(false)
     const [openHapusDataNotif, setOpenHapusDataNotif] = useState(false)
+    const [searchValue, setSearchValue] = useState(null)
 
-    const createData = (id, nama, sekolah, jenis, kondisi, aksi) => {
-        return { id, nama, sekolah, jenis, kondisi, aksi }
+    const createData = (id, no, nama, sekolah, jenis, kondisi, aksi) => {
+        return { id, no, nama, sekolah, jenis, kondisi, aksi }
     }
 
     const handleDelete = (e) => {
@@ -47,6 +49,12 @@ const ViewListPrasarana = (props) => {
 
         setOpenHapusData(false)
         setOpenHapusDataNotif(true)
+    }
+
+    const handleSearch = (e) => {
+        e.preventDefault()
+
+        setSearchValue(e.target.value)
     }
 
     const HapusData = () => {
@@ -100,7 +108,7 @@ const ViewListPrasarana = (props) => {
     }
 
     const columns = [
-        { id: 'id', label: 'ID', minWidth: 32, align: 'center' },
+        { id: 'no', label: 'No', minWidth: 32, align: 'center' },
         { id: 'nama', label: 'Nama Ruangan', minWidth: 120, align: 'center' },
         { id: 'sekolah', label: 'Sekolah', minWidth: 120, align: 'center' },
         { id: 'jenis', label: 'Jenis Infrastruktur', minWidth: 120, align: 'center' },
@@ -123,9 +131,10 @@ const ViewListPrasarana = (props) => {
 
     useEffect(() => {
         if (allPrasarana != null) {
-            setRows(allPrasarana?.filter(item => item.idSekolah === sekolahId.id && item.jenis === jenis)?.map(prasarana =>
+            setRows(allPrasarana?.filter(item => item.idSekolah === sekolahId.id && item.jenis === jenis)?.map((prasarana, index) =>
                 createData(
                     prasarana._id,
+                    index + 1,
                     prasarana.nama,
                     sekolah?.nama,
                     prasarana.jenis,
@@ -427,7 +436,7 @@ const ViewListPrasarana = (props) => {
                                     </div>
                                 </Grid>
                                 <Grid item container xs={12} style={{ display: 'flex', paddingTop: 32, paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                    <Search />
+                                    <Search handleChange={handleSearch} />
                                     {user?.roles === 'admin-sekolah' &&
                                         <div style={{ paddingLeft: 8 }}>
                                             <Button
@@ -441,7 +450,7 @@ const ViewListPrasarana = (props) => {
                                     }
                                 </Grid>
                                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
-                                    <CustomDataTable columns={columns} rows={rows} />
+                                    <CustomDataTable columns={columns} rows={searchValue === null || searchValue === '' ? rows : rows?.filter(row => row.nama.toLowerCase().includes(searchValue.toLowerCase()) || row.sekolah.toLowerCase().includes(searchValue.toLowerCase()) || row.jenis.toLowerCase().includes(searchValue.toLowerCase()) || row.kondisi.toLowerCase().includes(searchValue.toLowerCase()))} />
                                 </Grid>
                             </Grid >
                         </React.Fragment >

@@ -13,7 +13,6 @@ import Wrapper from '../../Components/Wrapper'
 import axios from 'axios'
 import Button from '../../Components/ReusableComponent/Button'
 import DetailPengaduan from '../../PopUpDialog/DetailPengaduan'
-import { isNull } from 'lodash'
 
 const LaporanPengaduan = () => {
     const user = JSON.parse(localStorage.getItem('user'))?.payload
@@ -26,9 +25,16 @@ const LaporanPengaduan = () => {
     const [sekolah, setSekolah] = useState(null)
     const [sarana, setSarana] = useState(null)
     const [prasarana, setPrasarana] = useState(null)
+    const [searchValue, setSearchValue] = useState(null)
 
-    const createData = (id, namaSD, namaRuangan, namaBarang, deskripsi, aksi) => {
-        return { id, namaSD, namaRuangan, namaBarang, deskripsi, aksi }
+    const handleSearch = (e) => {
+        e.preventDefault()
+
+        setSearchValue(e.target.value)
+    }
+
+    const createData = (id, no, namaSD, namaRuangan, namaBarang, deskripsi, aksi) => {
+        return { id, no, namaSD, namaRuangan, namaBarang, deskripsi, aksi }
     }
 
     const DetailModal = () => {
@@ -43,7 +49,7 @@ const LaporanPengaduan = () => {
     }
 
     const columns = [
-        { id: 'id', label: 'ID', minWidth: 32, align: 'center' },
+        { id: 'no', label: 'No', minWidth: 32, align: 'center' },
         { id: 'namaSD', label: 'Nama Sekolah Dasar', minWidth: 120, align: 'center' },
         { id: 'namaRuangan', label: 'Nama Ruangan', minWidth: 120, align: 'center' },
         { id: 'namaBarang', label: 'Nama Barang', minWidth: 120, align: 'center' },
@@ -60,9 +66,9 @@ const LaporanPengaduan = () => {
 
     useEffect(() => {
         console.log(laporan)
-        if (laporan != null && sekolah != null) {
-            setRows(laporan?.map(item =>
-                createData(item._id, sekolah?.filter(s => s._id === item.idSekolah).map(i => i.nama), prasarana.filter(p => p._id === item.idPrasarana).map(i => i.nama), item.idSarana === 'null' ? '' : sarana.filter(s => s._id === item.idSarana).map(i => i.nama), item.deskripsi,
+        if (laporan != null && sekolah != null && prasarana != null) {
+            setRows(laporan?.map((item, index) =>
+                createData(item._id, index + 1, sekolah?.filter(s => s._id === item.idSekolah).map(i => i.nama), prasarana.filter(p => p._id === item.idPrasarana).map(i => i.nama), item.idSarana === 'null' ? '' : sarana.filter(s => s._id === item.idSarana).map(i => i.nama), item.deskripsi,
                     <>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <div >
@@ -87,7 +93,11 @@ const LaporanPengaduan = () => {
                 )
             ))
         }
-    }, [laporan, setLaporan, sekolah, setSekolah])
+    }, [laporan, setLaporan, sekolah, setSekolah, prasarana, setSarana, sarana, setPrasarana])
+
+    useEffect(() => {
+        console.log(rows)
+    }, [rows])
 
     return (
         <React.Fragment>
@@ -106,10 +116,10 @@ const LaporanPengaduan = () => {
                                     </Typography>
                                 </Grid>
                                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>
-                                    <Search />
+                                    <Search handleChange={handleSearch} />
                                 </Grid>
                                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
-                                    <CustomDataTable columns={columns} rows={rows} />
+                                    <CustomDataTable columns={columns} rows={searchValue === null || searchValue === '' ? rows : rows.filter(row => row.namaSD.toString().toLowerCase().includes(searchValue.toLowerCase()) || row.namaRuangan.toString().toLowerCase().includes(searchValue.toLowerCase()) || row.namaBarang.toString().toLowerCase().includes(searchValue.toLowerCase()) || row.deskripsi.toLowerCase().includes(searchValue.toLowerCase()) || row.deskripsi.toLowerCase().includes(searchValue.toLowerCase()))} />
                                 </Grid>
                             </Grid>
                         </React.Fragment>

@@ -34,9 +34,16 @@ const ViewPrasarana = () => {
     const [data, setData] = useState(null)
     const [openHapusData, setOpenHapusData] = useState(false)
     const [openHapusDataNotif, setOpenHapusDataNotif] = useState(false)
+    const [searchValue, setSearchValue] = useState(null)
 
-    const createData = (id, nama, jumlah, kondisi, jenis, deskripsi, aksi) => {
-        return { id, nama, jumlah, kondisi, jenis, deskripsi, aksi }
+    const handleSearch = (e) => {
+        e.preventDefault()
+
+        setSearchValue(e.target.value)
+    }
+
+    const createData = (id, no, nama, jumlah, kondisi, jenis, deskripsi, aksi) => {
+        return { id, no, nama, jumlah, kondisi, jenis, deskripsi, aksi }
     }
 
     const handleDelete = (e) => {
@@ -49,7 +56,7 @@ const ViewPrasarana = () => {
     }
 
     const columns = [
-        { id: 'id', label: 'ID', minWidth: 32, align: 'center' },
+        { id: 'no', label: 'No', minWidth: 32, align: 'center' },
         { id: 'nama', label: 'Nama Barang', minWidth: 120, align: 'center' },
         { id: 'jumlah', label: 'Jumlah Barang', minWidth: 120, align: 'center' },
         { id: 'kondisi', label: 'Kondisi', minWidth: 120, align: 'center' },
@@ -129,8 +136,8 @@ const ViewPrasarana = () => {
 
     useEffect(() => {
         if (allSarana != null) {
-            setRows(allSarana?.filter(item => item).map(sarana =>
-                createData(sarana._id, sarana.nama, sarana.jumlah.kuantitas + " " + sarana.jumlah.satuan, sarana.kondisi, sarana.jenis, sarana.deskripsi,
+            setRows(allSarana?.filter(item => item).map((sarana, index) =>
+                createData(sarana._id, index + 1, sarana.nama, sarana.jumlah.kuantitas + " " + sarana.jumlah.satuan, sarana.kondisi, sarana.jenis, sarana.deskripsi,
                     (user.roles === 'admin-sekolah' ?
                         <>
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -310,7 +317,7 @@ const ViewPrasarana = () => {
                                     </div>
                                 </Grid>
                                 <Grid item container xs={12} style={{ display: 'flex', paddingTop: 32, paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                    <Search />
+                                    <Search handleChange={handleSearch} />
                                     {user?.roles === 'admin-sekolah' &&
                                         <div style={{ paddingLeft: 8 }}>
                                             <Button
@@ -324,7 +331,7 @@ const ViewPrasarana = () => {
                                     }
                                 </Grid>
                                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
-                                    <CustomDataTable columns={columns} rows={rows} />
+                                    <CustomDataTable columns={columns} rows={searchValue === null || searchValue === '' ? rows : rows.filter(row => row.nama.toLowerCase().includes(searchValue.toLowerCase()) || row.jumlah.toLowerCase().includes(searchValue.toLowerCase()) || row.jenis.toLowerCase().includes(searchValue.toLowerCase()) || row.kondisi.toLowerCase().includes(searchValue.toLowerCase()) || row.deskripsi.toLowerCase().includes(searchValue.toLowerCase()))} />
                                 </Grid>
                             </Grid>
                         </React.Fragment>

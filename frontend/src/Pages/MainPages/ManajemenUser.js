@@ -35,6 +35,13 @@ const ManajemenUser = () => {
     const [openTerimaModal, setopenTerimaModal] = useState(false)
     const [user, setUser] = useState(null)
     const [role, setRole] = useState(null)
+    const [searchValue, setSearchValue] = useState(null)
+
+    const handleSearch = (e) => {
+        e.preventDefault()
+
+        setSearchValue(e.target.value)
+    }
 
     const history = useHistory()
 
@@ -43,7 +50,7 @@ const ManajemenUser = () => {
     }
 
     const columns = [
-        { id: 'id', label: 'ID', minWidth: 32, align: 'center' },
+        { id: 'no', label: 'No', minWidth: 32, align: 'center' },
         { id: 'nama', label: 'Nama', minWidth: 120, align: 'center' },
         { id: 'email', label: 'Email', minWidth: 120, align: 'center' },
         { id: 'role', label: 'Role', minWidth: 120, align: 'center' },
@@ -51,8 +58,8 @@ const ManajemenUser = () => {
         { id: 'aksi', label: 'Aksi', minWidth: 120, align: 'center' }
     ]
 
-    const createData = (id, nama, email, role, tanggal, aksi) => {
-        return { id, nama, email, role, tanggal, aksi }
+    const createData = (id, no, nama, email, role, tanggal, aksi) => {
+        return { id, no, nama, email, role, tanggal, aksi }
     }
 
     useEffect(() => {
@@ -195,8 +202,8 @@ const ManajemenUser = () => {
 
     useEffect(() => {
         if (allUser != null) {
-            setRows(allUser?.filter(user => user._id != JSON.parse(localStorage.getItem('user'))?.payload._id && user.isActive === false).map(usr =>
-                createData(usr._id, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("D MMMM YYYY, hh:mm a"), (<>
+            setRows(allUser?.filter(user => user._id != JSON.parse(localStorage.getItem('user'))?.payload._id && user.isActive === false).map((usr, index) =>
+                createData(usr._id, index + 1, usr.name, usr.email, usr.roles, moment(usr.createdAt).format("D MMMM YYYY, hh:mm a"), (<>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div >
                             <Button
@@ -246,10 +253,10 @@ const ManajemenUser = () => {
                                 </Typography>
                             </Grid>
                             <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                <Search />
+                                <Search handleChange={handleSearch} />
                             </Grid>
                             <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
-                                <CustomDataTable columns={columns} rows={rows} />
+                                <CustomDataTable columns={columns} rows={searchValue === null || searchValue === '' ? rows : rows.filter(row => row.nama.toString().toLowerCase().includes(searchValue.toLowerCase()) || row.email.toString().toLowerCase().includes(searchValue.toLowerCase()) || row.role.toString().toLowerCase().includes(searchValue.toLowerCase()) || row.tanggal.toLowerCase().includes(searchValue.toLowerCase()))} />
                             </Grid>
                         </Grid>
                     </React.Fragment>} /> : <LoadingScreen />

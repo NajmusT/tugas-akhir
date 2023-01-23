@@ -22,8 +22,9 @@ const useSearchStyles = makeStyles({
     }
 });
 
-const Search = () => {
+const Search = (props) => {
     const classes = useSearchStyles()
+    const { handleChange } = props
 
     return (
         <React.Fragment>
@@ -36,6 +37,7 @@ const Search = () => {
                     label="Search"
                     type="text"
                     page="main"
+                    onChange={handleChange}
                 />
             </div>
             <div style={{ width: '36px', height: '40px', paddingTop: 8 }} onClick={() => { }}>
