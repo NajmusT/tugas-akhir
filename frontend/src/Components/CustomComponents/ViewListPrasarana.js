@@ -342,7 +342,7 @@ const ViewListPrasarana = (props) => {
                                                         </div>
                                                         <div style={{ width: '32vw' }}>
                                                             <Typography style={{ fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2' }}>
-                                                                {sekolah?.ketuaKomite}
+                                                                {sekolah?.ketuaKomite === "null" || sekolah?.ketuaKomite === "" || sekolah?.ketuaKomite === null ? "" : sekolah?.ketuaKomite}
                                                             </Typography>
                                                         </div>
                                                     </div>

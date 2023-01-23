@@ -469,9 +469,9 @@ const EditDaftarSekolah = (props) => {
                                     fullWidth
                                     label="Tanggal Berdiri"
                                     type="date"
-                                    page="auth"
-                                    defaultValue={tanggalPendirian}
-                                    value={tanggalPendirian}
+                                    // page="auth"
+                                    // defaultValue={tanggalPendirian}
+                                    value={tanggalPendirian != null ? moment(tanggalPendirian).format('YYYY-MM-DD') : tanggalPendirian}
                                     onChange={handleChangeTanggalPendirian}
                                 />
                             </Grid>
@@ -503,8 +503,8 @@ const EditDaftarSekolah = (props) => {
                                     label="Tanggal Ijin Operasional"
                                     type="date"
                                     page="auth"
-                                    defaultValue={tanggalIzinOperasional}
-                                    value={tanggalIzinOperasional}
+                                    // defaultValue={tanggalIzinOperasional}
+                                    value={tanggalIzinOperasional != null ? moment(tanggalIzinOperasional).format('YYYY-MM-DD') : tanggalIzinOperasional}
                                     onChange={handleChangeTanggalIzinOperasional}
                                 />
                             </Grid>

@@ -29,11 +29,12 @@ const ViewSarana = () => {
 
     useEffect(() => {
         axios.get(`http://localhost:5000/sarana/${saranaId.id}`).then(res => { setSarana(res.data) })
+        axios.get(`http://localhost:5000/sekolah`).then(res => setSekolah(res.data))
     }, [])
 
     useEffect(() => {
+        console.log(saranaId)
         axios.get(`http://localhost:5000/prasarana/${saranaId.prasaranaId}`).then(res => setPrasarana(res.data))
-        axios.get(`http://localhost:5000/sekolah`).then(res => setSekolah(res.data.filter((item => item.createdBy === user._id))[0]))
     }, [saranaId])
 
     useEffect(() => {
@@ -135,7 +136,7 @@ const ViewSarana = () => {
                                                         <Typography style={{
                                                             fontFamily: FontFamily.POPPINS_MEDIUM, fontSize: 14, color: '#8388A2'
                                                         }}>
-                                                            {sekolah?.nama}
+                                                            {sekolah != null && prasarana != null ? sekolah.filter(item => item._id === prasarana.idSekolah).map(item => item.nama) : null}
                                                         </Typography>
                                                     </div>
                                                 </div>

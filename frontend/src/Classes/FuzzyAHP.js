@@ -1143,6 +1143,8 @@ class FuzzyAHP {
             const minA52 = Math.min.apply(null, A52)
             const maksA52 = Math.max.apply(null, A52)
 
+            // console.log(data)
+
             data.map((item) => {
                 result.push({
                     namaSekolah: item.namaSekolah,
