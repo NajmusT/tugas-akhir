@@ -1143,7 +1143,7 @@ class FuzzyAHP {
             const minA52 = Math.min.apply(null, A52)
             const maksA52 = Math.max.apply(null, A52)
 
-            data.map(item =>
+            data.map((item) => {
                 result.push({
                     namaSekolah: item.namaSekolah,
                     jenis: item.jenis,
@@ -1161,78 +1161,13 @@ class FuzzyAHP {
                         ((((maksA51 - minA51)) === 0 ? 0 : ((item.C51 - minA51) / (maksA51 - minA51))) * bobot.C51) +
                         ((((maksA52 - minA52)) === 0 ? 0 : ((item.C52 - minA52) / (maksA52 - minA52))) * bobot.C52)
                 })
-            )
+            })
         }
 
-        return result
+        var hasil = result.sort((a, b) => b.bobot - a.bobot)
+
+        return hasil
     }
-
-    // hitungAlternatif = (data) => {
-    //     var bobot = this.decisionMaking()
-    //     var result = []
-
-    //     if (data != null) {
-    //         const A11 = data.map(item => item.C11)
-    //         const A12 = data.map(item => item.C12)
-    //         const A21 = data.map(item => item.C21)
-    //         const A22 = data.map(item => item.C22)
-    //         const A31 = data.map(item => item.C31)
-    //         const A32 = data.map(item => item.C32)
-    //         const A33 = data.map(item => item.C33)
-    //         const A34 = data.map(item => item.C34)
-    //         const A41 = data.map(item => item.C41)
-    //         const A42 = data.map(item => item.C42)
-    //         const A51 = data.map(item => item.C51)
-    //         const A52 = data.map(item => item.C52)
-
-    //         const minA11 = Math.min.apply(null, A11)
-    //         const maksA11 = Math.max.apply(null, A11)
-    //         const minA12 = Math.min.apply(null, A12)
-    //         const maksA12 = Math.max.apply(null, A12)
-    //         const minA21 = Math.min.apply(null, A21)
-    //         const maksA21 = Math.max.apply(null, A21)
-    //         const minA22 = Math.min.apply(null, A22)
-    //         const maksA22 = Math.max.apply(null, A22)
-    //         const minA31 = Math.min.apply(null, A31)
-    //         const maksA31 = Math.max.apply(null, A31)
-    //         const minA32 = Math.min.apply(null, A32)
-    //         const maksA32 = Math.max.apply(null, A32)
-    //         const minA33 = Math.min.apply(null, A33)
-    //         const maksA33 = Math.max.apply(null, A33)
-    //         const minA34 = Math.min.apply(null, A34)
-    //         const maksA34 = Math.max.apply(null, A34)
-    //         const minA41 = Math.min.apply(null, A41)
-    //         const maksA41 = Math.max.apply(null, A41)
-    //         const minA42 = Math.min.apply(null, A42)
-    //         const maksA42 = Math.max.apply(null, A42)
-    //         const minA51 = Math.min.apply(null, A51)
-    //         const maksA51 = Math.max.apply(null, A51)
-    //         const minA52 = Math.min.apply(null, A52)
-    //         const maksA52 = Math.max.apply(null, A52)
-
-    //         data.map(item =>
-    //             result.push({
-    //                 namaSekolah: item.namaSekolah,
-    //                 jenis: item.jenis,
-    //                 bobot:
-    //                     ((((maksA11 - minA11)) === 0 ? 0 : ((item.C11 - minA11) / (maksA11 - minA11))) * bobot.C11) +
-    //                     ((((maksA12 - minA12)) === 0 ? 0 : ((item.C12 - minA12) / (maksA12 - minA12))) * bobot.C12) +
-    //                     ((((maksA21 - minA21)) === 0 ? 0 : ((item.C21 - minA21) / (maksA21 - minA21))) * bobot.C21) +
-    //                     ((((maksA22 - minA22)) === 0 ? 0 : ((item.C22 - minA22) / (maksA22 - minA22))) * bobot.C22) +
-    //                     ((((maksA31 - minA31)) === 0 ? 0 : ((item.C31 - minA31) / (maksA31 - minA31))) * bobot.C31) +
-    //                     ((((maksA32 - minA32)) === 0 ? 0 : ((item.C32 - minA32) / (maksA32 - minA32))) * bobot.C32) +
-    //                     ((((maksA34 - minA34)) === 0 ? 0 : ((item.C34 - minA34) / (maksA34 - minA34))) * bobot.C34) +
-    //                     ((((maksA33 - minA33)) === 0 ? 0 : ((item.C33 - minA33) / (maksA33 - minA33))) * bobot.C33) +
-    //                     ((((maksA41 - minA41)) === 0 ? 0 : ((item.C41 - minA41) / (maksA41 - minA41))) * bobot.C41) +
-    //                     ((((maksA42 - minA42)) === 0 ? 0 : ((item.C42 - minA42) / (maksA42 - minA42))) * bobot.C42) +
-    //                     ((((maksA51 - minA51)) === 0 ? 0 : ((item.C51 - minA51) / (maksA51 - minA51))) * bobot.C51) +
-    //                     ((((maksA52 - minA52)) === 0 ? 0 : ((item.C52 - minA52) / (maksA52 - minA52))) * bobot.C52)
-    //             })
-    //         )
-    //     }
-
-    //     return result
-    // }
 }
 
 export default FuzzyAHP

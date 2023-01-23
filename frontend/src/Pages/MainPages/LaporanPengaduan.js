@@ -59,9 +59,9 @@ const LaporanPengaduan = () => {
     }, [])
 
     useEffect(() => {
-        console.log(laporan != null)
-        if (laporan != null) {
-            setRows(laporan.map(item =>
+        console.log(laporan)
+        if (laporan != null && sekolah != null) {
+            setRows(laporan?.map(item =>
                 createData(item._id, sekolah?.filter(s => s._id === item.idSekolah).map(i => i.nama), prasarana.filter(p => p._id === item.idPrasarana).map(i => i.nama), item.idSarana === 'null' ? '' : sarana.filter(s => s._id === item.idSarana).map(i => i.nama), item.deskripsi,
                     <>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -87,7 +87,7 @@ const LaporanPengaduan = () => {
                 )
             ))
         }
-    }, [laporan, setLaporan])
+    }, [laporan, setLaporan, sekolah, setSekolah])
 
     return (
         <React.Fragment>

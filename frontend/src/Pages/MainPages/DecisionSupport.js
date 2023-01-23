@@ -20,8 +20,6 @@ import { Bar } from "react-chartjs-2";
 const BarChart = (props) => {
     const { label, bobot } = props
 
-    console.log(label, bobot)
-
     const data = {
         labels: label,
         datasets: [{
@@ -322,21 +320,28 @@ const DecisionSupport = () => {
 
     const handleCheckRusakSarana = (prasarana) => {
         var jumlahRusak = 0
+        var jumlahRusakSemua = 0
+        var jumlahRusakRingan = 0;
         var output = 0
 
         if (sarana != null && prasarana != null) {
-            prasarana.map(item =>
+            prasarana.map((item) => {
                 jumlahRusak += sarana.filter(i => i.idPrasarana === item._id && (i.kondisi === "Rusak Berat" || i.kondisi === "Rusak Sedang")).length
-            )
-        }
+                jumlahRusakRingan += sarana.filter(i => i.idPrasarana === item._id && (i.kondisi === "Rusak Ringan")).length
+                jumlahRusakSemua += sarana.filter(i => i.idPrasarana === item._id && (i.kondisi === "Rusak Berat" || i.kondisi === "Rusak Sedang" || i.kondisi === "Rusak Ringan")).length
+            })
 
-        if (jumlahRusak != 0) {
-            output = 3
-        } else {
-            output = 1
-        }
 
-        return output
+            if (jumlahRusakSemua === 0) {
+                output = 1
+            } else if (jumlahRusakRingan != 0 && jumlahRusak === 0) {
+                output = 2
+            } else {
+                output = 3
+            }
+
+            return output
+        }
     }
 
     const handleSubmit = () => {
@@ -390,7 +395,7 @@ const DecisionSupport = () => {
                         handleCheckSarana(jenis, prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id), item.jumlahGuru),
                         prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id).length === 0 ? 3 : (jenis === "Ruang Kelas" ? (prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id).length < item.rombonganBelajar ? 2 : 1) : 1),
                         handleCheckRusakSarana(prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id)),
-                        prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id && (i.kondisi === "Rusak Berat" || i.kondisi === "Rusak Sedang")).length === 0 ? 1 : 3,
+                        prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id && (i.kondisi === "Rusak Berat" || i.kondisi === "Rusak Sedang" || i.kondisi === "Rusak Ringan")).length === 0 ? 1 : (prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id && (i.kondisi === "Rusak Berat" || i.kondisi === "Rusak Sedang")).length === 0 && (prasarana.filter(i => i.jenis === jenis && i.idSekolah === item._id && (i.kondisi === "Rusak Ringan")).length != 0) ? 2 : 3),
                         item.npsn === null || item.npsn === '' ? 1 : 3,
                         item.kepalaSekolah === null || item.kepalaSekolah === '' ? 1 : 3,
                         item.ketuaKomite === null || item.ketuaKomite === "" ? 1 : 3,
