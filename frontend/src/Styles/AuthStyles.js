@@ -1,7 +1,7 @@
 import { makeStyles, createTheme } from "@material-ui/core";
 import { Color } from "../Constants/Colors";
 import { FontFamily } from "../Constants/FontFamily";
-import image from "../asset/images/sawah.png"
+import image from "../asset/images/Auth.png"
 
 const theme = createTheme();
 

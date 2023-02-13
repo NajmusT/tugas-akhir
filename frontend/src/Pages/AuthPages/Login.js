@@ -166,7 +166,7 @@ const Login = () => {
                                             variant="standard"
                                             margin="normal"
                                             fullWidth
-                                            label="Email Address"
+                                            label="Alamat Email"
                                             type="email"
                                             page="auth"
                                             onChange={handleEmailChange}
@@ -219,7 +219,7 @@ const Login = () => {
                                         </Grid>
                                         <Grid item>
                                             <Typography className={classes.link} onClick={() => { setOpenDialog(true) }}>
-                                                {"Forget Password?"}
+                                                {"Lupa Password?"}
                                             </Typography>
                                         </Grid>
                                     </Grid>

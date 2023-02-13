@@ -168,7 +168,7 @@ const Register = () => {
                                                 variant="standard"
                                                 margin="normal"
                                                 fullWidth
-                                                label="Email Address"
+                                                label="Alamat Email"
                                                 type="email"
                                                 page="auth"
                                                 onChange={handleEmailChange}

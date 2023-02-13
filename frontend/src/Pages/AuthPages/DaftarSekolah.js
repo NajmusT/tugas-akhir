@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import EditDaftarSekolah from '../../PopUpDialog/EditDaftarSekolah';
 
-import image from "../../asset/images/sawah.png"
+import image from "../../asset/images/Auth.png"
 import LoadingScreen from '../LoadingScreen';
 import axios from 'axios';
 

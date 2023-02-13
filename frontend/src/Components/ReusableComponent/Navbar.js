@@ -4,7 +4,7 @@ import axios from 'axios';
 
 //Other components
 import Dropdown from './Dropdown';
-import image from '../../asset/images/dinas.png'
+import image from '../../asset/images/logo-sd1.png'
 
 //Material UI
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -133,7 +133,7 @@ function Navbar() {
                         <Grid item xs={1} />
                         <Grid item xs={4}>
                             <div className={classes.navbarLogo} onClick={() => { history.push('/beranda') }} >
-                                <img src={image} alt={'logo'} />
+                                <img src={image} alt={'logo'} style={{ width: 40, height: 48 }} />
                             </div>
                         </Grid>
                         <Grid item xs={6}>
@@ -199,7 +199,7 @@ function Navbar() {
                                                 onClick={() => { history.push('/decision-support') }}
                                                 className={clickDSS ? classes.navbarLinksActive : classes.navbarLinks}
                                             >
-                                                {('Decision Support').toUpperCase()}
+                                                {('Pendukung Keputusan').toUpperCase()}
                                             </div>
                                             <div
                                                 onClick={() => { history.push('/laporan-pengaduan') }}

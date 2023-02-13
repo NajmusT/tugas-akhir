@@ -201,11 +201,7 @@ const ViewListPrasarana = (props) => {
 
     const EditDataSekolah = () => {
         return (
-            <Modal open={openDialog}
-                style={{
-                    overflow: 'scroll'
-                }}
-                disableScrollLock={false}>
+            <Modal open={openDialog}>
                 <div>
                     <EditDaftarSekolah isEditMode={true} dataSekolah={sekolah} handleClose={() => setOpenDialog(false)} />
                 </div>

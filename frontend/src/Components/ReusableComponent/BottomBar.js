@@ -10,15 +10,13 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import InstagramIcon from '@material-ui/icons/Instagram';
 
-import image1 from '../../asset/images/footer1.png'
+// import image1 from '../../asset/images/footer1.png'
 import infoTambahan from '../../asset/images/infoTambahan.png'
-import image2 from '../../asset/images/social.png'
+import image2 from '../../asset/images/BottomBar.png'
 import whatsapp from '../../asset/images/whatsapp.png'
 import email from '../../asset/images/email.png'
 
 import { useBottomBarStyles } from '../../Styles/BottomBarStyles'
-
-import { getCurrentUser } from '../../Utils';
 
 const BottomBar = () => {
   const classes = useBottomBarStyles()
@@ -50,11 +48,10 @@ const BottomBar = () => {
             <div>
               <div style={{
                 width: '100vw',
-                height: '12vw',
                 overflow: 'hidden'
               }}>
-                <img style={{ width: '100vw', height: '12vw' }} src={image1} alt={'info-tambahan'} />
-                <div style={{ height: '100%', marginTop: -28 }}>
+                {/* <img style={{ width: '100vw', height: '12vw' }} src={image1} alt={'info-tambahan'} /> */}
+                <div style={{ height: '100%', marginTop: -25 }}>
                   <img style={{ width: '280px', height: '56px', left: '5%', position: 'absolute' }} src={infoTambahan} alt={'info-tambahan'} />
                 </div>
               </div>
@@ -63,6 +60,7 @@ const BottomBar = () => {
                   width: '100vw',
                   height: '20vw',
                   backgroundImage: `url(${image2})`,
+                  backgroundSize: 'cover',
                   overflow: 'hidden'
                 }}>
                   <Grid container style={{ padding: '8vw' }}>
@@ -78,7 +76,7 @@ const BottomBar = () => {
                         </Grid>
                         <Grid item xs={12} style={{ paddingTop: 8 }}>
                           <Typography className={classes.bodyWebResmi}>
-                            Jl. Surotokunto No. 72, Adiarsa Timur, Kec. Karawang Timur, Karawang, Jawa Barat, 41311
+                            Alamat jalan dinas
                           </Typography>
                         </Grid>
                       </Grid>
@@ -93,7 +91,7 @@ const BottomBar = () => {
                           <div style={{ display: 'flex', alignItems: 'center' }}>
                             <img src={whatsapp} alt={'whatsapp'} style={{ width: '24px', height: '24px' }} />
                             <Typography className={classes.bodyKontakKami}>
-                              (0267) 405215
+                              Nomor telepon dinas
                             </Typography>
                           </div>
                         </Grid>
@@ -103,7 +101,7 @@ const BottomBar = () => {
                               <img src={email} alt={'email'} style={{ width: '20px', height: '16px', padding: 2 }} />
                             </div>
                             <Typography className={classes.bodyKontakKami}>
-                              disdikpora@karawangkab.go.id
+                              Alamat email dinas
                             </Typography>
                           </div>
                         </Grid>
@@ -117,7 +115,7 @@ const BottomBar = () => {
                         </Typography>
                         <Grid item xs={12} style={{ paddingTop: 8 }}>
                           <div style={{ display: 'flex' }}>
-                            <Tooltip title='disdikporakarawang' placement='bottom'>
+                            <Tooltip title='facebook dinas' placement='bottom'>
                               <div style={{ width: '24px', height: '24px' }} onClick={() => { window.open('https://web.facebook.com/disdikporakarawang/?_rdc=1&_rdr') }}>
                                 <div className={classes.sosMedContainer}>
                                   <FacebookIcon style={{ alignSelf: 'center', display: 'flex', padding: 2, fontSize: 20 }} />
@@ -125,7 +123,7 @@ const BottomBar = () => {
                                 {/* <img src={facebook} alt={'facebook'} style={{ width: '1.5vw', height: '1.5vw', padding: 2 }} /> */}
                               </div>
                             </Tooltip>
-                            <Tooltip title='dikporakrwkab' placement='bottom'>
+                            <Tooltip title='twitter dinas' placement='bottom'>
                               <div style={{ width: '24px', height: '24px', paddingLeft: 8 }} onClick={() => { window.open('https://twitter.com/dikporakrwkab') }}>
                                 <div className={classes.sosMedContainer}>
                                   <TwitterIcon style={{ alignSelf: 'center', display: 'flex', padding: 2, fontSize: 20 }} />
@@ -133,7 +131,7 @@ const BottomBar = () => {
                                 {/* <img src={twitter} alt={'twitter'} style={{ width: '1.5vw', height: '1.5vw', padding: 2 }} /> */}
                               </div>
                             </Tooltip>
-                            <Tooltip title='disdikporakrwkab' placement='bottom' >
+                            <Tooltip title='instagram dinas' placement='bottom' >
                               <div style={{ width: '24px', height: '24px', paddingLeft: 8 }} onClick={() => { window.open('https://www.instagram.com/disdikporakrwkab/') }}>
                                 <div className={classes.sosMedContainer}>
                                   <InstagramIcon style={{ alignSelf: 'center', display: 'flex', padding: 2, fontSize: 20 }} />

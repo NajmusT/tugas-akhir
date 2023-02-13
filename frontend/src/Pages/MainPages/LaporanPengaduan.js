@@ -112,7 +112,7 @@ const LaporanPengaduan = () => {
                                     <Typography style={{
                                         fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
                                     }}>
-                                        {'Kabupaten Karawang'}
+                                        {'Nama Kabupaten atau Kota'}
                                     </Typography>
                                 </Grid>
                                 <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw', justifyContent: 'flex-end' }}>

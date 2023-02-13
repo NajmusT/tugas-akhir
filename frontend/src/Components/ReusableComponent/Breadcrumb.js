@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Grid, Typography } from '@material-ui/core'
 import ArrowIcon from '@material-ui/icons/ArrowForwardIos';
 
-import image from '../../asset/images/breadcrumb.png'
+import image from '../../asset/images/Breadcrumb.png'
 
 import { FontFamily } from '../../Constants/FontFamily';
 import { Color } from '../../Constants/Colors';
@@ -21,6 +21,7 @@ const Breadcrumb = (props) => {
                         width: '100vw',
                         height: '17vw',
                         backgroundImage: `url(${image})`,
+                        backgroundSize: 'cover',
                         overflow: 'hidden'
                     }}>
                         <Grid container style={{ padding: '6vw' }}>
