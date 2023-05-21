@@ -421,13 +421,13 @@ const DecisionSupport = () => {
                             subsubtitle={'Pendukung Keputusan'}
                         />
                         <Grid container style={{ backgroundColor: '#F9F9F9', paddingBottom: 36 }}>
-                            <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
+                            {/* <Grid item container xs={12} style={{ padding: '2vw 2vw 0vw 2vw' }}>
                                 <Typography style={{
                                     fontFamily: FontFamily.POPPINS_SEMI_BOLD, fontSize: 24, color: Color.neutral[400]
                                 }}>
                                     {'Nama Kabupaten atau Kota'}
                                 </Typography>
-                            </Grid>
+                            </Grid> */}
                             <Grid item container xs={12} style={{ paddingTop: 32, paddingLeft: '2vw', paddingRight: '2vw' }}>
                                 <div style={{
                                     width: '100vw',

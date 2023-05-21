@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom"
 
 //Components
-import BottomBar from './Components/ReusableComponent/BottomBar';
-import Navbar from './Components/ReusableComponent//Navbar';
 import BuatPengaduan from './Components/CustomComponents/BuatPengaduan';
 
 import Register from './Pages/AuthPages/Register';
